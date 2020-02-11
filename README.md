@@ -1,2 +1,5 @@
-# Cpp-classes-applications
-Repository for cpp classes, applications and more
+# Cpp Classes and Applications
+
+C++ applications and classes I made. 
+
+I made those to improve my C++ skills.

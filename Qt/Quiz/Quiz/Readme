@@ -1,0 +1,18 @@
+Welcome to Quiz!
+-------------------
+
+For Linux:
+
+. Go to this folder in terminal
+. Type ./Quiz
+. Enter the name of the file
+. Enter 14 questions with 4 answers each, as well as the num. of the correct answer
+- Compile the .tex file
+
+For the rest:
+
+. Compile main.cpp
+. Enter the name of the file
+. Enter 14 questions with 4 answers each, as well as the num. of the correct answer
+- Compile the .tex file
+

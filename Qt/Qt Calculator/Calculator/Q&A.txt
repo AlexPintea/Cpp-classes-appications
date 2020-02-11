@@ -1,0 +1,9 @@
+This is a set of Possible Questions:
+
+------------------------------------|
+
+Q: How do I action the "Clear" option with the keyboard?
+A: Ctrl + Erase
+
+------------------------------------|
+

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/pictures">
+        <file>CMIco_0.png</file>
+        <file>CMIco_4.png</file>
+        <file>CMIco_7.png</file>
+        <file>CMIco_4_1.png</file>
+        <file>CMIco_4_7.png</file>
+    </qresource>
+</RCC>

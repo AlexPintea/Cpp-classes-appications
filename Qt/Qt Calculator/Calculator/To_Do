@@ -1,0 +1,21 @@
+This is the MusicBoard To Do. To request a feature, write it here and upload this file to GitHub: https://github.com/AlexPintea/Qt_Calculator . Thank you! If you have implemented a feature, please follow the Legend after the requests to note it.
+
+------------------------------------|
+To Do:
+
+Release 1.0
+
+- Make it so that is "Add to Favorites" is enabled when application is launched (without already being in favorites)
+- Customize
+- Calculate with String
+- <Your Suggestion>
+
+------------------------------------|
+
+Legend:
+- To be Done
+= Partially Done
+x Done
+
+------------------------------------|
+

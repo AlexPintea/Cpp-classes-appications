@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/pictures">
+        <file>QtCalculatorIco.png</file>
+    </qresource>
+</RCC>

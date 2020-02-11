@@ -1,0 +1,16 @@
+Welcome to ConversationTalk!
+--------------------
+
+For Linux:
+
+. Go to this folder in terminal
+. Type ./ConversationTalk
+. Enter file name, character names, precisations and the lines
+. Compile the .tex file to make a .pdf file
+
+For the rest:
+
+. Compile te main.cpp file
+. Enter file name, character names, precisations and the lines
+. Compile the .tex file to make a .pdf file
+

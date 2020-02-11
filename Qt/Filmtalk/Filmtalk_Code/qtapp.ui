@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QtApp</class>
+ <widget class="QMainWindow" name="QtApp">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Film Talk</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/pictures/Film_Talk_1.png</normaloff>:/pictures/Film_Talk_1.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+	background-color: lightgray;
+    border-radius: 10px;</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>381</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::South</enum>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="documentMode">
+     <bool>true</bool>
+    </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
+    </property>
+    <property name="movable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Text</string>
+     </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>361</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+	 font: 75 14pt &quot;Cantarell&quot;;
+ </string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="plainText">
+       <string>What you want them to staticly visualize.</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_5">
+      <property name="geometry">
+       <rect>
+        <x>42</x>
+        <y>170</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+     selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+	 font: 75 17pt &quot;Cantarell&quot;;
+ </string>
+      </property>
+      <property name="text">
+       <string>What you are talking.</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="Large">
+     <attribute name="title">
+      <string>Large</string>
+     </attribute>
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>381</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+	 font: 75 97pt &quot;Cantarell&quot;;
+ }</string>
+      </property>
+      <property name="text">
+       <string>Large</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="">
+     <attribute name="title">
+      <string>Counting</string>
+     </attribute>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>180</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 0);
+font: 75 11pt &quot;Cantarell&quot;;</string>
+      </property>
+      <property name="text">
+       <string>ex: Step, Top, Fact, etc.</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="Numbr">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>60</y>
+        <width>161</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+     selection-background-color: darkgray;
+	 font: 75 97pt &quot;Cantarell&quot;;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+ }</string>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>171</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+     selection-background-color: darkgray;
+	 font: 75 40pt &quot;Cantarell&quot;;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+ }</string>
+      </property>
+      <property name="text">
+       <string>Step</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="MoreBtn">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>180</y>
+        <width>71</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: gray;
+border-radius: 14px;
+</string>
+      </property>
+      <property name="text">
+       <string>+1</string>
+      </property>
+      <property name="shortcut">
+       <string>+</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="LessBtn">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>180</y>
+        <width>71</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: gray;
+border-radius: 14px;</string>
+      </property>
+      <property name="text">
+       <string>-1</string>
+      </property>
+      <property name="shortcut">
+       <string>-</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>341</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+     border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+     selection-background-color: darkgray;
+	 font: 75 17pt &quot;Cantarell&quot;;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+ }</string>
+      </property>
+      <property name="text">
+       <string>Topic of the step</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Thank you</string>
+     </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>361</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+     selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+	 font: 75 17pt &quot;Cantarell&quot;;</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="plainText">
+       <string>Personal Message</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>341</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 49pt &quot;Cantarell&quot;;
+border: 2px solid gray;
+     border-radius: 10px;
+background-color: rgb(255, 255, 255);
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);</string>
+      </property>
+      <property name="text">
+       <string>Thank you!</string>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>180</y>
+        <width>301</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 2px solid gray;
+     border-radius: 10px;
+     padding: 0.8px;
+     background: #ffffff;
+    selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);
+	 font: 75 17pt &quot;Cantarell&quot;;
+font: 75 14pt &quot;Courier 10 Pitch&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Website</string>
+      </property>
+     </widget>
+     <zorder>plainTextEdit</zorder>
+     <zorder>lineEdit_2</zorder>
+     <zorder>textEdit_3</zorder>
+     <zorder>label_3</zorder>
+    </widget>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>53</x>
+      <y>0</y>
+      <width>291</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> font-size:17pt; font-weight:600;
+font: 63 17pt &quot;FreeSans&quot;;
+selection-background-color: rgb(237, 237, 237);
+selection-color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="plainText">
+     <string>Name of what you are doing</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,14 @@
+Welcome to 
+Qt Calculator!
+
+1. Getting started
+
+Enter a number and the an operation, then the next number. Enter to Calculate.
+
+2. Keyboard Keys
+
+Clear + Erase = Clear (the session)
+
+Delete = Delete (the entered variable)
+
+

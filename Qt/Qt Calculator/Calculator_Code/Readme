@@ -1,0 +1,27 @@
+Welcome to Qt Calculator!
+
+------------------------------------|
+
+> Install Qt Calculator
+
+Go To the "Calculator" Folder (more info there) and enter it in terminal 
+
+Install Deb:
+
+dpkg -i qt_calculator
+
+(or with GDebi)
+
+Execute in any Terminal:
+
+qtcalculator
+
+-------------------------------------|
+
+Simple Calculator made in Qt.
+
+Contribute!
+
+GitHub: https://github.com/AlexPintea/Qt_Calculator
+
+-------------------------------------|
