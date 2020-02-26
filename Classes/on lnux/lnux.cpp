@@ -53,7 +53,6 @@ void string_to_char (string a, char result[])
 {
 	int size = a.length();
 
-
 	int i;
 
 	for (i=0; i<size; i=i+1)
@@ -74,20 +73,25 @@ void string_to_char (string a, char result[])
 
 
 
-
-
-
-
-
-
+void command_linux ( string command_string )
+{
+	char command_char[1000];
+	string_to_char( command_string, command_char );
+	system( command_char );
+}
 
 void mkdir ( string name )
 {
 	string command = "mkdir " + name;
 
-	char command_char[10000];
-	string_to_char( command, command_char );
-	system( command_char );
+	command_linux( command );
+}
+
+void chown ( string name )
+{
+	string command = "chown -R " + name;
+
+	command_linux( command );
 }
 
 void chmod ( string name, int permission )
@@ -107,18 +111,14 @@ void chmod ( string name, int permission )
 
 	string command = "chmod -R " + int_to_string( permission ) + " " + name;
 
-	char command_char[10000];
-	string_to_char( command, command_char );
-	system( command_char );
+	command_linux( command );
 }
 
 void rm ( string name )
 {
 	string command = "rm -R " + name;
 
-	char command_char[10000];
-	string_to_char( command, command_char );
-	system( command_char );
+	command_linux( command );
 }
 
 
@@ -126,25 +126,25 @@ void cp ( string filepath1, string filepath2 )
 {
 	string command = "cp -R " + filepath1 + " " + filepath2;
 
-	char command_char[10000];
-	string_to_char( command, command_char );
-	system( command_char );
+	command_linux( command );
 }
 
 void ls ()
 {
 	string command = "ls";
 
-	char command_char[10];
-	string_to_char( command, command_char );
-	system( command_char );
+	command_linux( command );
 }
 
+void clear ()
+{
+	string command = "clear";
+
+	command_linux( command );
+}
 
 
 int main ()
 {
-	cout << int_to_string( 104 );
-
 	return 0;
 }
