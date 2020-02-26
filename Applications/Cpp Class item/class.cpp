@@ -7,13 +7,16 @@ using namespace std;
 
 ofstream file;
 
+// number or parameters that the class has
 int num_parameters;
 
 string name, filename = "";
 string parameters[100];
+// the datatypes of variables are stored as strings, but those strings are coded 1 - 7, to correlate with datatypes
 string types[100];
 
 
+// length of a string
 int length (string a)
 {
 	int i=0;
@@ -27,6 +30,7 @@ int length (string a)
 }
 
 
+// length of a string[]
 int length ( string a[] )
 {
 
@@ -40,6 +44,7 @@ int length ( string a[] )
 	return i;
 }
 
+// invert a string
 string invert_string (string a)
 {
 	int len = a.length();
@@ -53,6 +58,7 @@ string invert_string (string a)
 	return r;
 }
 
+// convert an int to a string 
 string int_string (int a)
 {
 	string r = "";
@@ -68,6 +74,7 @@ string int_string (int a)
 	return r;
 }
 
+// replaces spaces in entered data, to make valid variable columns
 void replace_space (string &a)
 {
 	for (int i=0; i<a.length(); i=i+1)
@@ -75,6 +82,7 @@ void replace_space (string &a)
 			a[i] = '_';
 }
 
+// this converts the string encoding of types[] ( 1 - 7 ) to the actual data type strings
 string type (string a)
 {
 	if ( a == "1" )
@@ -95,6 +103,45 @@ string type (string a)
 	return a;
 }
 
+// checks if a property is numeric
+bool is_numeric( int i )
+{
+	if ( type( types[i] ) == "int" )
+		return true;
+	if ( type( types[i] ) == "float" )
+		return true;
+	if ( type( types[i] ) == "double" )
+		return true;
+	if ( type( types[i] ) == "long" )
+		return true;
+	if ( type( types[i] ) == "bool" )
+		return true;
+
+	return false;
+}
+
+
+// have a certain datatype
+bool have_datatype( string datatype )
+{
+	for ( int i=0; i<num_parameters; i=i+1 )
+		if ( type( types[i] ) == datatype )
+			return true;
+
+	return false;
+}
+
+// check if we have numeric datatypes
+bool have_numeric()
+{
+	if( have_datatype( "int" ) or have_datatype( "float" ) or have_datatype( "double" ) or have_datatype( "long" ) or have_datatype( "bool" ) )
+		return true;
+
+	return false;
+}
+
+
+// makes a[0] into uppercase, if not already
 string large_char (string a)
 {
 	if ( a[0] >= 'a' && a[0] <= 'z' )
@@ -103,6 +150,7 @@ string large_char (string a)
 	return a;
 }
 
+// converts variable columns such as 'parameter[10]' into 'parameter'
 string remove_brackets ( string a )
 {
 	int size = length(a);
@@ -120,6 +168,8 @@ string remove_brackets ( string a )
 	return result;	
 }
 
+
+// converts variable columns such as 'parameter[10]' into 'parameter[]'
 string brackets ( string a )
 {
 	a = remove_brackets (a);
@@ -129,6 +179,7 @@ string brackets ( string a )
 	return a;
 }
 
+// checks if the property name is not altready taken
 bool is_property_name_taken ( string name )
 {
 	int size = length( parameters );
@@ -142,55 +193,28 @@ bool is_property_name_taken ( string name )
 	return false;
 }
 
-void make_length_inner ( string type_of_variable )
-{
-	file << "\n	int length ( ";
-	
-	file << type( type_of_variable ) << " data[] )\n	{\n";
-
-	if ( type_of_variable == "5" )
-	{
-		file << "		return data.length();\n	}\n";
-	}
-	else
-	{
-		file << "		int i = 0;\n";
-
-		string ending = "\"\"";
-
-		if ( type_of_variable == "1" or type_of_variable == "2" or type_of_variable == "6" or type_of_variable == "3" or type_of_variable == "4" or type_of_variable == "7" )
-			ending = "\'\\0\'";
-
-		file << "		while ( data[i] != " << ending << " )\n			i=i+1;\n\n		return i;\n	}\n";
-	}
-}
-
+// makes length() inside the class 
 void make_length ( string type_of_variable )
 {
-	file << "\nint length ( ";
+	file << "\n	// length of a " << type( type_of_variable ) << "[]";
+	file << "\n	int length ( ";
 	
-	file << type( type_of_variable ) << " data[] )\n{\n";
+	file << type( type_of_variable ) << " data[] ) // returns length + 1, returning i - 1 does not help\n	{\n";
 
-	if ( type_of_variable == "5" )
-	{
-		file << "	return data.length();\n	}\n";
-	}
-	else
-	{
-		file << "	int i = 0;\n";
+	file << "		int i = 0;\n";
 
-		string ending = "\"\"";
+	string ending = "\"\"";
 
-		if ( type_of_variable == "1" or type_of_variable == "2" or type_of_variable == "6" or type_of_variable == "3" or type_of_variable == "4" or type_of_variable == "7" )
-			ending = "\'\\0\'";
+	if ( type_of_variable == "1" or type_of_variable == "2" or type_of_variable == "6" or type_of_variable == "3" or type_of_variable == "4" or type_of_variable == "7" )
+		ending = "\'\\0\'";
 
-		file << "	while ( data[i] != " << ending << " )\n		i=i+1;\n\n	return i;\n}\n";
-	}
+	file << "		while ( data[i] != " << ending << " )\n			i=i+1;\n\n		return i;\n	}\n";
 }
 
-
+// makes copy() inside the class
 void make_copy ( string type_of_variable )
 {
+	file << "	// make a copy of a " << type( type_of_variable ) << "[]\n";
 	file << "	void copy ( ";
 
 	file << type( type_of_variable ) << " source[], " << type( type_of_variable ) << " dest[] )\n	{\n";
@@ -198,16 +222,19 @@ void make_copy ( string type_of_variable )
 	file << "		for ( int i=0; i<length(source); i=i+1)\n			dest[i] = source[i];\n	}\n\n";
 }
 
+// returns the last char of a string
 char last_char ( string a )
 {
 	return a[ length(a) - 1 ];
 }
 
+// used to 'cout' through the file that is made
 void enter_cout ( string a )
 {
 	file << "	cout << \"" << a << "\";" <<"\n";
 }
 
+// used to 'cout' through the file that is made
 void enter_cout ( string a[] )
 {
 	file << "	cout";
@@ -220,12 +247,55 @@ void enter_cout ( string a[] )
 	file << ";\n";
 }
 
+// give length 10 to a parameter[], if it does not have one
+void give_length( string &parameter )
+{
+	int size = parameter.length();
+
+	if ( parameter[ size - 1 ] == ']' and parameter[ size - 2 ] == '[' )
+	{
+		parameter[ size - 1 ] = '1';
+		parameter = parameter + "0]";
+	}
+}
+
+// show info
+void show_info()
+{
+	
+	cout << "Info:\n\n";
+
+	cout << "( info ) Do not enter empty variable columns or datatypes.\n";
+	cout << "( info ) If you want to store multiple items of the same type in one variable, type \"[]\" after variable name.\n";
+	cout << "         If you know how many you want to store ( maximum ), type \"parameter_name[142]\" etc.\n\n";
+
+	char enter;
+	cout << "[ \']\' + Enter ] to continue: ";
+	cin >> enter;
+
+	cout << "\n";
+}
+
+
+
 int main ()
 {
+
+
+
+	// Getting data
+
+
+
+
+	show_info();
+
 	cout << "Enter a filename that does not exist in this folder.\n";
 
 	cout << "Name: ";
 	std::getline(cin, name);
+	std::getline(cin, name);
+	replace_space( name );
 
 
 	filename = name + ".cpp";
@@ -233,13 +303,11 @@ int main ()
 
 	file.open(filename);
 
-	file << "#include <string>\n#include <fstream>\n#include <string.h>\n#include <iostream>\n\nusing namespace std;\n\n";
-
 	cout << "Enter num. or parameters: ";
 	cin >> num_parameters;
 	cout << "\n\n";
 	
-	cout << "Do not enter empty variable names or types.\n";
+	cout << "Do not enter empty variable columns or types.\n";
 
 	cout << "Parameters:\n\n";
 
@@ -250,6 +318,8 @@ int main ()
 
 		cout << "Name of parameter " << i + 1 << ": ";
 		getline(cin, parameter);
+		if ( i == 0 )
+			getline(cin, parameter);
 
 		while ( is_property_name_taken ( parameter ) )
 		{
@@ -259,10 +329,9 @@ int main ()
 			getline(cin, parameter);
 		}
 
-		parameters[i] = parameter;
+		give_length( parameter );
 
-		if ( i ==0 )
-			getline(cin, parameters[i]);
+		parameters[i] = parameter;
 
 		replace_space( parameters[i] );
 		cout << "1. int  2. float  3. double  4. char  5. string  6. long  7. bool\n";
@@ -272,6 +341,19 @@ int main ()
 		cout << "\n";
 	}
 
+
+
+
+
+	// Getting the data into our cpp file
+
+
+
+
+	// including classes
+	file << "#include <string>\n#include <fstream>\n#include <string.h>\n#include <iostream>\n\nusing namespace std;\n\n";
+
+	// parameters that might help to have in that file
 	file << "int num_parameters = " << num_parameters << ";\n";
 	file << "string parameters[" << num_parameters + 1 << "] = { ";
 
@@ -285,11 +367,23 @@ int main ()
 
 	file << "};\n";
 
-	file << "int types[" << num_parameters + 1 << "] = { ";
+	file << "string columns[" << num_parameters + 1 << "] = { ";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
-		file << types[i];
+		file << "\"" << parameters[i] << "\"";
+		if ( i != num_parameters - 1 )
+			file << ",";
+		file << " ";
+	}
+
+	file << "};\n";
+
+	file << "string types[" << num_parameters + 1 << "] = { ";
+
+	for ( int i=0; i<num_parameters; i=i+1 )
+	{
+		file << "\"" << type( types[i] ) << "\"";
 		if ( i != num_parameters - 1 )
 			file << ",";
 		file << " ";
@@ -298,9 +392,19 @@ int main ()
 	file << "};\n\n";
 
 
+
+
+
+	// Class
+
+
+
+
+
+	// class name
 	file << "class " << large_char(name) << " {\n";
 
-
+	// a comment in the class about the class parameters
 	file << "\n	// \"" << large_char(name) << "\" has parameters: ";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
@@ -314,27 +418,37 @@ int main ()
 
 	file << "\n\n	// Parameters:\n";
 
-	for ( int i=0; i<num_parameters; i=i+1 )
-	{
-		file << "	" << type( types[i] ) << " " << parameters[i] << ";\n";
-	}
-
-	file << "\n  public:\n\n";
-
+	// parameters are instantiated
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
 		if ( last_char( parameters[i] ) == ']' )
-			make_length_inner( types[i] );
+			file << "	int " << remove_brackets( parameters[i] ) << "_count;\n";
+		file << "	" << type( types[i] ) << " " << parameters[i] << ";\n";
+	}
+
+	file << "\n	bool is_empty;\n";
+
+	file << "\n  public:\n\n";
+
+
+	// make length() for certain data types
+	for ( int i=0; i<num_parameters; i=i+1 )
+	{
+		if ( last_char( parameters[i] ) == ']' )
+			make_length( types[i] );
 	}
 
 	file << "\n\n";
 
+
+	// make copy() for certain data types
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
 		if ( last_char( parameters[i] ) == ']' )
 			make_copy( types[i] );
 	}
 	
+	// Class()
 	file << "	" << large_char(name) << "()\n	{\n";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
@@ -348,7 +462,7 @@ int main ()
 				if ( types[i] == "1" or types[i] == "2" or types[i] == "6" or types[i] == "3" )
 					file << 0;
 				if ( types[i] == "4" )
-					file << "\'\'";
+					file << "\' \'";
 				if ( types[i] == "5" )
 					file << "\"\"";
 				if ( types[i] == "7" )
@@ -360,12 +474,15 @@ int main ()
 			file << ";\n";
 		}
 		else
-			file << "		copy( {}, this->" << remove_brackets( parameters[i] ) << " );\n";
+			file << "//		copy( {}, this->" << remove_brackets( parameters[i] ) << " ); // You edit this\n";
+
 	}
 	
+	file << "\n		this->is_empty = true;\n";
+
 	file << "	}\n\n";
 
-
+	// Class( parameters )
 	file << "	" << large_char(name) << " ( ";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
@@ -391,19 +508,41 @@ int main ()
 			file << "		copy( " << remove_brackets( parameters[i] ) << ", this->" << remove_brackets( parameters[i] ) << " );\n";
 
 	}
+
+	file << "\n		this->is_empty = true;\n";
 	
 	file << "	}\n\n";
 
 
- 
+
+	// Getters 
+
+
+
 	file << "\n	// Getters:\n";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
 		if ( last_char( parameters[i] ) == ']' )
 		{
+			// get it entirely
 			file << "	void get_" << remove_brackets( parameters[i] ) << "";
 			file << "( " << type( types[i] ) << " dest[] ) { copy( this->" << remove_brackets( parameters[i] ) << ", dest ); };\n";
+
+			// get an item of it  ( parameter[i] )
+			file << "	" << type( types[i] ) << " get_" << remove_brackets( parameters[i] ) << "( int i ) // get " << remove_brackets( parameters[i] ) << "[i]\n";
+			file << "	{\n";
+			file << "		if ( i < " << remove_brackets( parameters[i] ) << "_count and i >= 0 )\n";
+			file << "			return " << remove_brackets( parameters[i] ) << "[i];\n"; 
+			file << "		else\n";
+			file << "		{\n";
+			file << "			cout << \"\\n(get) Item at \'\" << i << \"\' (\"<< i+1 << \"-th) is not available in \'" << parameters[i] << "\'. Its size is \'\" << " << remove_brackets( parameters[i] ) << "_count << \"\'. 0 was returned.\\n\";\n";
+			file << "			return 0;\n"; 
+			file << "		}\n";
+			file << "	}\n";
+
+			// get its count
+			file << "	int get_" << remove_brackets( parameters[i] ) << "_count() { return this->" << remove_brackets( parameters[i] ) << "_count; }\n";
 		}
 		else
 		{
@@ -412,12 +551,16 @@ int main ()
 		}
 	}
 	
+	file << "\n	bool get_is_empty() { return this->is_empty; }\n";
+
+
 
 
 
 
 	file << "\n";
 
+	// get every property of the class
 	file << "	void get ( ";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
@@ -447,6 +590,9 @@ int main ()
 
 
 
+	// Setters
+
+
 
 
 	file << "\n	// Setters:\n";
@@ -455,21 +601,40 @@ int main ()
 	{
 		if ( last_char( parameters[i] ) == ']' )
 		{
+			// set it entirely
 			file << "	void set_" << remove_brackets( parameters[i] ) << "( " << type( types[i] );
-			file << " data[] ) { copy( data, this->" << remove_brackets( parameters[i] ) << " ); };\n";
+			file << " data[] ) { copy( data, this->" << remove_brackets( parameters[i] ) << " );";
+			file << " this->is_empty = false; ";
+			file << " };\n";
+
+			// set an item of it  ( parameter[i] )
+			file << "	void set_" << remove_brackets( parameters[i] ) << "( " << type( types[i] ) << " data, int i ) // set " << remove_brackets( parameters[i] ) << "[i] to data\n";
+			file << "	{\n";
+			file << "		if ( i < " << remove_brackets( parameters[i] ) << "_count and i >= 0 )\n";
+			file << "			" << remove_brackets( parameters[i] ) << "[i] = data;\n"; 
+			file << "		else\n";
+			file << "		{\n";
+			file << "			cout << \"\\n(set) Item at \'\" << i << \"\' (\"<< i+1 << \"-th) is not available in \'" << parameters[i] << "\'. Its size is \'\" << " << remove_brackets( parameters[i] ) << "_count << \"\'. It was not modified.\\n\";\n";
+			file << "		}\n";
+			file << "	}\n";
+
+			// set its count
+			file << "	void set_" << remove_brackets( parameters[i] ) << "_count( int data ) { this->" << remove_brackets( parameters[i] ) << "_count = data; }\n";
 		}
 		else
 		{
 			file << "	void set_" << parameters[i] << "( " << type( types[i] );
-			file << " data ) { this->" << parameters[i] << " = data; };\n";
+			file << " data ) { this->" << parameters[i] << " = data;";
+			file << " this->is_empty = false; ";
+			file << " };\n";
 		}
 	}
-
 
 	file << "\n";
 
 	file << "	void set ( ";
 
+	// set every property of the class
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
 		file << type( types[i] ) << " ";
@@ -485,6 +650,7 @@ int main ()
 	}
 
 	file << ")\n	{\n";
+
 	
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
@@ -493,20 +659,38 @@ int main ()
 		else
 			file << "		this->" << parameters[i] << " = " << parameters[i] << ";\n";
 	}
-	
+
+	file << "\n	 	this->is_empty = false;\n";
+
 	file << "	}\n\n";
+
+
+
+	// info() - get info about the class parameters, their types and val.-s 
+
+
 
 	file << "	// Info:\n";
 
 	file << "	void info()\n	{\n";
 
-	file << "		cout << \"\\nclass " << large_char(name) << " \"" << " << \'{\'" <<  " << \'\\n\';";
+	file << "		cout << \"\\nclass " << large_char(name) << " \"" << " << \"{\"" <<  " << \'\\n\';";
 
 	file << "\n";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
-		file << "		cout << \"	" << type( types[i] ) << "\" << \' \' << \"" << parameters[i] << "\" << \'\\n\';";
+		if ( last_char( parameters[i] ) == ']' )
+		{
+			file << "		cout << \"	int " << remove_brackets( parameters[i] ) << "_count = \" << " << remove_brackets( parameters[i] ) << "_count << \'\\n\';\n";
+			file << "		cout << \"	" << type( types[i] ) << "\" << \' \' << \"" << parameters[i] << " = { \";\n";
+			file << "		for ( int i=0; i<" << remove_brackets( parameters[i] ) << "_count; i=i+1 )\n";
+			file << "			cout << \"\'\" << " << remove_brackets( parameters[i] ) << "[i] << \"\' \";\n";
+			file << "		cout << \"}\\n\";\n";
+		}
+		else
+			file << "		cout << \"	" << type( types[i] ) << "\" << \' \' << \"" << parameters[i] << " = \" << " << parameters[i] << " << \'\\n\';";
+
 		file << "\n";
 	}
 	
@@ -522,13 +706,20 @@ int main ()
 
 
 
+	// Variables and iterators used a lot
 
 
-	file << "// Length of the " << large_char(name) << "-s";
 
-	make_length( large_char(name) );
 
-	file << "\n" << large_char(name) << " item_entries[10000];\n\n";
+	file << "\n" << large_char(name) << " item_entries[10000]; // entries\n";
+	file << "int iter = 0;\n\n";
+	file << "\nint delete_entries[10000]; // entries that are to be removed\n";
+	file << "int delete_iter = 0;\n\n";
+
+
+
+	// Make entry by getting data through 'cin'
+
 
 
 	file << "// Make entry\n";
@@ -545,27 +736,78 @@ int main ()
 	{
 		if ( last_char( parameters[i] ) == ']' )
 		{
-			file << "	" << type( types[i] ) << " temp[10000];\n\n";
+			file << "	" << type( types[i] ) << " temp_" << i << "[10000] = {};\n\n";
 
 			file << "	counter = 0;\n";
-			file << "	cout << \"Enter num. or val.-s you want to enter for \\'" << parameters[i] << "\\' of type \\'" << type( types[i] ) << "\\': \";\n";
-			file << "	cin >> counter;\n\n";
-			file << "	for ( int i=0; i<counter; i=i+1 )\n";
-			file << "	{\n";
-			file << "		cout << \"Enter val. \" << i + 1 << \": \";\n";
-			file << "		cin >> temp[i];\n";
-			file << "	}\n\n";
 
-			file << "	entry.set_" << remove_brackets( parameters[i] ) << "( temp );\n";
+			// bool is treated as a string, to validate both  0 or 1  and  "true" or"false" 
+			if ( type( types[i] ) == "bool" )
+			{
+				file << "	cout << \"Enter num. or val.-s you want to enter for \\'" << parameters[i] << "\\' of type \\'" << type( types[i] ) << "\\': \";\n";
+				file << "	cin >> counter;\n\n";
+				file << "	for ( int i=0; i<counter; i=i+1 )\n";
+				file << "	{\n";
+				file << "		string temp;\n";
+				file << "		cout << \"Enter val. \" << i + 1 << \" ( 1 / 0 ) : \";\n";
+				file << "		cin >> temp; // null val.-s do not pass this\n";
+				file << "		if ( temp[0] == \'0\' or temp == \"false\" )\n";
+				file << "			temp_" << i << "[i] = 0;\n";
+				file << "		else";
+				file << "			temp_" << i << "[i] = 1;\n";
+				file << "		temp = \"\";\n";
+				file << "	}\n\n";
+
+				file << "	entry.set_" << remove_brackets( parameters[i] ) << "( temp_" << i << " );\n";
+				file << "	entry.set_" << remove_brackets( parameters[i] ) << "_count ( counter );\n";				
+			}
+			else
+			{
+				file << "	cout << \"Enter num. or val.-s you want to enter for \\'" << parameters[i] << "\\' of type \\'" << type( types[i] ) << "\\': \";\n";
+				file << "	cin >> counter;\n\n";
+				file << "	for ( int i=0; i<counter; i=i+1 )\n";
+				file << "	{\n";
+				file << "		cout << \"Enter val. \" << i + 1;\n";
+				if ( type( types[i] ) == "string" )
+					file << "		cout << \" ( spaces not allowed )\";\n";
+				file << "		cout << \": \";\n";
+				file << "		cin >> temp_" << i << "[i]; // null val.-s do not pass this\n";
+				file << "	}\n\n";
+
+				file << "	entry.set_" << remove_brackets( parameters[i] ) << "( temp_" << i << " );\n";
+				file << "	entry.set_" << remove_brackets( parameters[i] ) << "_count ( counter );\n";
+			}
 		}
 		else
 		{
-			file << "	cout << \"Enter val. for \\'" << parameters[i] << "\\' of type \\'" << type( types[i] ) << "\\': \";\n\n";
-			file << "	" << type( types[i] ) << " temp_" << type( types[i] ) << ";\n\n";
+			file << "	cout << \"Enter val. for \\'" << parameters[i] << "\\' of type \\'" << type( types[i] ) << "\\'";
 
-			file << "	cin >> temp_" << type( types[i] ) << ";\n";
+			if ( type( types[i] ) == "bool" )
+				file << " ( 1 / 0 )";
+			if ( type( types[i] ) == "string" )
+				file << " ( spaces not allowed )";
 
-			file << "	entry.set_" << parameters[i] << "( temp_" << type( types[i] ) << " );\n";
+		 	file << ": \";\n\n";
+
+			// bool is treated as a string, to validate both  0 or 1  and  "true" or "false" 
+			if ( type( types[i] ) == "bool" )
+			{
+				file << "	string temp_string_" << i << ";\n";
+
+				file << "	cin >> temp_string_" << i << ";\n\n";
+
+				file << "	if ( temp_string_" << i << "[0] == \'0\' or temp_string_" << i << " == \"false\" )\n";
+				file << "		entry.set_" << parameters[i] << "( 0 );\n";
+				file << "	else";
+				file << "		entry.set_" << parameters[i] << "( 1 );\n";
+			}
+			else
+			{
+				file << "	" << type( types[i] ) << " temp_" << type( types[i] ) << "_" << i << ";\n\n";
+
+				file << "	cin >> temp_" << type( types[i] ) << "_" << i << ";\n";
+	 
+				file << "	entry.set_" << parameters[i] << "( temp_" << type( types[i] ) << "_" << i << " );\n";
+			}
 		}
 
 		if ( i != num_parameters - 1 )
@@ -581,40 +823,73 @@ int main ()
 
 
 
+	// Add an entry to item_entries[]
+
+
+
 
 	file << "// Add entry\n";
 
 	file << "void add_entry ( " << large_char(name) << " entry )\n{\n";
+	file << "	item_entries[ iter ] = entry;\n";
+	file << "	iter = iter +1;\n";
+	file << "}\n\n\n";
 
-	file << "	ofstream entries;\n	entries.open(\"" << name << "_entries.txt\");\n\n";
-	
 
-	file << "	entries << \"\\n\";\n";
 
-	file << "	int size = length( item_entries ) + 1;\n\n";
+
+	// Add entries to file - save  item_entries[]  into  class_entries  
+
+
+
+
+	file << "// Add entries\n";
+
+	file << "void add_entries ()\n{\n";
+
+	file << "	ofstream entries;\n	entries.open(\"" << name << "_entries\");\n";
+	file << "	entries.close();\n	entries.open(\"" << name << "_entries\");\n\n";
+
+	file << "	entries << iter << \'\\n\';\n\n";
+
+	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "		entries << columns[i] << \" \";\n";
+	file << "	entries << \"\\n\";\n\n";
+
+	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "		entries << types[i] << \" \";\n";
+	file << "	entries << \"\\n\";\n\n";
+
+	file << "	int size_of_temp;\n\n";
+	file << "	for ( int i=0; i<iter; i=i+1 )\n";
+	file << "	{\n";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
 		if ( last_char( parameters[i] ) == ']' )
 		{
-			file << "	" << type(types[i]) << " temp[10000];\n";
+			file << "		" << type(types[i]) << " temp_" << i <<  "[10000];\n";
 
-			file << "	entry.get_" << remove_brackets(parameters[i]) << "( temp );\n";
+			file << "		item_entries[i].get_" << remove_brackets(parameters[i]) << "( temp_" << i << " );\n";
 
-			file << "	item_entries[ size ].set_" << remove_brackets(parameters[i]) << "( temp );\n";
+			file << "		size_of_temp = item_entries[i].get_" << remove_brackets(parameters[i]) << "_count();\n";
+			file << "		entries << \"  \" << size_of_temp << \"  \";\n\n";
 
-			file << "	int size_of_temp = entry.length( temp );\n";
-
-			file << "	for ( int i=0; i<size_of_temp; i=i+1 )\n";
-			file << "		entries << temp[i] << \' \';\n\n";
+			file << "		for ( int i=0; i<size_of_temp; i=i+1 )\n";
+			file << "			entries << temp_" << i << "[i] << \' \';\n";
+			file << "		entries << \"  \";\n\n";
 		}
 		else
 		{
-			file << "\n	item_entries[ size ].set_" << parameters[i] << "( entry.get_" << parameters[i] << "() );\n";
-
-			file << "	entries << entry.get_" << parameters[i] << "() << \" \";\n\n";
+			file << "		entries << item_entries[i].get_" << parameters[i] << "() << \" \";\n\n";
 		}
 	}
+
+	file << "		if ( i != iter - 1)\n";
+	file << "			entries << \'\\n\';\n";
+
+	file << "	}\n";
+
 	file << "\n	entries.close();\n";
 
 	file << "}\n\n\n";
@@ -622,29 +897,76 @@ int main ()
 
 
 
-	file << "// Show entry by line num.\n";
+	// Get  class_entries  entries into  item_entries[]  
 
-	file << "void show_entry ( int a )\n{\n";
+
+
+
+	file << "// Get entries\n";
+
+	file << "void get_entries()\n{\n";
+
+	file << "	fstream entries;\n	entries.open( \"" << name << "_entries\" );\n\n";
+
+	file << "	entries >> iter;\n\n";
+
+	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "		entries >> columns[i];\n\n";
+
+	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "		entries >> types[i];\n\n";
+
+	file << "	int counter;\n\n";
+
+	file << "	for ( int i=0; i<iter; i=i+1 )\n	{\n";	
 
 	for ( int i=0; i<num_parameters; i=i+1 )
-	{
 		if ( last_char( parameters[i] ) == ']' )
 		{
-			file << "	" << type(types[i]) << " temp[10000];\n\n";
+			file << "		" << type( types[i] ) << " temp_" << i << "[10000] = {};\n\n";
 
-			file << "	item_entries[a].get_" << remove_brackets( parameters[i] ) << "( temp );\n";
+			file << "		counter = 0;\n";
+			file << "		entries >> counter;\n\n";
+			file << "		for ( int i=0; i<counter; i=i+1 )\n";
+			file << "		{\n";
+			file << "			entries >> temp_" << i << "[i]; // null val.-s do not pass this\n";
+			file << "		}\n\n";
 
-			file << "	int size = item_entries[a].length( temp );\n\n";
-
-			file << "	for ( int i=0; i<size; i=i+1 )\n";
-			file << "		cout << temp[i] << \' \';\n";
+			file << "		item_entries[i].set_" << remove_brackets( parameters[i] ) << "( temp_" << i << " );\n";
+			file << "		item_entries[i].set_" << remove_brackets( parameters[i] ) << "_count ( counter );\n";
 		}
 		else
-			file << "	cout << item_entries[a].get_" << parameters[i] << "() << \' \';\n";
+		{
+			file << "		" << type( types[i] ) << " temp_" << type( types[i] ) << "_" << i << ";\n\n";
 
-		if ( i != num_parameters - 1 )
-			file << "\n";
-	}
+			file << "		entries >> temp_" << type( types[i] ) << "_" << i << ";\n";
+
+			file << "		item_entries[i].set_" << parameters[i] << "( temp_" << type( types[i] ) << "_" << i << " );\n";
+		}
+
+	file << "	}\n\n";
+
+	file << "	entries.close();\n";
+
+	file << "}\n\n\n";
+
+
+
+	// Check if a certain entry was removed
+
+
+
+	file << "// Was removed\n";
+
+	file << "bool is_in_delete_entries ( int a )\n{\n";
+
+	file << "	for ( int i=0; i<delete_iter; i=i+1 )\n";
+
+	file << "		if ( delete_entries[i] == a )\n";
+
+	file << "			return true;\n\n";
+
+	file << "	return false;\n";
 
 	file << "}\n\n\n";
 
@@ -652,13 +974,355 @@ int main ()
 
 
 
+	// Show a certain entry
+
+
+
+
+	file << "// Show entry\n";
+
+	file << "void show_entry( int i )\n{\n";
+
+	file << "	if ( i >= iter )\n";
+	file << "	{\n";
+	file << "		cout << \"Entry num. \'\" << i + 1 << \"\' is not valid.\\n\" ;\n";
+	file << "		return;\n";
+	file << "	}\n\n";
+
+	file << "	if ( is_in_delete_entries(i) )\n";
+	file << "	{\n";
+	file << "		cout << \"Entry num. \'\" << i + 1 << \"\' was removed.\\n\" ;\n";
+	file << "		return;\n";
+	file << "	}\n\n";
+
+	file << "	int size_of_temp;\n\n";
+
+	for ( int i=0; i<num_parameters; i=i+1 )
+	{
+		if ( last_char( parameters[i] ) == ']' )
+		{
+
+			file << "	" << type(types[i]) << " temp_" << i << "[10000];\n";
+
+			file << "	item_entries[i].get_" << remove_brackets(parameters[i]) << "( temp_" << i << " );\n";
+
+			file << "	size_of_temp = item_entries[i].get_" << remove_brackets(parameters[i]) << "_count();\n";
+			file << "	cout << \"  [ size: \";\n";
+			file << "	cout << size_of_temp << \" = ( \";\n\n";
+
+			file << "	for ( int i=0; i<size_of_temp; i=i+1 )\n";
+			file << "		cout << temp_" << i << "[i] << \' \';\n";
+			file << "	cout << \") ]  \";\n\n";
+		}
+		else
+		{
+			file << "	cout << item_entries[i].get_" << parameters[i] << "() << \" \";\n\n";
+		}
+
+	}
+
+
+	file << "	cout << \"\\n\";\n";
+
+	file << "}\n\n";
+
+
+
+
+
+	// Show columns
+
+
+
+
+	file << "// Show column names ( modifiable )\n";
+	file << "void show_columns ()\n{\n";
+	file << "	cout << \"\\n\";\n";
+	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "		cout << columns[i] << \" \";\n";
+	file << "	cout << \"\\n\";\n}\n\n";
+
+
+
+
+
+	// Rename column
+
+
+
+
+
+	file << "// Rename column\n";
+	file << "void rename_column ( int a, string name )\n{\n";
+	file << "	if ( columns[a][ columns[a].length() - 1] == \']\' )\n";
+	file << "		columns[a] = name + \"[]\";\n";
+	file << "	else\n";
+	file << "		columns[a] = name;\n";
+	file << "}\n\n";
+
+
+
+
+	// Sort
+
+
+
+
+	file << "// Sort\n";
+	file << "void sort ( int i, int order )\n";
+	file << "{\n";
+	file << "	if ( order != 0 )\n";
+	file << "		order = 1;\n\n";
+
+	for ( int l=0; l<num_parameters; l=l+1 )
+	{
+		file << "	if ( i == " << l << " )\n";
+		file << "	{\n";
+		if ( last_char( parameters[l] ) == ']' )
+		{
+			file << "		for ( int a=0; a<iter-1; a=a+1 )\n";
+			file << "			for ( int b=a+1; b<iter; b=b+1 )\n";
+			file << "			{\n";
+			file << "				if ( item_entries[a].get_" << remove_brackets( parameters[l] ) << "_count() <  item_entries[b].get_" << remove_brackets( parameters[l] ) << "_count() and order == 1 )\n";
+			file << "				{\n";
+			file << "					" << large_char( name ) << " copy = item_entries[a];\n";
+			file << "					item_entries[a] = item_entries[b];\n";
+			file << "					item_entries[b] = copy;\n";
+			file << "				}\n\n";
+			file << "				if ( item_entries[a].get_" << remove_brackets( parameters[l] ) << "_count() >  item_entries[b].get_" << remove_brackets( parameters[l] ) << "_count() and order == 0 )\n";
+			file << "				{\n";
+			file << "					" << large_char( name ) << " copy = item_entries[a];\n";
+			file << "					item_entries[a] = item_entries[b];\n";
+			file << "					item_entries[b] = copy;\n";
+			file << "				}\n";
+			file << "			}\n";
+		}
+		else
+		{
+			file << "		for ( int a=0; a<iter-1; a=a+1 )\n";
+			file << "			for ( int b=a+1; b<iter; b=b+1 )\n";
+			file << "			{\n";
+			file << "				if ( item_entries[a].get_" <<  parameters[l]  << "() <  item_entries[b].get_" <<  parameters[l]  << "() and order == 1 )\n";
+			file << "				{\n";
+			file << "					" << large_char( name ) << " copy = item_entries[a];\n";
+			file << "					item_entries[a] = item_entries[b];\n";
+			file << "					item_entries[b] = copy;\n";
+			file << "				}\n\n";
+			file << "				if ( item_entries[a].get_" <<  parameters[l]  << "() >  item_entries[b].get_" <<  parameters[l]  << "() and order == 0 )\n";
+			file << "				{\n";
+			file << "					" << large_char( name ) << " copy = item_entries[a];\n";
+			file << "					item_entries[a] = item_entries[b];\n";
+			file << "					item_entries[b] = copy;\n";
+			file << "				}\n";
+			file << "			}\n";
+		}
+		file << "	}\n";
+	}
+	file << "}\n\n\n";
 
 
 
 
 
 
+	// [ ']' + Enter ] to continue
 
+
+	
+
+
+	file << "// Show \"[ ']' + Enter ] to continue\"\n";
+	file << "void enter()\n";
+	file << "{\n";
+	file << "	char enter;\n";
+	file << "	cout << \"\\n[ \']\' + Enter ] to continue: \";\n";
+	file << "	cin >> enter;\n";
+	file << "	cout << \"\\n\";\n";
+	file << "}\n\n";
+
+
+
+	// Item ( Get entry / entries by property val. )
+
+
+
+	file << "\nint shown_entries[100000]; // entries that were shown in  get_entry_item( item )  \n";
+	file << "int shown_iter = 0;\n\n";
+
+	file << "// Was shown\n";
+	file << "bool shown( int a )\n";
+	file << "{\n";
+	file << "	for ( int i=0; i<shown_iter; i=i+1 )\n";
+	file << "		if ( shown_entries[i] == a )\n";
+	file << "			return true;\n";
+	file << "	return false;\n";
+	file << "}\n\n";
+
+	// make only if we have numeric datatypes
+	if ( have_numeric() )
+	{
+		file << "// Get entry item - for numeric datatypes\n";
+		file << "void get_entry_item( long item )\n";
+		file << "{\n";
+		for ( int i=0; i<num_parameters; i=i+1 )
+			if ( is_numeric(i) )
+			{
+				if ( last_char( parameters[i] ) == ']' )
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "	{\n";
+					file << "		int size = item_entries[i].get_" << remove_brackets( parameters[i] ) << "_count();\n";
+					file << "		for ( int a=0; a<size; a=a+1 )\n";
+					file << "			if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "(a) == item and !shown(i) )\n";
+					file << "			{\n";
+					file << "				show_entry(i);\n";
+					file << "				shown_entries[ shown_iter ] = i;\n";
+					file << "				shown_iter = shown_iter + 1;\n";
+					file << "			}\n\n";	
+					file << "	}\n\n";
+				}
+				else 
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "		if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "() == item and !shown(i) )\n";
+					file << "		{\n";
+					file << "			show_entry(i);\n";
+					file << "			shown_entries[ shown_iter ] = i;\n";
+					file << "			shown_iter = shown_iter + 1;\n";
+					file << "		}\n\n";				
+				}
+			}
+		file << "	shown_iter = 0;\n";
+		file << "}\n\n";
+	}
+
+	
+
+	// make only if we have "string" datatype
+	if ( have_datatype( "string" ) )
+	{
+		file << "// Get entry item - for \"string\" datatype\n";
+		file << "void get_entry_item( string item )\n";
+		file << "{\n";
+		for ( int i=0; i<num_parameters; i=i+1 )
+			if ( type( types[i] ) == "string" )
+			{
+				if ( last_char( parameters[i] ) == ']' )
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "	{\n";
+					file << "		int size = item_entries[i].get_" << remove_brackets( parameters[i] ) << "_count();\n";
+					file << "		for ( int a=0; a<size; a=a+1 )\n";
+					file << "			if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "(a) == item and !shown(i) )\n";
+					file << "			{\n";
+					file << "				show_entry(i);\n";
+					file << "				shown_entries[ shown_iter ] = i;\n";
+					file << "				shown_iter = shown_iter + 1;\n";
+					file << "			}\n\n";	
+					file << "	}\n\n";
+				}
+				else 
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "		if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "() == item and !shown(i) )\n";
+					file << "		{\n";
+					file << "			show_entry(i);\n";
+					file << "			shown_entries[ shown_iter ] = i;\n";
+					file << "			shown_iter = shown_iter + 1;\n";
+					file << "		}\n\n";				
+				}
+			}
+		file << "	shown_iter = 0;\n";
+		file << "}\n\n";
+	}
+
+
+	// make only if we have "char" datatype
+	if ( have_datatype( "char" ) )
+	{
+		file << "// Get entry item - for \"char\" datatype\n";
+		file << "void get_entry_item( char item )\n";
+		file << "{\n";
+		for ( int i=0; i<num_parameters; i=i+1 )
+			if ( type( types[i] ) == "char" )
+			{
+				if ( last_char( parameters[i] ) == ']' )
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "	{\n";
+					file << "		int size = item_entries[i].get_" << remove_brackets( parameters[i] ) << "_count();\n";
+					file << "		for ( int a=0; a<size; a=a+1 )\n";
+					file << "			if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "(a) == item and !shown(i) )\n";
+					file << "			{\n";
+					file << "				show_entry(i);\n";
+					file << "				shown_entries[ shown_iter ] = i;\n";
+					file << "				shown_iter = shown_iter + 1;\n";
+					file << "			}\n\n";	
+					file << "	}\n\n";
+				}
+				else 
+				{
+					file << "	for ( int i=0; i<iter; i=i+1 )\n";
+					file << "		if ( item_entries[i].get_" << remove_brackets( parameters[i] ) << "() == item and !shown(i) )\n";
+					file << "		{\n";
+					file << "			show_entry(i);\n";
+					file << "			shown_entries[ shown_iter ] = i;\n";
+					file << "			shown_iter = shown_iter + 1;\n";
+					file << "		}\n\n";				
+				}
+			}
+		file << "	shown_iter = 0;\n";
+		file << "}\n\n\n";
+	}
+
+
+
+
+	// Swap
+
+
+
+	file << "// Swap entries\n";
+	file << "void swap ( int a, int b )\n";
+	file << "{\n";
+	file << "	if ( a >= 0 and a < iter  and  b >= 0 and b < iter )\n";
+	file << "	{\n";
+	file << "		" << large_char( name ) << " copy = item_entries[a];\n";
+	file << "		item_entries[a] = item_entries[b];\n";
+	file << "		item_entries[b] = copy;\n";
+	file << "	}\n";
+	file << "	else\n";
+	file << "		cout << \"Could not swap / move: invalid entry num.\\n\";\n";
+	file << "}\n\n";
+
+
+
+	// Move
+
+
+
+
+	file << "// Move entries\n";
+	file << "void move ( int entry_num, int direction, int iterations )\n";
+	file << "{\n";
+	file << "	int swap_entry_num;\n\n";
+	file << "	if ( direction == 0 )\n";
+	file << "	{\n";
+	file << "		swap_entry_num = entry_num - iterations;\n";
+	file << "		if ( swap_entry_num < 0)\n";
+	file << "			swap_entry_num = 0;\n";
+	file << "		for ( int i=entry_num; i>swap_entry_num; i=i-1 )\n";
+	file << "			swap( i, i - 1 );\n";
+	file << "	}\n\n";
+	file << "	if ( direction == 1 )\n";
+	file << "	{\n";
+	file << "		swap_entry_num = entry_num + iterations;\n";
+	file << "		if ( swap_entry_num >= iter)\n";
+	file << "			swap_entry_num = iter - 1;\n";
+	file << "		for ( int i=entry_num; i<swap_entry_num; i=i+1 )\n";
+	file << "			swap( i, i + 1 );\n";
+	file << "	}\n\n";
+	file << "}\n";
 
 
 
@@ -673,46 +1337,399 @@ int main ()
 
 	file << "int main()\n{\n";
 
-	file << "	fstream entries;\n\n";
-	file << "	entries.open( \"" << name << "_entries.txt\" );\n\n";
+
+	file << "	// Show datatype info\n";
+	file << "	cout << \"Enter only valid datatypes for:\\n\";\n";
+	file << "	item_entries[0].info();\n";
+	file << "	enter();\n\n";
 
 
+	file << "	// Get entry\n";
+	file << "	get_entries();\n\n";
+
+
+	file << "	// Operation choice\n";
 	file << "	string choice = \"\";\n\n";
 
-	file << "	while ( choice != \"exit\" )\n";
-	file << "	{\n";
+	// for now, it is done with a for
+	file << "	// for now, it is done with a for\n";
+	file << "	for ( int i=0; i<100000; i=i+1 )\n";
+
+	//	file << "	while ( choice != \"exit\" )\n";
+	file << "	{\n\n";
 
 	file << "	";
 	enter_cout( "\\n\\n" );
 
+	file << "		cout << \"Operation num. \" << i + 1 << \" ( enter valid datatypes ) \\n\";\n";
 	file << "	";
+	
+	// show codes for operations
 	enter_cout( "Operations:\\n" );
-
 	file << "	";
-	enter_cout( "	1. Add entry\\n" );
+	enter_cout( "  1. Add entry       2. Show entry     3. Show entries - complete  4. Show entries  5. Remove entry\\n" );
 	file << "	";
-	enter_cout( "	exit. Exit\\n" );
+	enter_cout( "  6. Remove entries  7. Clear entries  8. Sort ( show / save )     9. Move          10. Swap\\n" );
+	file << "	";
+	enter_cout( "   or\\n" );
+	file << "	";
+	enter_cout( "  item. Show entries that have [item]    name. Name / Rename a column    save. Save    exit. Exit\\n" );
 
 	file << "\n\n";
 
 	file << "	";
+
+	// codes for operations
 	enter_cout( "\\nEnter your choice: " );
 	file << "		cin >> choice;\n\n";
 
+	file << "		// Add entry\n";
 	file << "		if ( choice == \"1\" )\n";
 	file << "		{\n";
 	file << "			" << large_char(name) << " entry;\n";
 	file << "			entry = make_entry();\n";
+	file << "			entry.info();\n";
 	file << "			add_entry(entry);\n";
-	file << "		}\n";
+	file << "			add_entries();\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
 
-	file << "\n	}\n";
+	file << "		// Show entry\n";
+	file << "		if ( choice == \"2\" )\n";
+	file << "		{\n";
+	file << "			int i;\n";
+	file << "			cout << \"Enter num. of entry: \";\n";
+	file << "			cin >> i;\n";
+	file << "			show_columns();\n";
+	file << "			show_entry(i - 1);\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
 
-	file << "\n	entries.close();\n\n";
+	file << "		// Show entries - complete\n";
+	file << "		if ( choice == \"3\" )\n";
+	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "			else\n";
+	file << "			{\n";
+	file << "				show_columns();\n";
+	file << "				for ( int i=0; i<iter; i=i+1 )\n";
+	file << "					show_entry(i);\n";
+	file << "			}\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Show entries\n";
+	file << "		if ( choice == \"4\" )\n";
+	file << "		{\n";
+	file << "			int int_entries;\n";
+	file << "			cout << \"Enter num.-s or entries ( 142, 1542 etc. ): \";\n";
+	file << "			cin >> int_entries;\n\n";
+	file << "			int digits[10], num = 0;\n";
+	file << "			while ( int_entries != 0 )\n";
+	file << "			{\n";
+	file << "				digits[ num ] = int_entries % 10;\n";
+	file << "				num = num + 1;\n";
+	file << "				int_entries = int_entries / 10;\n";
+	file << "			}\n\n";
+	file << "			show_columns();\n";
+	file << "			for ( int i=num-1; i>=0; i=i-1 )\n";
+	file << "				show_entry( digits[i] - 1 );\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Remove entry\n";
+	file << "		if ( choice == \"5\" )\n";
+	file << "		{\n";
+	file << "			int i;\n";
+	file << "			cout << \"Enter num. of entry: \";\n";
+	file << "			cin >> i;\n\n";
+	file << "			cout << \"\\nEntry that was deleted\\n\";\n";
+	file << "			show_columns();\n";
+	file << "			delete_entries[ delete_iter ] = i - 1;\n";
+	file << "			delete_iter = delete_iter + 1;\n\n";
+	file << "			add_entries();\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Remove entries\n";
+	file << "		if ( choice == \"6\" )\n";
+	file << "		{\n";
+	file << "			int int_entries;\n";
+	file << "			cout << \"Enter num.-s or entries ( 142, 1542 etc. ): \";\n";
+	file << "			cin >> int_entries;\n\n";
+	file << "			cout << \"Entries that were deleted\\n\";\n";
+	file << "			show_columns();\n";
+	file << "			while ( int_entries != 0 )\n";
+	file << "			{\n";
+	file << "				delete_entries[ delete_iter ] = int_entries % 10 - 1;\n";
+	file << "				show_entry( delete_iter );\n";
+	file << "				delete_iter = delete_iter + 1;\n";
+	file << "				int_entries = int_entries / 10;\n";
+	file << "			}\n\n";
+	file << "			add_entries();\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Clear entries\n";
+	file << "		if ( choice == \"7\" )\n";
+	file << "		{\n";
+	file << "			iter = 0;\n";
+	file << "			add_entries();\n";
+	file << "			cout << \"Entries were cleared.\\n\";\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Sort ( show / save )\n";
+	file << "		if ( choice == \"8\" )\n";
+	file << "		{\n";
+	file << "			cout << \"1. \\'Show\\'  but not save entries       \";\n";
+	file << "			cout << \"2. \\'Save\\'  but not show entries\\n\\n\";\n";
+	file << "			cout << \"Enter your choice: \";\n\n";
+	file << "			int sort_choice;\n";
+	file << "			cin >> sort_choice;\n\n";
+	file << "			if ( sort_choice != 1 and sort_choice != 2 )\n";
+	file << "				cout << \"Sorting aborted.\\n\";\n";
+	file << "			else\n";
+	file << "			{\n";
+	file << "				" << large_char( name ) << " copy_items[10000];\n";
+	file << "				for ( int i=0; i<num_parameters; i=i+1 )\n";
+	file << "					copy_items[i] = item_entries[i];\n\n";
+	file << "				cout << \"Enter num. of column you want to sort by: \";\n";
+	file << "				int column_num;\n";
+	file << "				cin >> column_num;\n\n";
+	file << "				if ( column_num > num_parameters )\n";
+	file << "					cout << \"Column num. is not valid. Sorting aborted.\\n\";\n";
+	file << "				else\n";
+	file << "				{\n";
+	file << "					cout << \"Enter order ( 0. asc  1. desc ) : \";\n";
+	file << "					int order;\n";
+	file << "					cin >> order;\n\n";
+	file << "					if ( sort_choice == 1 )\n";
+	file << "					{\n";
+	file << "						sort( column_num - 1, order );\n";
+	file << "						show_columns();\n";
+	file << "						for ( int i=0; i<iter; i=i+1 )\n";
+	file << "							show_entry(i);\n";
+	file << "						for ( int i=0; i<iter; i=i+1 )\n";
+	file << "							item_entries[i] = copy_items[i];\n";
+	file << "					}\n\n";
+	file << "					if ( sort_choice == 2 )\n";
+	file << "					{\n";
+	file << "						sort( column_num - 1, order );\n";
+	file << "						add_entries();\n";
+	file << "						cout << \"Entries were sorted and saved.\\n\";\n";
+	file << "					}\n";
+	file << "				}\n";
+	file << "			}\n\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Move\n";
+	file << "		if ( choice == \"9\" )\n";
+	file << "		{\n";
+	file << "			int entry_num;\n";
+	file << "			cout << \"Enter entry num. you want to move: \";\n";
+	file << "			cin >> entry_num;\n";
+	file << "			int direction;\n";
+	file << "			cout << \"Enter direction ( 0. asc  1. desc ): \";\n";
+	file << "			cin >> direction;\n";
+	file << "			if ( !( direction == 0 or direction == 1 ) )\n";
+	file << "				cout << \"Move aborted: invalid direction.\\n\";\n";
+	file << "			else\n";
+	file << "			{\n";
+	file << "				int iterations;\n";
+	file << "				cout << \"Enter how many times you want to move: \";\n";
+	file << "				cin >> iterations;\n";
+	file << "				move ( entry_num - 1, direction, iterations );\n";
+	file << "				add_entries();\n";
+	file << "				cout << \"Entry was moved.\\n\";\n";
+	file << "			}\n\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Swap\n";
+	file << "		if ( choice == \"10\" )\n";
+	file << "		{\n";
+	file << "			int a, b;\n";
+	file << "			cout << \"Enter entry num. or entry 1 you want to swap: \";\n";
+	file << "			cin >> a;\n";
+	file << "			cout << \"Enter entry num. or entry 2 you want to swap: \";\n";
+	file << "			cin >> b;\n\n";
+	file << "			swap( a - 1, b - 1 );\n\n";
+	file << "			add_entries();\n";
+	file << "			cout << \"Entries were swapped and saved.\\n\";\n\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Show entries that have [item]\n";
+	file << "		if ( choice == \"item\" )\n";
+	file << "		{\n";
+	file << "			string type;\n";
+	// have to check for each possibility, since we do not define for a datatype we do not have
+	if ( have_numeric() and have_datatype( "char" ) and have_datatype( "string" ) )
+	{
+		file << "			cout << \"Enter type of parameter ( 0. numeric   1. text ): \";\n";
+		file << "			cin >> type;\n\n";
+		file << "			if ( type == \"0\" )\n";
+		file << "			{\n";
+		file << "				long item_parameter;\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				get_entry_item( item_parameter );\n";
+		file << "			}\n";
+		file << "			else\n";
+		file << "			{\n";
+		file << "				string item_parameter = \"\";\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				if ( item_parameter.length() == 1 )\n";
+		file << "					get_entry_item( item_parameter[0] );\n";
+		file << "				else\n";
+		file << "					get_entry_item( item_parameter );\n";
+		file << "			}\n";
+	}
+	if ( !have_numeric() and have_datatype( "char" ) and have_datatype( "string" ) )
+	{
+		file << "			string item_parameter = \"\";\n";
+		file << "			cout << \"Get item by parameter val.: \";\n";
+		file << "			cin >> item_parameter;\n";
+		file << "			show_columns();\n\n";
+		file << "			if ( item_parameter.length() == 1 )\n";
+		file << "				get_entry_item( item_parameter[0] );\n";
+		file << "			else\n";
+		file << "				get_entry_item( item_parameter );\n";
+	}
+	if ( have_numeric() and !have_datatype( "char" ) and have_datatype( "string" ) )
+	{
+		file << "			cout << \"Enter type of parameter ( 0. numeric   1. text ): \";\n";
+		file << "			cin >> type;\n\n";
+		file << "			if ( type == \"0\" )\n";
+		file << "			{\n";
+		file << "				long item_parameter;\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				get_entry_item( item_parameter );\n";
+		file << "			}\n";
+		file << "			else\n";
+		file << "			{\n";
+		file << "				string item_parameter = \"\";\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				get_entry_item( item_parameter );\n";
+		file << "			}\n";
+	}
+	if ( have_numeric() and have_datatype( "char" ) and !have_datatype( "string" ) )
+	{
+		file << "			cout << \"Enter type of parameter ( 0. numeric   1. text ): \";\n";
+		file << "			cin >> type;\n\n";
+		file << "			if ( type == \"0\" )\n";
+		file << "			{\n";
+		file << "				long item_parameter;\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				get_entry_item( item_parameter );\n";
+		file << "			}\n";
+		file << "			else\n";
+		file << "			{\n";
+		file << "				string item_parameter = \"\";\n";
+		file << "				cout << \"Get item by parameter val.: \";\n";
+		file << "				cin >> item_parameter;\n";
+		file << "				show_columns();\n\n";
+		file << "				get_entry_item( item_parameter[0] );\n";
+		file << "			}\n";
+	}
+	if ( have_numeric() and !have_datatype( "char" ) and !have_datatype( "string" ) )
+	{
+		file << "			long item_parameter;\n";
+		file << "			cout << \"Get item by parameter val.: \";\n";
+		file << "			cin >> item_parameter;\n";
+		file << "			show_columns();\n\n";
+		file << "			get_entry_item( item_parameter );\n";
+	}
+	if ( !have_numeric() and have_datatype( "char" ) and !have_datatype( "string" ) )
+	{
+		file << "			long item_parameter = \"\";\n";
+		file << "			cout << \"Get item by parameter val.: \";\n";
+		file << "			cin >> item_parameter;\n";
+		file << "			show_columns();\n\n";
+		file << "			get_entry_item( item_parameter[0] );\n";
+	}
+	if ( !have_numeric() and !have_datatype( "char" ) and have_datatype( "string" ) )
+	{
+		file << "			long item_parameter = \"\";\n";
+		file << "			cout << \"Get item by parameter val.: \";\n";
+		file << "			cin >> item_parameter;\n";
+		file << "			show_columns();\n\n";
+		file << "			get_entry_item( item_parameter );\n";
+	}
+	file << "\n			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Name / rename a column\n";
+	file << "		if ( choice == \"name\" )\n";
+	file << "		{\n";
+	file << "			int num_column;\n";
+	file << "			string name;\n";
+	file << "			cout << \"Enter num. of column you want to rename: \";\n";
+	file << "			cin >> num_column;\n\n";
+	file << "			cout << \"Renaming column \" << num_column << \" of type \'\" << types[num_column - 1] << \"\', var. name \'\" << parameters[num_column - 1] << \"\' and previous name \'\" << columns[num_column - 1] << \"\' to: \";\n";
+	file << "			cin >> name;\n\n";
+	file << "			rename_column( num_column - 1, name );\n\n";
+	file << "			add_entries();\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+	file << "		// Save\n";
+	file << "		if ( choice == \"save\" )\n";
+	file << "		{\n";
+	file << "			add_entries();\n";
+	file << "			cout << \"Entries were saved (they are by default when any modifications are made).\";\n";
+	file << "			enter();\n";
+	file << "		}\n\n";
+
+
+	file << "		// Exit\n";
+	file << "		if ( choice == \"exit\" )\n";
+	file << "			break;\n\n";
+
+
+	file << "		choice = \"\";\n";
+	file << "\n	}\n\n";
+
+
+
+	// save the file
+	file << "	// Save\n";
+	file << "	add_entries();\n\n";
+
+
+
+	// Make entries file
+
+
+
+	ofstream item_file;
+	string item_file_name = name + "_entries";
+	item_file.open( item_file_name );
+	item_file << "0\n";
+	for ( int i=0; i<num_parameters; i=i+1 )
+		item_file << parameters[i] << " ";
+	item_file.close();
+
+
 	file << "	return 0;\n";
-	file << "\n}\n";
+	file << "}\n";
 	file.close();
+
+	cout << "\n\nClass is complete.\n\n";
 
 	return 0;
 }
+
 
