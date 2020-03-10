@@ -534,6 +534,269 @@ void delete_class_file()
 
 
 
+// move words of   string text   into   words[]
+void move_words ( string text, string words[] )
+{
+	text = text + " ";
+
+	int size = text.length();
+
+	int words_iter = 0;
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( text[i] == ' ' )
+		{
+			words_iter = words_iter + 1;
+			words[ words_iter ] = "";
+		}
+		else
+			words[ words_iter ] = words[ words_iter ] + text[i];
+}
+
+// shows parameters and their types
+void show_parameters_types( string parameters[], string types[] )
+{
+	int size = length( parameters );
+
+	int max_size[size];
+	for ( int i=0; i<size; i=i+1 )
+		max_size[i] = 0;
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( parameters[i].length() > max_size[i] )
+			max_size[i] = parameters[i].length();
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( types[i].length() > max_size[i] )
+			max_size[i] = types[i].length();
+
+	for ( int i=0; i<size; i=i+1 )
+		max_size[i] = max_size[i] + 1;
+
+	for ( int i=0; i<size; i=i+1 )
+	{
+		cout << "\'" << parameters[i] << "\' ";
+		for ( int l=parameters[i].length(); l<max_size[i]; l=l+1 )
+			cout << " ";
+		cout << "/ ";
+	}
+	cout << "\n";
+
+	for ( int i=0; i<size; i=i+1 )
+	{
+		cout << "\'" << types[i] << "\' ";
+		for ( int l=types[i].length(); l<max_size[i]; l=l+1 )
+			cout << " ";
+		cout << "/ ";
+	}
+	cout << "\n";
+}
+
+// get parameters and types of a file
+void get_parameters_types( int iter, string file_parameters[], string file_types[] )
+{
+	string filename = entry_files_strings[iter] + "_entries";
+	int file_num_entries;
+
+	ifstream f;
+	f.open( filename );
+
+	f >> file_num_entries;
+
+	string empty; // to continue
+	getline( f, empty );
+
+	string file_parameters_string;
+	getline( f, file_parameters_string );
+	move_words( file_parameters_string, file_parameters );
+
+	int file_parameters_size = length( file_parameters );
+
+	string file_types_string;
+	getline( f, file_types_string );
+	move_words( file_types_string, file_types );
+
+	int file_types_size = length( file_types );
+
+	f.close();
+
+}
+
+// used in determine is a word is in a   string[]  
+bool is_in_words( string a[], string word )
+{
+	int size = length( a );
+
+	for ( int i=0; i<size; i=i+1 )
+	{
+		if ( a[i] == word )
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// checks if a file is able to have simmilars
+bool check_make_simmilar( int iter )
+{
+
+	string file_parameters[1000];
+	string file_types[1000];
+
+	get_parameters_types( iter, file_parameters, file_types );
+
+	int size = length( file_parameters );
+
+	// searches for datatypes in the rest of files to make simmilars with
+	bool could_have_simmilars = false; 
+	for ( int i=0; i<files_iter; i=i+1 )
+	{
+		if ( i != iter )
+		{
+			string parameters[1000];
+			string types[1000];
+
+			get_parameters_types( i, parameters, types );
+			for ( int l=0; l<size; l=l+1 )
+				if ( is_in_words( types, file_types[l] ) )
+				{
+					could_have_simmilars = true;
+					break;
+				}
+		}
+	}
+
+	if ( could_have_simmilars == false )
+		return false;
+
+	return true;
+}
+
+// checks if a simmilar was made
+bool is_simmilar_made( string filename1, string parameter1, string filename2, string parameter2 )
+{
+	string filenames_1[1000];
+	string parameters_1[1000];
+	string filenames_2[1000];
+	string parameters_2[1000];
+	int count;
+
+	ifstream f;
+	f.open( "simmilar" );
+	f >> count;
+
+	for ( int i=0; i<count; i=i+1 )
+	{
+		f >> filenames_1[i] >> parameters_1[i] >> filenames_2[i] >> parameters_2[i];
+
+		if ( filenames_1[i] == filename1 and parameters_1[i] == parameter1 and filenames_2[i] == filename2 and parameters_2[i] == parameter2 )
+		{
+			f.close();
+			return true;
+		}
+		if ( filenames_1[i] == filename2 and parameters_1[i] == parameter2 and filenames_2[i] == filename1 and parameters_2[i] == parameter1 )
+		{
+			f.close();
+			return true;
+		} 
+	}
+
+	f.close();
+
+	return false;
+}
+
+// gets the simmilar entries
+void get_simmilar_entries( string simmilars[], int &simmilar_iter )
+{
+	fstream f;
+	f.open( "simmilar" );
+
+	f >> simmilar_iter;
+
+	string temp;
+	for ( int i=0; i<simmilar_iter; i=i+1 )
+	{
+		getline( f, temp );
+		if ( i == 0 )
+			getline( f, temp );
+
+		simmilars[i] = temp;
+		temp = "";
+	}
+
+	f.close();
+}
+
+// empties a string[]
+void empty ( string a[] );
+
+// show available simmilars ( available by datatype ) and returns a string with the simmilars
+string get_simmilar_choice ( int iter )
+{
+	string file_parameters[1000];
+	string file_types[1000];
+
+	string choices[ 1000 ]; // choices as strings
+
+	string filename = entry_files_strings[ iter ] + "_entries";
+
+	get_parameters_types( iter, file_parameters, file_types );
+
+	int size = length( file_parameters );
+	int counter = 0; // counts available choices
+
+	// searches for datatypes in the rest of files to make simmilars with
+	for ( int i=0; i<files_iter; i=i+1 )
+	{
+		if ( i == iter )
+			continue;
+
+		string parameters[1000];
+		string types[1000];
+
+		get_parameters_types( i, parameters, types );
+
+		for ( int l=0; l<size; l=l+1 )
+			for ( int k=0; k<length( types ); k=k+1 )
+			{
+				string current_filename = entry_files_strings[i] + "_entries";
+
+				if ( types[k] == file_types[l] and !is_simmilar_made( filename, file_parameters[l], current_filename, parameters[k] ) )
+				{
+					cout << counter + 1 << ". \"";
+					cout << filename << "\": \'" << file_parameters[l] << "\'   / and /   \"";
+					cout << current_filename << "\": \'";
+					cout << parameters[k] << "\' - both are type \'" << types[k] << "\'\n"; 
+
+					string current_choice = filename + " " + file_parameters[l] + "   " + current_filename + " " + parameters[k];
+
+					choices[ counter ] = current_choice;
+					counter = counter + 1;
+				}
+			}
+
+		empty( parameters );
+		empty( types );
+	}
+
+	int choice = -1;
+
+	cout << "\n\nEnter your choice: ";
+	cin >> choice;
+
+	while ( choice <= 0 or choice > length( choices ) )
+	{
+		cout << "( info ) Choice invalid, retry.";
+		cout << "\nEnter your choice: ";
+		cin >> choice;
+	}
+
+	return choices[ choice - 1 ];
+}
+
 // edit "simmilar" file
 void edit_simmilar_file()
 {
@@ -547,28 +810,27 @@ void edit_simmilar_file()
 	if ( choice_string != "1" and choice_string != "2" and choice_string != "3" )
 	{
 		cout << "Invalid choice. Aborted.\n";
+		choice_string = "";
 		return;
 	}
 
 	if ( choice_string == "3" )
 	{
-		cout << "( info ) Since simmilar files are only visualised correctly on multiple lines and since there might be too many for this terminal, an editor is used.\n\n";
-		cout << "( info ) If you edit, make sure to adjust the num. of simmilar files in the file.\n";
-		enter();
-		command ( "gedit simmilar" );
-		cout << "Editor is available.\n";
+
+		int simmilar_iter;
+		string simmilars[ 1000 ];
+		get_simmilar_entries( simmilars, simmilar_iter );
+
+		cout << "Simmilar entries:\n\n";
+		cout << "   Filename 1 / Parameter 1   -   Filename 2 / Parameter 2\n";
+
+		for ( int i=0; i<simmilar_iter; i=i+1 )
+			cout << i + 1 << ". " << simmilars[ i ] << "\n";
+
 		return;
 	}
 
-	fstream f;
-	// get simmilars
-	f.open( "simmilar" );
-	int columns_iter;
-	f >> columns_iter;
-	string files_1[1000], files_2[1000];
-	for ( int i=0; i<columns_iter; i=i+1 )
-		f >> files_1[i] >> files_2[i];
-	f.close();
+
 
 
 	// if entry files were not made yet
@@ -587,90 +849,117 @@ void edit_simmilar_file()
 
 
 
-	cout << "Entry Files:\n";
-
-	for ( int i=0; i<files_iter; i=i+1 )
-		cout << i + 1 << ". " << entry_files_strings[i] << "  ";
-
-	cout << "\n\n";
-
-	int choice1, choice2;
-
-	int choice;
-	cout << "Enter num. of simmilar file 1: ";
-	cin >> choice;
-
-	if ( choice > files_iter or choice <= 0 )
-	{
-		cout << "Invalid num. of file. Aborted. Retry.\n";
-		return;
-	}
-	choice1 = choice - 1;
-
-	cout << "Enter num. of simmilar file 2: ";
-	cin >> choice;
-
-	if ( choice > files_iter or choice <= 0 )
-	{
-		cout << "Invalid num. of file. Aborted. Retry.\n";
-		return;
-	}
-	choice2 = choice - 1;
 
 
 
 	// add simmilar files
 	if ( choice_string == "1" )
 	{
-		for ( int i=0; i<columns_iter; i=i+1 )
-		{
-			if ( files_1[i] == entry_files_strings[ choice1 ] + "_entries" and files_2[i] == entry_files_strings[ choice2 ] + "_entries" or files_2[i] == entry_files_strings[ choice1 ] + "_entries" and files_1[i] == entry_files_strings[ choice2 ] + "_entries" )
-			{
-				cout << "\nSimmilar files were already added. Aborted.\n";
-				return;
-			}
-		}		
 
-		// set simmilars
-		ofstream f_ofstream;
-		command ( "rm -R simmilar" );
-		f_ofstream.open( "simmilar" );
-		f_ofstream << columns_iter + 1 << "\n";
-		for ( int i=0; i<columns_iter; i=i+1 )
-			f_ofstream << files_1[i] << " " << files_2[i] << "\n";
-		f_ofstream << entry_files_strings[ choice1 ] << "_entries " << entry_files_strings[ choice2 ] << "_entries";
-		f_ofstream.close();
-		cout << "\nSimmilar files added.\n";
+		cout << "Entry Files:\n";
+
+		for ( int i=0; i<files_iter; i=i+1 )
+			cout << i + 1 << ". " << entry_files_strings[i] << "  ";
+
+		cout << "\n\n";
+
+		int choice;
+		cout << "Enter num. of simmilar file 1: ";
+		cin >> choice;
+
+		if ( choice > files_iter or choice <= 0 )
+		{
+			cout << "Invalid num. of file. Aborted. Retry.\n";
+			return;
+		}
+		choice = choice - 1;
+
+
+		string filename = entry_files_strings[ choice ];
+
+
+		bool is_choice_valid = check_make_simmilar( choice );
+
+		if ( is_choice_valid == false )
+		{
+			cout << "File \"" << filename << "\" cannot have simmilars, since not even 1 of its datatypes corresponds to any of the datatypes of other files.\n";
+			return;
+		}
+
+		string choice_available_simmilar = get_simmilar_choice( choice );
+
+		int simmilar_iter;
+		string simmilars[ 1000 ];
+		get_simmilar_entries( simmilars, simmilar_iter );
+
+		// clear the "simmilar" file
+		ofstream f;
+		f.open( "simmilar" );
+		f.close();
+
+		// add simmilar entry
+		simmilars[ simmilar_iter ] = choice_available_simmilar;
+		simmilar_iter = simmilar_iter + 1;
+
+		fstream fo;
+		fo.open( "simmilar" );
+
+		fo << simmilar_iter << "\n";
+		for ( int i=0; i<simmilar_iter; i=i+1 )
+			fo << simmilars[i] << "\n";
+
+		fo.close();
+
+		cout << "Choice \"" << choice_available_simmilar << "\" was added.\n";
 	}
 
 	// remove simmilar files
 	if ( choice_string == "2" )
 	{
+		int simmilar_iter;
+		string simmilars[ 1000 ];
+		get_simmilar_entries( simmilars, simmilar_iter );
 
-		bool are_simmilar = false;
-		for ( int i=0; i<columns_iter; i=i+1 )
-		{
-			if ( files_1[i] == entry_files_strings[ choice1 ] + "_entries" and files_2[i] == entry_files_strings[ choice2 ] + "_entries" or files_2[i] == entry_files_strings[ choice1 ] + "_entries" and files_1[i] == entry_files_strings[ choice2 ] + "_entries" )
-				are_simmilar = true;
-		}		
+		cout << "Simmilar entries:\n\n";
 
-		if ( !are_simmilar )
+		for ( int i=0; i<simmilar_iter; i=i+1 )
+			cout << i + 1 << ". " << simmilars[ i ] << "\n";
+
+		int choice;
+		cout << "\nEnter your choice: ";
+		cin >> choice;
+
+		while ( choice <= 0 or choice > simmilar_iter )
 		{
-			cout << "\nFiles were not simmilar. Removal not necessary.\n";
-			return;
+			cout << "( info ) Choice invalid, retry.";
+			cout << "\nEnter your choice: ";
+			cin >> choice;
 		}
 
+		choice = choice - 1;
 
-		// set simmilars
-		ofstream f_ofstream;
-		command ( "rm -R simmilar" );
-		f_ofstream.open( "simmilar" );
-		f_ofstream << columns_iter - 1 << "\n";
-		for ( int i=0; i<columns_iter; i=i+1 )
-			if ( !(files_1[i] == entry_files_strings[ choice1 ] + "_entries" and files_2[i] == entry_files_strings[ choice2 ] + "_entries") and !( files_2[i] == entry_files_strings[ choice1 ] + "_entries" and files_1[i] == entry_files_strings[ choice2 ] + "_entries") )
-			f_ofstream << files_1[i] << " " << files_2[i] << "\n";
-		f_ofstream.close();
-		cout << "\nSimmilar files removed.\n";
+		string remaining_simmilars[ 1000 ];
+		int remaining_iter = 0;
+
+		for ( int i=0; i<simmilar_iter; i=i+1 )
+		{
+			if ( i == choice )
+				continue;
+
+			remaining_simmilars[ remaining_iter ] = simmilars[i];
+			remaining_iter = remaining_iter + 1;
+		}
+
+		ofstream fo;
+		fo.open( "simmilar" );
+
+		fo << remaining_iter << "\n";
+		for ( int i=0; i<remaining_iter; i=i+1 )
+			fo << remaining_simmilars[i] << "\n";
+
+		fo.close();
+
+		cout << "Simmilars num. " << choice + 1 << " was removed.\n";
 	}
 
 }
@@ -882,15 +1171,7 @@ void get_data_1( string &name, string parameters[], string types[], int &num_par
 			getline(cin, parameter);
 		}
 
-		for ( int i=0; i<parameter.length(); i=i+1 )
-			cout << "\'" << parameter[i] << "\' ";
-		cout << "\n";
-
 		give_length( parameter );
-
-		for ( int i=0; i<parameter.length(); i=i+1 )
-			cout << "\'" << parameter[i] << "\' ";
-		cout << "\n";
 
 		parameters[i] = parameter;
 
@@ -1061,6 +1342,8 @@ void make_class_file()
 	}
 
 	file << "};\n\n";
+
+	file << "string name = \"" << name << "\";\n\n";
 
 
 
@@ -1509,6 +1792,26 @@ void make_class_file()
 
 
 
+	// Check if a certain entry was removed
+
+
+
+	file << "// Was removed\n";
+
+	file << "bool is_in_delete_entries ( int a )\n{\n";
+
+	file << "	for ( int i=0; i<delete_iter; i=i+1 )\n";
+
+	file << "		if ( delete_entries[i] == a )\n";
+
+	file << "			return true;\n\n";
+
+	file << "	return false;\n";
+
+	file << "}\n\n\n";
+
+
+
 
 	// Add an entry to item_entries[]
 
@@ -1530,14 +1833,15 @@ void make_class_file()
 
 
 
-	file << "// Add entries\n";
+	file << "void get_entries(); // to reset entries when adding";
 
+	file << "// Add entries\n";
 	file << "void add_entries ()\n{\n";
 
 	file << "	ofstream entries;\n	entries.open(\"" << name << "_entries\");\n";
 	file << "	entries.close();\n	entries.open(\"" << name << "_entries\");\n\n";
 
-	file << "	entries << iter << \'\\n\';\n\n";
+	file << "	entries << iter - delete_iter << \'\\n\';\n\n";
 
 	file << "	for ( int i=0; i<num_parameters; i=i+1 )\n";
 	file << "		entries << columns[i] << \" \";\n";
@@ -1550,6 +1854,8 @@ void make_class_file()
 	file << "	int size_of_temp;\n\n";
 	file << "	for ( int i=0; i<iter; i=i+1 )\n";
 	file << "	{\n";
+	file << "		if ( is_in_delete_entries( i ) )\n";
+	file << "			continue;\n\n";
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 	{
@@ -1578,6 +1884,9 @@ void make_class_file()
 	file << "	}\n";
 
 	file << "\n	entries.close();\n";
+
+	file << "\n	get_entries();\n";
+	file << "\n	delete_iter = 0;\n";
 
 	file << "}\n\n\n";
 
@@ -1639,177 +1948,6 @@ void make_class_file()
 
 
 
-	// Check if a certain entry was removed
-
-
-
-	file << "// Was removed\n";
-
-	file << "bool is_in_delete_entries ( int a )\n{\n";
-
-	file << "	for ( int i=0; i<delete_iter; i=i+1 )\n";
-
-	file << "		if ( delete_entries[i] == a )\n";
-
-	file << "			return true;\n\n";
-
-	file << "	return false;\n";
-
-	file << "}\n\n\n";
-
-
-
-	// Simmilar
-
-
-	file << "// length of a string[]\n";
-	file << "int length ( string a[] )\n";
-	file << "{\n";
-	file << "	int i=0;\n";
-	file << "	while ( a[i].length() > 0 )\n";
-	file << "		i=i+1;\n";
-	file << "	return i;\n";
-	file << "}\n\n";
-
-	file << "// moves words of string  text  into  words[]  \n";
-	file << "void move_words ( string text, string words[] )\n";
-	file << "{\n";
-	file << "	for ( int i=0; i<length(words); i=i+1 )\n";
-	file << "		words[i] = \"\";\n\n";
-	file << "	// remove multiple \' \'-s\n";
-	file << "	string text_spaces = \"\";\n";
-	file << "	for ( int i=0; i<text.length(); i=i+1 )\n";
-	file << "		if ( text[i] != \' \' )\n";
-	file << "			text_spaces = text_spaces + text[i];\n";
-	file << "		else\n";
-	file << "			if ( text_spaces[ text_spaces.length() - 1 ] != ' ' )\n";
-	file << "				text_spaces = text_spaces + \" \";\n";
-	file << "	text = text_spaces;\n\n";
-	file << "	text = text + \" \";\n";
-	file << "	int size = text.length();\n";
-	file << "	int words_iter = 0;\n\n";
-	file << "	for ( int i=0; i<size; i=i+1 )\n";
-	file << "		if ( text[i] == ' ' )\n";
-	file << "		{\n";
-	file << "			words_iter = words_iter + 1;\n";
-	file << "			words[ words_iter ] = \"\";\n";
-	file << "		}\n";
-	file << "		else\n";
-	file << "			words[ words_iter ] = words[ words_iter ] + text[i];\n";
-	file << "}\n\n";
-
-
-	file << "// checks if there are any common entries in string[]-s\n";
-	file << "bool simmilar_items ( string a[], string b[] )\n";
-	file << "{\n";
-	file << "	for ( int i=0; i<length(a); i=i+1 )\n";
-	file << "		for ( int l=0; l<length(b); l=l+1 )\n";
-	file << "		if ( a[i] == b[l] )\n";
-	file << "			return true;\n\n";
-	file << "	return false;\n";
-	file << "}\n\n";
-
-
-	file << "// Simmilar\n";
-	file << "void simmilar( int iter )\n{\n";
-	file << "	fstream f;\n\n";
-	file << "	// get simmilars\n";
-	file << "	f.open( \"simmilar\" );\n";
-	file << "	int columns_iter;\n";
-	file << "	f >> columns_iter;\n";
-	file << "	string files_1[1000], files_2[1000];\n";
-	file << "	for ( int i=0; i<columns_iter; i=i+1 )\n";
-	file << "		f >> files_1[i] >> files_2[i];\n";
-	file << "	f.close();\n\n\n";
-	file << "	// get entries of this file as strings and saves entries[ iter ] as string[]\n";
-	file << "	f.open( \"" << name << "_entries\" );\n";
-	file << "	int this_iter; // for items of this file\n";
-	file << "	f >> this_iter;\n";
-	file << "	string this_entry = \"\";\n";
-	file << "	string this_entries[1000];\n\n";
-	file << "	getline( f, this_entry ); // move through file only\n\n";
-	file << "	for ( int i=0; i<this_iter; i=i+1 )\n";
-	file << "	{\n";
-	file << "		getline( f, this_entries[i]);\n";
-	file << "		if ( i == 0 )\n";
-	file << "			getline( f, this_entries[i]);\n\n";
-	file << "		if ( i == iter )\n";
-	file << "		{\n";
-	file << "			this_entry = this_entries[i];\n";
-	file << "			break;\n";
-	file << "		}\n";
-	file << "	}\n";
-	file << "	move_words( this_entry, this_entries );\n";
-	file << "	f.close();\n\n\n";
-	file << "	// get entries of simmilar files and compare\n";
-	file << "	bool have_simmilar = false;\n";
-	file << "	bool have_simmilar_1 = false; // does not get reset\n";
-	file << "	for ( int i=0; i<columns_iter; i=i+1 )\n";
-	file << "	{\n";
-	file << "		if ( files_1[i] == \"" << name << "_entries\" )\n";
-	file << "		{\n";
-	file << "			f.open( files_2[i] );\n";
-	file << "			int f_iter;\n";
-	file << "			f >> f_iter;\n";
-	file << "			string entry = \"\";\n";
-	file << "			string entries[1000];\n";
-	file << "			getline( f, entry ); // move through file only\n";
-	file << "			for ( int l=0; l<f_iter; l=l+1 )\n";
-	file << "			{\n";
-	file << "				getline( f, entry );\n";
-	file << "				if ( l == 0 )\n";
-	file << "					getline( f, entry );\n";
-	file << "				move_words( entry, entries );\n";
-	file << "				if ( simmilar_items( entries, this_entries ) )\n";
-	file << "				{\n";
-	file << "					if ( have_simmilar == false )\n";
-	file << "					{\n";
-	file << "						have_simmilar = true;\n";
-	file << "						have_simmilar_1 = true;\n";
-	file << "						cout << \"\\nSimmilars in file \'\" << files_2[i] << \"\':\\n\";\n";
-	file << "					}\n";
-	file << "					cout << entry << \"\\n\";\n";
-	file << "				}\n";
-	file << "			}\n";
-	file << "			have_simmilar = false;\n";
-	file << "			f.close();\n";
-	file << "		}\n";
-	// and reversed
-	file << "		if ( files_2[i] == \"" << name << "_entries\" )\n";
-	file << "		{\n";
-	file << "			f.open( files_1[i] );\n";
-	file << "			int f_iter;\n";
-	file << "			f >> f_iter;\n";
-	file << "			string entry = \"\";\n";
-	file << "			string entries[1000];\n";
-	file << "			getline( f, entry ); // move through file only\n";
-	file << "			for ( int l=0; l<f_iter; l=l+1 )\n";
-	file << "			{\n";
-	file << "				getline( f, entry );\n";
-	file << "				if ( l == 0 )\n";
-	file << "					getline( f, entry );\n";
-	file << "				move_words( entry, entries );\n";
-	file << "				if ( simmilar_items( entries, this_entries ) )\n";
-	file << "				{\n";
-	file << "					if ( have_simmilar == false )\n";
-	file << "					{\n";
-	file << "						have_simmilar = true;\n";
-	file << "						have_simmilar_1 = true;\n";
-	file << "						cout << \"\\nSimmilars in file \'\" << files_1[i] << \"\':\\n\";\n";
-	file << "					}\n";
-	file << "					cout << entry << \"\\n\";\n";
-	file << "				}\n";
-	file << "			}\n";
-	file << "			have_simmilar = false;\n";
-	file << "			f.close();\n";
-	file << "		}\n";
-	file << "	}\n\n";
-	file << "	if ( have_simmilar_1 == true )\n";
-	file << "		cout << \"\\n\";\n";
-	file << "}\n\n\n";
-
-
-
 
 	// Show a certain entry
 
@@ -1818,9 +1956,12 @@ void make_class_file()
 
 	file << "// Show entry\n";
 
+	file << "bool are_simmilar( int entry_pos );\n";
+	file << "void show_simmilar( int entry_pos );\n\n";
+
 	file << "void show_entry( int i )\n{\n";
 
-	file << "	if ( i >= iter )\n";
+	file << "	if ( i < 0 or i >= iter )\n";
 	file << "	{\n";
 	file << "		cout << \"Entry num. \'\" << i + 1 << \"\' is not valid.\\n\" ;\n";
 	file << "		return;\n";
@@ -1861,10 +2002,10 @@ void make_class_file()
 
 	file << "	cout << \"\\n\";\n";
 
-	file << "	simmilar( i );\n";
+	file << "	if ( are_simmilar( i ) )\n";
+	file << "		show_simmilar( i );\n";
 
 	file << "}\n\n";
-
 
 
 
@@ -2130,10 +2271,363 @@ void make_class_file()
 	file << "		" << large_char( name ) << " copy = item_entries[a];\n";
 	file << "		item_entries[a] = item_entries[b];\n";
 	file << "		item_entries[b] = copy;\n";
+	file << "		cout << \"Entries were swapped and saved.\\n\";\n\n";
 	file << "	}\n";
 	file << "	else\n";
 	file << "		cout << \"Could not swap / move: invalid entry num.\\n\";\n";
 	file << "}\n\n";
+
+
+
+
+
+	// Simmilalrities
+
+
+
+
+
+	file << "// length of a string[]\n";
+	file << "int length ( string a[] )\n";
+	file << "{\n";
+	file << "	int i=0;\n";
+	file << "	while ( a[i].length() > 0 )\n";
+	file << "		i=i+1;\n";
+	file << "	return i;\n";
+	file << "}\n\n";
+
+	file << "// convert string to int\n";
+	file << "int string_to_int ( string a )\n";
+	file << "{\n";
+	file << "	int size = a.length();\n\n";
+	file << "	int iter = 0;\n";
+	file << "	bool is_neg = false;\n";
+	file << "	if ( a[0] == \'-\' )\n";
+	file << "	{\n";
+	file << "		is_neg = true;\n";
+	file << "		iter = 1;\n";
+	file << "	}\n\n";
+	file << "	int num_int = 0;\n";
+	file << "	for ( int i=iter; i<size; i=i+1 )\n";
+	file << "		num_int = num_int * 10 + ( a[i] - 48 );\n";
+	file << "	if ( is_neg )\n";
+	file << "		num_int = -num_int;\n\n";
+	file << "	return num_int;\n";
+	file << "}\n\n";
+
+
+	file << "// moves words of string  text  into  words[]  \n";
+	file << "void move_words ( string text, string words[] )\n";
+	file << "{\n";
+	file << "	for ( int i=0; i<length(words); i=i+1 )\n";
+	file << "		words[i] = \"\";\n\n";
+	file << "	// remove multiple \' \'-s\n";
+	file << "	string text_spaces = \"\";\n";
+	file << "	for ( int i=0; i<text.length(); i=i+1 )\n";
+	file << "		if ( text[i] != \' \' )\n";
+	file << "			text_spaces = text_spaces + text[i];\n";
+	file << "		else\n";
+	file << "			if ( text_spaces[ text_spaces.length() - 1 ] != ' ' )\n";
+	file << "				text_spaces = text_spaces + \" \";\n";
+	file << "	text = text_spaces;\n\n";
+	file << "	text = text + \" \";\n";
+	file << "	int size = text.length();\n";
+	file << "	int words_iter = 0;\n\n";
+	file << "	for ( int i=0; i<size; i=i+1 )\n";
+	file << "		if ( text[i] == ' ' )\n";
+	file << "		{\n";
+	file << "			words_iter = words_iter + 1;\n";
+	file << "			words[ words_iter ] = \"\";\n";
+	file << "		}\n";
+	file << "		else\n";
+	file << "			words[ words_iter ] = words[ words_iter ] + text[i];\n";
+	file << "}\n\n";
+
+	file << "// get simmilars\n";
+	file << "void get_simmilars( string parameters_1[], string filenames_2[], string parameters_2[] )\n";
+	file << "{\n";
+	file << "	int simmilar_iter;\n\n";
+	file << "	int counter = 0;\n\n";
+	file << "	ifstream fi;\n";
+	file << "	fi.open( \"simmilar\" );\n";
+	file << "	fi >> simmilar_iter;\n\n";
+	file << "	string temp_string;\n\n";
+	file << "	for ( int i=0; i<simmilar_iter; i=i+1 )\n";
+	file << "	{\n";
+	file << "		getline( fi, temp_string );\n";
+	file << "		if( i == 0 )\n";
+	file << "			getline( fi, temp_string );\n\n";
+	file << "		string temp[ 10 ];\n";
+	file << "		move_words( temp_string, temp );\n\n";
+	file << "		if ( temp[0] == name + \"_entries\"  )\n";
+	file << "		{\n";
+	file << "			parameters_1[ counter ] = temp[ 1 ];\n";
+	file << "			filenames_2[ counter ] = temp[ 2 ];\n";
+	file << "			parameters_2[ counter ] = temp[ 3 ];\n";
+	file << "			counter = counter + 1;\n";
+	file << "		}\n";
+	file << "		if ( temp[2] == name + \"_entries\"  )\n";
+	file << "		{\n";
+	file << "			parameters_1[ counter ] = temp[ 3 ];\n";
+	file << "			filenames_2[ counter ] = temp[ 0 ];\n";
+	file << "			parameters_2[ counter ] = temp[ 1 ];\n";
+	file << "			counter = counter + 1;\n";
+	file << "		}\n";
+	file << "	}\n\n";
+	file << "	fi.close();\n";
+	file << "}\n\n";
+
+	file << "string parameters_1[1000];\n";
+	file << "string filenames_2[1000];\n";
+	file << "string parameters_2[1000];\n\n";
+
+	file << "// used in determine simmilarity\n";
+	file << "bool is_in_simmilars( string param1, string filename2, string param2 )\n";
+	file << "{\n";
+	file << "	int size = length( parameters_1 );\n\n";
+	file << "	for ( int i=0; i<size; i=i+1 )\n";
+	file << "		if ( parameters_1[i] == param1 and filenames_2[i] == filename2 and parameters_2[i] == param2 )\n";
+	file << "			return true;\n\n";
+	file << "	return false;\n";
+	file << "}\n";
+
+	file << "// used in determine simmilarity\n";
+	file << "string get_entry_of_file ( string filename, int entry_num )\n";
+	file << "{\n";
+	file << "	ifstream f;\n";
+	file << "	f.open( filename );\n";
+	file << "	int num;\n";
+	file << "	string entry;\n";
+	file << "	f >> num; // to continue\n\n";
+	file << "	for ( int i=0; i<3; i=i+1 )\n";
+	file << "		getline( f, entry );\n\n";
+	file << "	for ( int i=0; i<=entry_num; i=i+1 )\n";
+	file << "	{\n";
+	file << "		getline( f, entry );\n";
+	file << "		if ( i == entry_num )\n";
+	file << "		{\n";
+	file << "			f.close();\n";
+	file << "			return entry;\n";
+	file << "		}\n";
+	file << "	}\n";
+	file << "	f.close();\n\n";
+	file << "	return \"-1\";\n";
+	file << "}\n";
+
+
+	// Simmilar
+
+
+	file << "// Simmilar\n";
+	file << "void show_simmilar( int entry_pos )\n";
+	file << "{\n";
+	file << "	string choice;\n";
+	file << "	cout << \"Show simmilars? ( y / n ): \";\n";
+	file << "	cin >> choice;\n\n";
+
+	file << "	string empty;\n";
+	file << "	string parameter;\n";
+	file << "	string val[1000];\n";
+	file << "	string remaining_files[1000];\n";
+	file << "	int iters[1000];\n";
+	file << "	int counter = 0;\n";
+
+	file << "	if ( choice == \"y\" )\n";
+	file << "	{\n";
+
+	// get val of this file as strings
+	file << "		ifstream f;\n";
+	file << "		f.open( name + \"_entries\" );\n";
+	file << "		string file_val[ 1000 ];\n";
+	file << "		for ( int i=0; i< 3 + entry_pos; i=i+1 )\n";
+	file << "			getline( f, empty );\n\n";
+	file << "		for ( int l=0; l<num_parameters; l=l+1 )\n";
+	file << "		{\n";
+	file << "			f >> val[l];\n";
+	file << "			if ( parameters[l][ parameters[l].length() - 1 ] == \']\' )\n";
+	file << "			{\n";
+	file << "				for ( int k=0; k<string_to_int( file_val[l] ); k=k+1 )\n";
+	file << "					f >> empty;\n";
+	file << "			}\n\n";
+	file << "		}\n";
+	file << "		f.close();\n";
+
+//	file << "\n   /     \n";
+
+	// get filenames
+	file << "		f.open( \"entry_files\" );\n";
+	file << "		int num_files;\n";
+	file << "		f >> num_files;\n";
+	file << "		string files[1000];\n";
+	file << "		for ( int i=0; i<num_files; i=i+1 )\n";
+	file << "			f >> files[i];\n";
+	file << "		f.close();\n";
+
+	file << "		get_simmilars( parameters_1, filenames_2, parameters_2 );\n\n";
+
+	// get val of files as strings
+	file << "		for ( int i=0; i<num_files; i=i+1 )\n";
+	file << "		{\n";
+	file << "			int current_num_entries;\n";
+	file << "			int current_parameters_size;\n";
+	file << "			string current_parameters_string;\n";
+	file << "			string current_parameters[1000];\n";
+	file << "			string current_types[1000];\n";
+	file << "			\n";
+	file << "			ifstream fi;\n";
+	file << "			fi.open( files[i] + \"_entries\" );\n";
+	file << "			fi >> current_num_entries;\n";
+	file << "			getline( fi, empty );\n\n";
+	file << "			getline( fi, current_parameters_string );\n";
+	file << "			move_words( current_parameters_string, current_parameters );\n";
+	file << "			current_parameters_size = length( current_parameters );\n";
+	file << "			for ( int l=0; l<current_parameters_size; l=l+1 )\n";
+	file << "				fi >> current_types[l];\n\n";
+
+	file << "			string current_val;\n";
+	file << "			int counter_iter = 0;\n";
+	file << "			for ( int a=0; a<current_num_entries; a=a+1 )\n";
+	file << "				for ( int l=0; l<current_parameters_size; l=l+1 )\n";
+	file << "				{\n";
+	file << "					counter_iter = counter_iter % current_parameters_size;\n\n";
+	file << "					fi >> current_val;\n";
+	file << "					if ( current_parameters[counter_iter][ current_parameters[counter_iter].length() - 1 ] == \']\' )\n";
+	file << "						for ( int k=0; k<string_to_int( current_val ); k=k+1 )\n";
+	file << "							fi >> empty;\n\n";
+
+	file << "					for ( int k=0; k<num_parameters; k=k+1 )\n";
+	file << "						if ( is_in_simmilars( columns[k], files[i] + \"_entries\", current_parameters[l] ) )\n";
+	file << "						{\n";
+	file << "							if ( val[k] == current_val )\n";
+	file << "							{\n";
+	file << "								iters[ counter ] = a;\n";
+	file << "								remaining_files[ counter ] = files[i] + \"_entries\";\n";
+	file << "								counter = counter + 1;\n";
+	file << "							}\n";
+	file << "						}\n";
+	file << "					counter_iter = counter_iter + 1;\n\n";
+	file << "				}\n";
+
+
+	file << "			fi.close();\n";
+	file << "		}\n";
+
+
+	file << "	}\n";
+
+	file << "	for ( int i=0; i<counter; i=i+1 )\n";
+	file << "		cout << \"Simmilarity in file \\'\" << remaining_files[i] << \"\\': \" << get_entry_of_file( remaining_files[i], iters[i] ) << \"\\n\" ;\n";
+
+
+	file << "}\n\n";
+
+
+
+	// Are simmilars
+
+
+
+	file << "// check for simmilars\n";
+	file << "bool are_simmilar( int entry_pos )\n";
+	file << "{\n";
+	file << "	string choice = \"y\";\n\n";
+
+	file << "	string empty;\n";
+	file << "	string parameter;\n";
+	file << "	string val[1000];\n";
+	file << "	string remaining_files[1000];\n";
+	file << "	int iters[1000];\n";
+	file << "	int counter = 0;\n";
+
+	file << "	if ( choice == \"y\" )\n";
+	file << "	{\n";
+
+	// get val of this file as strings
+	file << "		ifstream f;\n";
+	file << "		f.open( name + \"_entries\" );\n";
+	file << "		string file_val[ 1000 ];\n";
+	file << "		for ( int i=0; i< 3 + entry_pos; i=i+1 )\n";
+	file << "			getline( f, empty );\n\n";
+	file << "		for ( int l=0; l<num_parameters; l=l+1 )\n";
+	file << "		{\n";
+	file << "			f >> val[l];\n";
+	file << "			if ( parameters[l][ parameters[l].length() - 1 ] == \']\' )\n";
+	file << "			{\n";
+	file << "				for ( int k=0; k<string_to_int( file_val[l] ); k=k+1 )\n";
+	file << "					f >> empty;\n";
+	file << "			}\n\n";
+	file << "		}\n";
+	file << "		f.close();\n";
+
+//	file << "\n   /     \n";
+
+	// get filenames
+	file << "		f.open( \"entry_files\" );\n";
+	file << "		int num_files;\n";
+	file << "		f >> num_files;\n";
+	file << "		string files[1000];\n";
+	file << "		for ( int i=0; i<num_files; i=i+1 )\n";
+	file << "			f >> files[i];\n";
+	file << "		f.close();\n";
+
+	file << "		get_simmilars( parameters_1, filenames_2, parameters_2 );\n\n";
+
+	// get val of files as strings
+	file << "		for ( int i=0; i<num_files; i=i+1 )\n";
+	file << "		{\n";
+	file << "			int current_num_entries;\n";
+	file << "			int current_parameters_size;\n";
+	file << "			string current_parameters_string;\n";
+	file << "			string current_parameters[1000];\n";
+	file << "			string current_types[1000];\n";
+	file << "			\n";
+	file << "			ifstream fi;\n";
+	file << "			fi.open( files[i] + \"_entries\" );\n";
+	file << "			fi >> current_num_entries;\n";
+	file << "			getline( fi, empty );\n\n";
+	file << "			getline( fi, current_parameters_string );\n";
+	file << "			move_words( current_parameters_string, current_parameters );\n";
+	file << "			current_parameters_size = length( current_parameters );\n";
+	file << "			for ( int l=0; l<current_parameters_size; l=l+1 )\n";
+	file << "				fi >> current_types[l];\n\n";
+
+	file << "			string current_val;\n";
+	file << "			int counter_iter = 0;\n";
+	file << "			for ( int a=0; a<current_num_entries; a=a+1 )\n";
+	file << "				for ( int l=0; l<current_parameters_size; l=l+1 )\n";
+	file << "				{\n";
+	file << "					counter_iter = counter_iter % current_parameters_size;\n\n";
+	file << "					fi >> current_val;\n";
+	file << "					if ( current_parameters[counter_iter][ current_parameters[counter_iter].length() - 1 ] == \']\' )\n";
+	file << "						for ( int k=0; k<string_to_int( current_val ); k=k+1 )\n";
+	file << "							fi >> empty;\n\n";
+
+	file << "					for ( int k=0; k<num_parameters; k=k+1 )\n";
+	file << "						if ( is_in_simmilars( columns[k], files[i] + \"_entries\", current_parameters[l] ) )\n";
+	file << "						{\n";
+	file << "							if ( val[k] == current_val )\n";
+	file << "							{\n";
+	file << "								iters[ counter ] = a;\n";
+	file << "								remaining_files[ counter ] = files[i] + \"_entries\";\n";
+	file << "								counter = counter + 1;\n";
+	file << "							}\n";
+	file << "						}\n";
+	file << "					counter_iter = counter_iter + 1;\n\n";
+	file << "				}\n";
+
+
+	file << "			fi.close();\n";
+	file << "		}\n";
+
+
+	file << "	}\n";
+
+	file << "	if ( counter != 0 )\n";
+	file << "		return true;\n";
+
+	file << "\n	return false;\n";
+
+	file << "}\n";
 
 
 
@@ -2165,6 +2659,23 @@ void make_class_file()
 	file << "	}\n\n";
 	file << "}\n";
 
+
+
+	// Show entries
+
+
+	file << "void show_entries()\n";
+	file << "{\n";
+	file << "	if ( iter == 0 )\n";
+	file << "		return;\n\n";
+	file << "	cout << \"- Entries\";\n\n";
+	file << "	show_columns();\n\n";
+	file << "	for ( int i=0; i<iter; i=i+1 )\n";
+	file << "	{\n";
+	file << "		cout << \"(\" << i + 1 << \")   \";\n";
+	file << "		show_entry( i );\n";
+	file << "	}\n";
+	file << "}\n";
 
 
 
@@ -2214,7 +2725,7 @@ void make_class_file()
 	file << "	";
 	enter_cout( "   or\\n" );
 	file << "	";
-	enter_cout( "  item. Show entries that have [item]    name. Name / Rename a column    save. Save    exit. Exit ( Return to \'class\' file )\\n" );
+	enter_cout( "  item. Show entries that have [item]    save. Save    exit. Exit\\n" );
 
 	file << "\n\n";
 
@@ -2223,6 +2734,15 @@ void make_class_file()
 	// codes for operations
 	enter_cout( "\\nEnter your choice: " );
 	file << "		cin >> choice;\n\n";
+
+//  continues anyway
+
+//	file << "		if ( choice != \"1\" and choice != \"2\" and choice != \"3\" and choice != \"4\" and choice != \"5\" and choice != \"6\" and choice != \"7\" and choice != \"8\" and choice != \"9\" and choice != \"10\" and choice != \"item\" and choice != \"name\" and choice != \"save\" and choice != \"exit\" );\n";
+//	file << "		{\n";
+//	file << "			cout << \"Invalid.\";\n";
+//	file << "			choice = \"\";\n";
+//	file << "			continue;\n";
+//	file << "		}\n";
 
 	file << "		// Add entry\n";
 	file << "		if ( choice == \"1\" )\n";
@@ -2238,76 +2758,106 @@ void make_class_file()
 	file << "		// Show entry\n";
 	file << "		if ( choice == \"2\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			int i;\n";
 	file << "			cout << \"Enter num. of entry: \";\n";
 	file << "			cin >> i;\n";
 	file << "			show_columns();\n";
-	file << "			show_entry(i - 1);\n";
+	file << "			show_entry( i - 1 );\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
+
+
 
 	file << "		// Show entries - complete\n";
 	file << "		if ( choice == \"3\" )\n";
 	file << "		{\n";
 	file << "			if ( iter == 0 )\n";
-	file << "				cout << \"Entries are empty.\\n\";\n";
-	file << "			else\n";
 	file << "			{\n";
-	file << "				show_columns();\n";
-	file << "				for ( int i=0; i<iter; i=i+1 )\n";
-	file << "					show_entry(i);\n";
-	file << "			}\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
+	file << "			show_entries();\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
 
 	file << "		// Show entries\n";
 	file << "		if ( choice == \"4\" )\n";
 	file << "		{\n";
-	file << "			int int_entries;\n";
-	file << "			cout << \"Enter num.-s or entries ( 142, 1542 etc. ): \";\n";
-	file << "			cin >> int_entries;\n\n";
-	file << "			int digits[10], num = 0;\n";
-	file << "			while ( int_entries != 0 )\n";
+	file << "			if ( iter == 0 )\n";
 	file << "			{\n";
-	file << "				digits[ num ] = int_entries % 10;\n";
-	file << "				num = num + 1;\n";
-	file << "				int_entries = int_entries / 10;\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
 	file << "			}\n\n";
-	file << "			show_columns();\n";
-	file << "			for ( int i=num-1; i>=0; i=i-1 )\n";
-	file << "				show_entry( digits[i] - 1 );\n";
+	file << "			int entry_iter;\n";
+	file << "			cout << \"Stop with -1\\n\";\n";
+	file << "			while ( entry_iter != -1 )\n";
+	file << "			{\n";
+	file << "				cout << \"Enter num. of entry: \";\n";
+	file << "				cin >> entry_iter;\n\n";
+	file << "				if ( entry_iter == -1 )\n";
+	file << "					break;\n\n";
+	file << "				show_entry( entry_iter - 1 );\n";
+	file << "			}\n";
+	file << "			entry_iter = 0;\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
 
 	file << "		// Remove entry\n";
 	file << "		if ( choice == \"5\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
+	file << "			show_entries();\n";
 	file << "			int i;\n";
 	file << "			cout << \"Enter num. of entry: \";\n";
 	file << "			cin >> i;\n\n";
-	file << "			cout << \"\\nEntry that was deleted\\n\";\n";
-	file << "			show_columns();\n";
 	file << "			delete_entries[ delete_iter ] = i - 1;\n";
 	file << "			delete_iter = delete_iter + 1;\n\n";
 	file << "			add_entries();\n";
+	file << "			cout << \"\\nEntry was deleted\\n\";\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
 
 	file << "		// Remove entries\n";
 	file << "		if ( choice == \"6\" )\n";
 	file << "		{\n";
-	file << "			int int_entries;\n";
-	file << "			cout << \"Enter num.-s or entries ( 142, 1542 etc. ): \";\n";
-	file << "			cin >> int_entries;\n\n";
-	file << "			cout << \"Entries that were deleted\\n\";\n";
-	file << "			show_columns();\n";
-	file << "			while ( int_entries != 0 )\n";
+	file << "			if ( iter == 0 )\n";
 	file << "			{\n";
-	file << "				delete_entries[ delete_iter ] = int_entries % 10 - 1;\n";
-	file << "				show_entry( delete_iter );\n";
-	file << "				delete_iter = delete_iter + 1;\n";
-	file << "				int_entries = int_entries / 10;\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
 	file << "			}\n\n";
+	file << "			show_entries();\n";
+	file << "			int entry_iter;\n";
+	file << "			cout << \"Stop with -1\\n\";\n";
+	file << "			while ( entry_iter != -1 )\n";
+	file << "			{\n";
+	file << "				cout << \"Enter num. of entry to remove: \";\n";
+	file << "				cin >> entry_iter;\n\n";
+	file << "				if ( entry_iter == -1 )\n";
+	file << "					break;\n\n";
+	file << "				if ( entry_iter <= 0 or entry_iter > iter )\n";
+	file << "				{\n";
+	file << "					cout << \"Entry num. is invalid.\\n\";\n";
+	file << "					entry_iter = 0;\n";
+	file << "					continue;\n";
+	file << "				}\n\n";
+	file << "				delete_entries[ delete_iter ] = entry_iter - 1;\n";
+	file << "				delete_iter = delete_iter + 1;\n";
+	file << "			}\n";
+	file << "			entry_iter = 0;\n";
 	file << "			add_entries();\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
@@ -2315,6 +2865,12 @@ void make_class_file()
 	file << "		// Clear entries\n";
 	file << "		if ( choice == \"7\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			iter = 0;\n";
 	file << "			add_entries();\n";
 	file << "			cout << \"Entries were cleared.\\n\";\n";
@@ -2324,6 +2880,12 @@ void make_class_file()
 	file << "		// Sort ( show / save )\n";
 	file << "		if ( choice == \"8\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			cout << \"1. \\'Show\\'  but not save entries       \";\n";
 	file << "			cout << \"2. \\'Save\\'  but not show entries\\n\\n\";\n";
 	file << "			cout << \"Enter your choice: \";\n\n";
@@ -2369,6 +2931,12 @@ void make_class_file()
 	file << "		// Move\n";
 	file << "		if ( choice == \"9\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			int entry_num;\n";
 	file << "			cout << \"Enter entry num. you want to move: \";\n";
 	file << "			cin >> entry_num;\n";
@@ -2392,6 +2960,12 @@ void make_class_file()
 	file << "		// Swap\n";
 	file << "		if ( choice == \"10\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			int a, b;\n";
 	file << "			cout << \"Enter entry num. or entry 1 you want to swap: \";\n";
 	file << "			cin >> a;\n";
@@ -2399,13 +2973,18 @@ void make_class_file()
 	file << "			cin >> b;\n\n";
 	file << "			swap( a - 1, b - 1 );\n\n";
 	file << "			add_entries();\n";
-	file << "			cout << \"Entries were swapped and saved.\\n\";\n\n";
 	file << "			enter();\n";
 	file << "		}\n\n";
 
 	file << "		// Show entries that have [item]\n";
 	file << "		if ( choice == \"item\" )\n";
 	file << "		{\n";
+	file << "			if ( iter == 0 )\n";
+	file << "			{\n";
+	file << "				cout << \"Entries are empty.\\n\";\n";
+	file << "				choice = \"\";\n";
+	file << "				continue;\n";
+	file << "			}\n\n";
 	file << "			string type;\n";
 	// have to check for each possibility, since we do not define for a datatype we do not have
 	if ( have_numeric() and have_datatype( "char" ) and have_datatype( "string" ) )
@@ -2512,19 +3091,20 @@ void make_class_file()
 	file << "\n			enter();\n";
 	file << "		}\n\n";
 
-	file << "		// Name / rename a column\n";
-	file << "		if ( choice == \"name\" )\n";
-	file << "		{\n";
-	file << "			int num_column;\n";
-	file << "			string name;\n";
-	file << "			cout << \"Enter num. of column you want to rename: \";\n";
-	file << "			cin >> num_column;\n\n";
-	file << "			cout << \"Renaming column \" << num_column << \" of type \'\" << types[num_column - 1] << \"\', var. name \'\" << parameters[num_column - 1] << \"\' and previous name \'\" << columns[num_column - 1] << \"\' to: \";\n";
-	file << "			cin >> name;\n\n";
-	file << "			rename_column( num_column - 1, name );\n\n";
-	file << "			add_entries();\n";
-	file << "			enter();\n";
-	file << "		}\n\n";
+	file << "//		Commented for simmilarities\n\n";
+	file << "//		// Name / rename a column\n";
+	file << "//		if ( choice == \"name\" )\n";
+	file << "//		{\n";
+	file << "//			int num_column;\n";
+	file << "//			string name;\n";
+	file << "//			cout << \"Enter num. of column you want to rename: \";\n";
+	file << "//			cin >> num_column;\n\n";
+	file << "//			cout << \"Renaming column \" << num_column << \" of type \'\" << types[num_column - 1] << \"\', var. name \'\" << parameters[num_column - 1] << \"\' and previous name \'\" << columns[num_column - 1] << \"\' to: \";\n";
+	file << "//			cin >> name;\n\n";
+	file << "//			rename_column( num_column - 1, name );\n\n";
+	file << "//			add_entries();\n";
+	file << "//			enter();\n";
+	file << "//		}\n\n";
 
 	file << "		// Save\n";
 	file << "		if ( choice == \"save\" )\n";
@@ -2537,7 +3117,10 @@ void make_class_file()
 
 	file << "		// Exit\n";
 	file << "		if ( choice == \"exit\" )\n";
-	file << "			break;\n\n";
+	file << "		{\n";
+	file << "			cout << \"Exited.\\n\";\n";
+	file << "			break;\n";
+	file << "		}\n\n";
 
 
 	file << "		choice = \"\";\n";
@@ -2644,7 +3227,7 @@ int main ()
 	// Edit file "simmilar"
 	if ( choice == "simmilar" )
 	{
-		cout << "\n( info ) Files that store data can be tied to become \"simmilar files\". Tie them together to show them together. Data is tied \"any to any\" ( multidirectional ) and does not respect datatypes.\n";
+		cout << "\n( info ) Files that store data can be tied to become \"simmilar files\". Tie them together to show them together.\n";
 		enter();
 		edit_simmilar_file();
 		enter();

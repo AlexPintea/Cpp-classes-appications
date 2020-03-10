@@ -1,4 +1,5 @@
 2
-parameter parameter2[10] parameter1 
-1   7  3 3 2 4 3 23 2   0 
-0   3  43 3 2   0
+parameter parameter2[70] parameter1 
+float float bool 
+2   4  3 2 54 3   1 
+1   4  2 43 3 4   1 

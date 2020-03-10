@@ -220,7 +220,58 @@ string long_to_string (long a[], string longs[])
 }
 
 
-// converts a double to a string with a certain precision
+
+
+// converts a double to a string
+string double_to_string ( double a )
+{
+	bool is_neg = false;
+	if ( a < 0 )
+		is_neg = true;
+
+	int iter = length( (long) a );
+
+	while ( (float) a - (long) a != 0.0 ) // 3 decimals maximum since float
+		a = a * 10;
+
+
+
+	int a_as_int;
+
+	if ( is_neg )
+		a_as_int = -(long) a;
+	else
+		a_as_int = (long) a;
+
+
+
+	int size = length(a_as_int);
+
+	int num_digits[170];
+	for ( int i=0; i<size; i=i+1 )
+	{
+		num_digits[ size - i - 1 ] = (int) (a_as_int%10);
+		a_as_int = a_as_int / 10;
+	}
+
+
+	string result = "";
+	if ( is_neg )
+		result = result + '-';
+	for ( int i=0; i<size; i=i+1 )
+	{
+		if ( i == iter )
+			result = result + '.';
+
+		result = result + (char) ( num_digits[i] + 48 );
+	}
+
+	return result;
+}
+
+
+
+// converts a double to a string with a certain precision ( deprecated, but the only that returns >= 4 decimals )
 string double_to_string ( double a, int precision )
 {
 	// save initial val. of a
@@ -324,9 +375,14 @@ void double_to_string ( double a[], string doubles[] )
 	int size = length(a);
 
 	for ( int i=0; i<size; i=i+1 )
-		doubles[i] = double_to_string( a[i], 3 );
+		doubles[i] = double_to_string( a[i] );
 }
 
+// converts a float to a string
+string float_to_string ( float a )
+{
+	return double_to_string( (double) a );
+}
 // converts a float to a string with a certain precision
 string float_to_string ( float a, int precision )
 {
@@ -402,7 +458,7 @@ string doubles_to_string (double a[])
 	string result = "";
 
 	for ( int i=0; i<length(a); i=i+1 )
-		result = result + double_to_string( a[i], 3 ) + " ";
+		result = result + double_to_string( a[i] ) + " ";
 
 	return result;
 }
@@ -455,7 +511,7 @@ void long_to_chars ( long a, char digits[] )
 // converts a double to a char array
 void double_to_chars ( double a, char digits[] ) 
 {
-	string a_string = double_to_string(a, 3);
+	string a_string = double_to_string(a);
 
 	int size = a_string.length();
 
@@ -524,6 +580,9 @@ bool is_int ( string a )
 // convert string to int
 int string_to_int ( string a )
 {
+	if ( a.length() == 1 )
+		return a[0] - 48;
+
 	int size = a.length();
 
 	int iter = 0;
@@ -607,6 +666,9 @@ bool is_long ( string a )
 // convert string to long
 long string_to_long ( string a )
 {
+	if ( a.length() == 1 )
+		return a[0] - 48;
+
 	int size = a.length();
 
 	int iter = 0;
@@ -693,6 +755,13 @@ bool is_double ( string a )
 // convert string to double
 double string_to_double ( string a )
 {
+	if ( a.length() == 1 )
+		return a[0] - 48;
+
+	if ( is_long( a ) )
+		return string_to_long(a);
+
+
 	double num_double = 0;
 
 	int i = 0;
@@ -792,6 +861,13 @@ bool is_float ( string a )
 // convert string to float
 float string_to_float ( string a )
 {
+	if ( a.length() == 1 )
+		return a[0] - 48;
+
+	if ( is_long( a ) )
+		return string_to_long(a);
+
+
 	float num_float = 0;
 
 	int i = 0;
@@ -1098,27 +1174,6 @@ void get_data ( string a, string data[] )
 			data[ counter ] = data[ counter ] + a[i];
 }
 
-// datatype of string
-string datatype ( string a )
-{
-	if ( is_int(a) )
-		return "int";
-
-	if ( is_long(a) )
-		return "long";
-
-	if ( is_double(a) )
-		return "double";
-
-	if ( is_char(a) )
-		return "char";
-
-	if ( is_bool(a) )
-		return "bool";
-
-	return "string";
-}
-
 // datatypes of a string
 void datatypes ( string a, string data_types[] )
 {
@@ -1156,8 +1211,10 @@ int main ()
 
 	cout << int_to_string( -142 ) << "\n"; //
 	cout << long_to_string( -1999999 ) << "\n"; //
-	cout << double_to_string( -1.0207, 3 ) << "\n"; //
-	cout << float_to_string( -109254.014, 3 ) << "\n"; //
+//	cout << double_to_string( -1.0207, 3 ) << "\n"; //
+	cout << double_to_string( -1.0207 ) << "\n"; //
+//	cout << float_to_string( -109254.014, 3 ) << "\n"; //
+	cout << float_to_string( -109254.014 ) << "\n"; //
 	cout << bool_to_string( true ) << "\n"; //
 	cout << char_to_string( 'a' ) << "\n"; //
 

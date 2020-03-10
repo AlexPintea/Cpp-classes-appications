@@ -1,0 +1,107 @@
+	file << "			int current_num_entries;\n";
+	file << "			int current_parameters_size;\n";
+	file << "			string current_parameters_string;\n";
+	file << "			string current_parameters[1000];\n";
+	file << "			string current_types[1000];\n";
+	file << "			\n";
+	file << "			ifstream fi;\n";
+	file << "			fi.open( filenames_2[i] );\n";
+	file << "			fi >> current_num_entries;\n";
+	file << "			getline( fi, current_parameters_string );\n";
+	file << "			if ( i == 0 )\n";
+	file << "				getline( fi, current_parameters_string );\n\n";
+	file << "			move_words( current_parameters_string, current_parameters );\n";
+	file << "			current_parameters_size = length( current_parameters );\n";
+	file << "			for ( int l=0; l<current_parameters_size; l=l+1 );\n";
+	file << "				fi >> current_types[l];\n\n";
+
+	file << "			for ( int l=0; l<current_parameters_size; l=l+1 );\n";
+	file << "			{\n";
+	file << "				if ( current_types[l] == \"int\" or current_types[l] == \"long\" or current_types[l] == \"float\" or current_types[l] == \"double\" )\n";
+	file << "				{\n";
+	file << "					double current_var;\n";
+	file << "					fi >> current_var;\n";
+	file << "					if ( current_parameters[l][ current_parameters[l].length() - 1 ] == \']\' )\n";
+	file << "					{\n";
+	file << "						double empty;\n";
+	file << "						for ( int k=0; k<current_var; k=k+1 )\n";
+	file << "							fi >> empty;\n";
+	file << "					}\n";
+	file << "					for ( int k=0; k<num_parameters; k=k+1 )\n";
+	file << "						if ( is_in_simmilars( columns[k], filenames_2[i], current_parameters[l] )  )\n";
+	file << "						{\n";
+
+	for ( int i=0; i<num_parameters; i=i+1 )
+	{
+		file << "							if ( k == " << i << " )\n";
+		file << "								\n";
+	}
+
+	file << "						\n";
+	file << "					}\n";
+	file << "				}\n";
+	
+
+	file << "				if ( current_types[l] == \"char\" )\n";
+	file << "				{\n";
+	file << "					if ( current_parameters[l][ current_parameters[l].length() - 1 ] == \']\' )\n";
+	file << "					{\n";
+	file << "						double current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "						double empty;\n";
+	file << "						for ( int k=0; k<current_var; k=k+1 )\n";
+	file << "							fi >> empty;\n";
+	file << "					}\n";
+	file << "					e\se\n";
+	file << "					{\n";
+	file << "						char current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "					}\n";
+	file << "				}\n";
+	
+	file << "				if ( current_types[l] == \"string\" )\n";
+	file << "				{\n";
+	file << "					if ( current_parameters[l][ current_parameters[l].length() - 1 ] == \']\' )\n";
+	file << "					{\n";
+	file << "						double current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "						double empty;\n";
+	file << "						for ( int k=0; k<current_var; k=k+1 )\n";
+	file << "							fi >> empty;\n";
+	file << "					}\n";
+	file << "					e\se\n";
+	file << "					{\n";
+	file << "						string current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "					}\n";
+	file << "				}\n";
+	
+
+	file << "				if ( current_types[l] == \"bool\" )\n";
+	file << "				{\n";
+	file << "					if ( current_parameters[l][ current_parameters[l].length() - 1 ] == \']\' )\n";
+	file << "					{\n";
+	file << "						double current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "						double empty;\n";
+	file << "						for ( int k=0; k<current_var; k=k+1 )\n";
+	file << "							fi >> empty;\n";
+	file << "					}\n";
+	file << "					e\se\n";
+	file << "					{\n";
+	file << "						bool current_var;\n";
+	file << "						fi >> current_var;\n";
+	file << "					}\n";
+	file << "				}\n";
+
+
+
+	file << "				bool is_simmilar = false;\n";
+	file << "				for ( int k=0; k<num_parameters; k=k+1 )\n";
+	file << "				{\n";
+	file << "					if ( is_in_simmilars( columns[k], filenames_2[i], current_parameters[l] )  )\n";
+	file << "					{\n";
+	file << "					}\n";
+	file << "				}\n";
+	file << "			}\n";
+

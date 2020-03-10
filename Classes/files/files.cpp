@@ -191,8 +191,58 @@ void add_word_to_file ( string filename, string data )
 }
 
 
+
+// File that stores a counter
+
+
+
+int file_count ( string name )
+{
+	string counter_filename = name + "_counter";
+
+	int file_counter = 0;
+
+	ifstream fi;
+	fi.open( counter_filename );
+	fi >> file_counter;
+	if ( file_counter == 0 )
+	{
+		fi.close();
+
+		// make the file if not already made
+		ofstream fo;
+		fo.open( counter_filename );
+		fo << 1;
+		fo.close();
+
+
+		return 1;
+	}
+	fi.close();
+
+
+	file_counter = file_counter + 1;
+
+
+	// clears the file
+	clear_file( counter_filename );
+
+
+	ofstream fo;
+	fo.open( counter_filename );
+	fo << file_counter;
+	fo.close();
+
+	return file_counter;
+}
+
+
+
+
 int main ()
 {
+
+	cout << file_count( "files" ); // makes file "files_counter"
 
 	make_file( "file_1" );
 

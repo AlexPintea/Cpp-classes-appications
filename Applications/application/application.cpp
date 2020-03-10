@@ -11,6 +11,7 @@ string name = "application", filename;
 // this converts the string encoding of types[] ( 1 - 7 ) to the actual data type strings
 string type (string a)
 {
+
 	if ( a == "1" )
 		return "int";
 	if ( a == "2" )

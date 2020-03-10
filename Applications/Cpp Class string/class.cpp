@@ -20,6 +20,8 @@ string types[100];
 // length of a string
 int length (string a)
 {
+
+
 	int i=0;
 
 	while ( a[i] != '\0' )
@@ -55,6 +57,7 @@ string invert_string (string a)
 	{
 		r = r + a[i];
 	}
+	cout << "\n";
 
 	return r;
 }
@@ -594,8 +597,9 @@ void set_data( string name, string parameters[], string types[], int num_paramet
 		{
 			file << "		this->" << parameters[i] << " = ";
 
-			if ( type( types[i] ) != types[i] )
+			if ( types[i].length() == 1 )
 			{
+				// if it was made with  get_data_1()  
 				if ( types[i] == "1" or types[i] == "2" or types[i] == "6" or types[i] == "3" )
 					file << 0;
 				if ( types[i] == "4" )
@@ -606,7 +610,22 @@ void set_data( string name, string parameters[], string types[], int num_paramet
 					file << "false";
 			}
 			else
-				file << "null";
+			{
+				if ( types[i] == "int" or types[i] == "long" or types[i] == "double" or types[i] == "char" or types[i] == "string" or types[i] == "bool" )
+				{
+					// if it was made with  get_data_2()  
+					if ( types[i] == "int" or types[i] == "long" or types[i] == "double" )
+						file << 0;
+					if ( types[i] == "char" )
+						file << "\' \'";
+					if ( types[i] == "string" )
+						file << "\"\"";
+					if ( types[i] == "bool" )
+						file << "false";
+				}
+				else
+					file << "NULL";
+			}
 
 			file << ";\n";
 		}
@@ -646,7 +665,7 @@ void set_data( string name, string parameters[], string types[], int num_paramet
 
 	}
 
-	file << "\n		this->is_empty = true;\n";
+	file << "\n		this->is_empty = false;\n";
 	
 	file << "	}\n\n";
 

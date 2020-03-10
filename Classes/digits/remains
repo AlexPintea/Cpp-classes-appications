@@ -1,0 +1,46 @@
+// digits of double ( imprecise )
+void digits ( double a, int num_digits[], int precision )
+{
+	long a_int = (long) a;
+
+	digits ( a_int, num_digits );
+
+	a = a - a_int;
+
+	int empties = 0; // 0-s of 1.0004
+	for ( int i=0; i<precision; i=i+1 )
+	{
+		a = a * 10;
+
+		if ( (int) a == 0 )
+			empties = empties + 1;
+	}
+
+	int size_num_digits = length( num_digits );
+
+	long a_decimals = (long) a;
+	int size_decimals = length( a_decimals );
+
+	int decimals[1000];
+
+	for ( int i=0; i<size_decimals; i=i+1 )
+	{
+		decimals[ size_decimals - i - 1 ] = a_decimals%10;
+		a_decimals = a_decimals / 10;
+	}
+
+	for ( int i=size_num_digits; i<size_num_digits + empties + size_decimals; i=i+1 )
+	{
+		int l=0;
+
+		if ( i - size_num_digits < empties )
+			num_digits[i] = 0;
+		else
+		{
+			num_digits[i] = decimals[ l ];
+			l = l + 1;
+		}
+	}
+
+}
+

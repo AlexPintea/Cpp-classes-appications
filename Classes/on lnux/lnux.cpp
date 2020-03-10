@@ -143,6 +143,15 @@ void clear ()
 	command_linux( command );
 }
 
+// modify intensity
+void xrandr ( string name, int bright_int, int bright_decimals )
+{
+	string command = "xrandr --output " + name + " --brightness ";
+	command = command + int_to_char( bright_int ) + "." + int_to_char( bright_decimals );
+
+	command_linux( command );
+}
+
 
 int main ()
 {

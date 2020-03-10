@@ -5,6 +5,11 @@
 using namespace std;
 
 
+
+// !check for ' '
+
+
+
 // length of a char[]
 
 

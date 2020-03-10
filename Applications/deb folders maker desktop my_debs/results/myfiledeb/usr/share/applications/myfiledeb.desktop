@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Myfiledeb
+Exec=gnome-terminal -e /usr/my_debs/myfiledeb
+Icon=utilities-terminal
+Type=Application

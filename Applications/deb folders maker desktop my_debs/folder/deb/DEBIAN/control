@@ -1,0 +1,6 @@
+Package: deb
+Version: 1.7
+Architecture: all
+Installed-Size: 1024
+Maintainer: deb
+Description: deb

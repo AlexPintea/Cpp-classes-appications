@@ -992,6 +992,88 @@ void add_correlated( string a[], string b[] )
 }
 
 
+// Usual words in save files
+// ( each word in words correlates to either more contextual save files 
+// or to more files that are not contextual with the file it is in )
+// words are added to usual words if the case.
+
+
+// counts words that in both  a[]  and  b[]  
+int common_words_count ( string a[], string b[] )
+{
+	int size_a = length( a );
+	int size_b = length( b );
+
+	int counter = 0;
+
+	for ( int i=0; i<size_a; i=i+1 )
+		for ( int l=0; l<size_b; l=l+1 )
+			if ( a[i] == b[i] )
+				counter = counter + 1;
+
+	return counter;
+}
+
+// is more usual or more contextual
+void compare_usual_senseful ( string words[] )
+{
+
+	int size_words = length( words );
+
+	for ( int l=0; l<size_words; l=l+1 )
+	{
+		string word = words[l]; // for every word
+
+		int context_iter = 0; // word makes sense in context
+		int usual_iter = 0; // word might be usual
+
+		for ( int i=0; i<files_iter; i=i+1 )
+		{
+
+			if ( is_considered( i ) )
+			{
+				// get words of a save file
+				fstream f;
+				f.open( save_file_strings[i] );
+
+				string saved_words[1000];
+				int iter;
+				f >> iter;
+
+				for ( int l=0; l<iter; l=l+1 )
+					f >> saved_words[l];
+
+				f.close();
+
+
+
+				// add words of file, if they correlate
+				if ( is_in_words( saved_words, word ) )
+				{
+					// files correlate if they > 5 common words
+					if ( common_words_count( words, saved_words ) > 5 )
+						context_iter = context_iter + 1;
+					else
+						usual_iter = usual_iter + 1;
+				}
+
+
+				// empty  saved_words  
+				empty_words( saved_words );
+			}
+		}
+
+		// word is usual, since it is in more files that are not related to its file
+		// compared to in how many related files it is in.
+		if ( context_iter + 2 < usual_iter )
+		{
+			add_usual_word( word );
+			remove_word( words, word );
+		}
+
+	}
+}
+
 
 // Choices
 
@@ -2003,6 +2085,8 @@ int main()
 					edit_words( words );
 
 					clear_usual_words( words );
+
+					compare_usual_senseful( words );
 
 					if ( length( words ) > 0 )
 					{

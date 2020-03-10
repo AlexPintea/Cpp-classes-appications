@@ -1,0 +1,17 @@
+words string   this is that is is that is text 
+numerics double   24 1 27 
+chars char   @= ^@
+a_long long   1 9 3 2 4 
+a_int int   10 9 3 2 4 
+a_bool bool   true 
+a_double double   1.07 9.1 -3.024 2.0099999 4.1 
+a_float float   1.7 9.1 3.0239999 2.0099999 4.0999999 
+a_char char   a b l r 
+a_string string   ab b l r 
+long_a long   19999 
+int_a int   142 
+bool_a bool   true 
+double_a double   1.42 
+float_a float   -14.1999998 
+char_a char   b 
+string_a string   String of "a". 

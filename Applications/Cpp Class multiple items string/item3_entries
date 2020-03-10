@@ -1,4 +1,7 @@
-1
-parameter[10] parameter2[10] parameter1[10] 
-int float char 
-  2  1 0     3  1.09 2.31 0.9     3  a b l   
+4
+parameter parameter2[70] parameter1 
+int float bool 
+1   5  40 3 4 2 2   1 
+41   3  2 2 4   1 
+6   3  2 4 4   1 
+1   7  3 2 55 3 34 23 2   1 

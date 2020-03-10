@@ -1071,8 +1071,189 @@ void set ( char a )
 
 
 
+
+// set_get
+
+
+
+
+// clears
+void clear ( int num )
+{
+	for ( int i=0; i<num; i=i+1 )
+		cout << "\b";
+}
+
+// get a string
+void set_get ( string set, string &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	getline( cin, get );
+	if ( get == "" )
+		getline( cin, get );
+}
+
+// get a long
+void set_get ( string set, long &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_long( get_string ) )
+		get = string_to_long( get_string );
+	else
+		get = -1; // if get_string was !long
+}
+
+// get a int
+void set_get ( string set, int &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_int( get_string ) )
+		get = string_to_int( get_string );
+	else
+		get = -1; // if get_string was !int
+}
+
+// get a double
+void set_get ( string set, double &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_double( get_string ) )
+		get = string_to_double( get_string );
+	else
+		get = -1; // if get_string was !double
+}
+
+// get a float
+void set_get ( string set, float &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_float( get_string ) )
+		get = string_to_float( get_string );
+	else
+		get = -1; // if get_string was !float
+}
+
+// get a char
+void set_get ( string set, char &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_char( get_string ) )
+		get = string_to_char( get_string );
+	else
+		get = -1; // if get_string was !char
+}
+
+// get a bool
+void set_get ( string set, bool &get )
+{
+	set = "          = ( " + set + " )";
+
+	cout << set;
+
+	clear( set.length() );
+
+	string get_string;
+
+	getline( cin, get_string );
+	if ( get_string == "" )
+		getline( cin, get_string );
+
+	if ( is_bool( get_string ) )
+		get = string_to_bool( get_string );
+	else
+		get = -1; // if get_string was !bool
+}
+
+
 int main ()
 {
+
+	// set_get
+
+	int a_int;
+	set_get( "a_int", a_int );
+	cout << a_int << "\n\n";
+
+	long a_long;
+	set_get( "a_long", a_long );
+	cout << a_long << "\n\n";
+
+	double a_double;
+	set_get( "a_double", a_double );
+	cout << a_double << "\n\n";
+
+	float a_float;
+	set_get( "a_float", a_float );
+	cout << a_float << "\n\n";
+
+	char a_char;
+	set_get( "a_char", a_char );
+	cout << a_char << "\n\n";
+
+	bool a_bool;
+	set_get( "a_bool", a_bool );
+	cout << a_bool << "\n\n";
+
 
 	// strings
 
