@@ -25,17 +25,44 @@ void replace_spaces( string &a )
 			a[i] = '_';
 }
 
-// is in string[]
-bool is_in_strings ( string words[], string word )
+void replace_spaces_virtual( string &a )
 {
-	int size = length( words );
+	int size = a.length();
 
 	for ( int i=0; i<size; i=i+1 )
-		if ( word == words[i] )
+		if ( a[i] == ' ' )
+			a[i] = '&';
+}
+
+string add_spaces_virtual ( string a )
+{
+	int size = a.length();
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( a[i] == '&' )
+			a[i] = ' ';
+
+	return a;
+}
+
+bool is_word ( string words[], string word )
+{
+	for ( int i=0; i<length( words ); i=i+1 )
+		if ( words[i] == word )
 			return true;
 
 	return false;
 }
+
+int word_pos ( string words[], string word )
+{
+	for ( int i=0; i<length( words ); i=i+1 )
+		if ( words[i] == word )
+			return i;
+
+	return -1;
+}
+
 
 // to continue
 void continues ()
@@ -48,7 +75,6 @@ void continues ()
 //	string empty; // to continue
 //	getline( cin, empty ); // only if the case
 }
-
 
 
 
@@ -68,6 +94,8 @@ struct Class
 	string inheritance = "";
 	int num_inheritors = 0;
 	string inheritors[1000];
+	int num_virtuals = 0;
+	string virtuals[1000];
 } classes[1000];
 
 int classes_iter = 0;
@@ -97,7 +125,6 @@ void get_classes()
 		classes_iter = 0;
 		make_classes_file();
 	}
-
 	for ( int i=0; i<classes_iter; i=i+1 )
 	{
 		fi >> classes[i].name;
@@ -111,6 +138,33 @@ void get_classes()
 
 		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
 			fi >> classes[i].inheritors[l];
+
+
+		fi >> classes[i].num_virtuals;
+
+		for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+		{
+			classes[i].virtuals[l] = "";
+
+			char temp;
+			while ( fi >> temp )
+				if ( temp == '[' )
+					break;
+
+			while ( fi >> temp )
+				if ( temp != '[' )
+					break;
+
+			classes[i].virtuals[l] = classes[i].virtuals[l] + temp;
+
+			while ( fi >> temp )
+			{
+				if ( temp == ']' )
+					break;
+
+				classes[i].virtuals[l] = classes[i].virtuals[l] + temp;
+			}
+		}
 	}
 
 	fi.close();
@@ -139,6 +193,17 @@ void set_classes()
 		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
 			fo << classes[i].inheritors[l] << " ";
 
+		fo << classes[i].num_virtuals << "  ";
+
+		for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+		{
+			if ( classes[i].virtuals[l][0] != '[' )
+				fo << '[';
+			fo << classes[i].virtuals[l];
+			if ( classes[i].virtuals[l][ classes[i].virtuals[l].length() - 1 ] != ']' )
+				fo << "] ";
+		}
+
 		fo << "\n";
 	}
 
@@ -157,13 +222,23 @@ bool is_class_added ( string a )
 	return false;
 }
 
+bool show_remove = true;
+
+void remove_class( int iter );
+
 void add_class( Class a )
 {
+	get_classes();
 
 	if ( is_class_added(a.name) )
 	{
-		cout << "Class name \"" << a.name << "\" already added.\n";
-		return;
+		for ( int i=0; i<classes_iter; i=i+1 )
+			if ( a.name == classes[i].name )
+			{
+				show_remove = false;
+				remove_class(i);
+				show_remove = true;
+			}
 	}
 
 
@@ -187,6 +262,17 @@ void add_class( Class a )
 		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
 			fo << classes[i].inheritors[l] << " ";
 
+		fo << classes[i].num_virtuals << "  ";
+
+		for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+		{
+			if ( classes[i].virtuals[l][0] != '[' )
+				fo << '[';
+			fo << classes[i].virtuals[l];
+			if ( classes[i].virtuals[l][ classes[i].virtuals[l].length() - 1 ] != ']' )
+				fo << "] ";
+		}
+
 		fo << "\n";
 	}
 
@@ -202,6 +288,18 @@ void add_class( Class a )
 	for ( int l=0; l<a.num_inheritors; l=l+1 )
 		fo << a.inheritors[l] << " ";
 
+	fo << a.num_virtuals << "   ";
+
+	for ( int l=0; l<a.num_virtuals; l=l+1 )
+	{
+		replace_spaces_virtual( a.virtuals[l] );
+		
+		if ( a.virtuals[l][0] != '[' )
+			fo << '[';
+		fo << a.virtuals[l];
+		if ( a.virtuals[l][ a.virtuals[l].length() - 1 ] != ']' )
+			fo << "] ";
+	}
 
 	fo.close();
 
@@ -250,6 +348,19 @@ void remove_class( int iter )
 			if ( classes[iter].name != classes[i].inheritors[l] )
 				fo << classes[i].inheritors[l] << " ";
 
+
+
+		fo << classes[i].num_virtuals << "  ";
+
+		for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+		{
+			if ( classes[i].virtuals[l][0] != '[' )
+				fo << '[';
+			fo << classes[i].virtuals[l];
+			if ( classes[i].virtuals[l][ classes[i].virtuals[l].length() - 1 ] != ']' )
+				fo << "] ";
+		}
+
 		fo << "\n";
 	}
 
@@ -257,8 +368,11 @@ void remove_class( int iter )
 
 	get_classes();
 
-	cout << "Class removed.\n";
-	continues();
+	if ( show_remove )
+	{
+		cout << "Class removed.\n";
+		continues();
+	}
 }
 
 void show_classes()
@@ -269,7 +383,7 @@ void show_classes()
 	{
 		cout << i + 1 << ") " << classes[i].name;
 
-		if ( !classes[i].inherits and classes[i].num_inheritors == 0 )
+		if ( !classes[i].inherits and classes[i].num_inheritors == 0 and classes[i].num_virtuals == 0 )
 		{
 			cout << "\n";
 			continue;
@@ -277,21 +391,30 @@ void show_classes()
 
 		cout << ":   ";
 		if ( classes[i].inherits )
-			cout << "  Inherits = " << classes[i].inheritance << "   ";
+			cout << "   Inherits = " << classes[i].inheritance << "   ";
 
-		if ( classes[i].num_inheritors == 0 )
+		if ( classes[i].num_inheritors != 0 )
 		{
-			cout << "\n";
-			continue;
+			cout << " Inheritors = ";
+			for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
+			{
+				cout << classes[i].inheritors[l];
+				if ( l != classes[i].num_inheritors - 1 )
+					cout << ", ";
+			}
 		}
 
-		cout << "  Inheritors = ";
-		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
+		if ( classes[i].num_virtuals != 0 )
 		{
-			cout << classes[i].inheritors[l];
-			if ( l != classes[i].num_inheritors - 1 )
-				cout << ", ";
+			cout << " Virtuals = ";
+			for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+			{
+				cout << add_spaces_virtual( classes[i].virtuals[l] );
+				if ( l != classes[i].num_virtuals - 1 )
+					cout << ", ";
+			}
 		}
+
 		cout << "\n";
 	}
 
@@ -337,9 +460,9 @@ void add_inheritance( int iter, string inheritance_string )
 
 void add_inheritor( int iter, string inheritor_string )
 {
-	if ( iter < 0 or iter >= classes_iter )
+	if ( is_word( classes[iter].inheritors, inheritor_string ) )
 	{
-		cout << "Class num. invalid.\n";
+		cout << "Inheritor already added.\n";
 		continues();
 		return;
 	}
@@ -364,6 +487,30 @@ void remove_string ( string words[], string word )
 	for ( int i=0; i<size; i=i+1 )
 	{
 		if ( words[i] != word )
+		{
+			result[ size_result ] = words[i];
+			size_result = size_result + 1;
+		}
+	}
+	result[ size_result ] = "";
+
+	for ( int i=0; i<size; i=i+1 )
+		words[i] = "";
+
+	for ( int i=0; i<size_result; i=i+1 )
+		words[i] = result[i];
+}
+
+void remove_string_iter ( string words[], int iter )
+{
+	int size = length( words );
+
+	string result[1000];
+	int size_result = 0;
+
+	for ( int i=0; i<size; i=i+1 )
+	{
+		if ( i != iter )
 		{
 			result[ size_result ] = words[i];
 			size_result = size_result + 1;
@@ -426,29 +573,78 @@ void remove_inheritor ( int iter, string inheritor_name )
 
 
 
+
+// Virtual
+
+
+
+
+
+
+
+void add_virtual( int iter, string virtual_string )
+{
+	if ( is_word( classes[iter].virtuals, virtual_string ) )
+	{
+		cout << "Virtual already added.\n";
+		continues();
+		return;
+	}
+
+
+	int is_virtual = 0;
+	for ( int i=0; i<virtual_string.length(); i=i+1 )
+		if ( virtual_string[i] == '(' or virtual_string[i] == ')'  )
+			is_virtual = is_virtual + 1;
+
+	if ( is_virtual < 2 )
+	{
+		cout << "Invalid. Retry.\n";
+		continues();
+		return;
+	}
+
+	classes[ iter ].virtuals[ classes[ iter ].num_virtuals ] = virtual_string;
+	classes[ iter ].num_virtuals = classes[ iter ].num_virtuals + 1;
+
+	set_classes();
+
+	cout << "Virtual added.\n";
+	continues();
+}
+
+void remove_virtual ( int iter, string virtual_name )
+{
+	bool is_virtual_name = false;
+	for ( int i=0; i<classes[ iter ].num_virtuals; i=i+1 )
+		if ( classes[ iter ].virtuals[i] == virtual_name )
+			is_virtual_name = true;
+
+	if ( is_virtual_name == false )
+	{
+		cout << "Virtual not available for removal.\n";
+		continues();
+		return;		
+	}
+
+	remove_string( classes[ iter ].virtuals, virtual_name );
+
+	classes[ iter ].num_virtuals = classes[ iter ].num_virtuals - 1;
+
+	set_classes();
+
+	cout << "Virtual removed.\n";
+	continues();
+}
+
+
+
+
+
 // Scan class
 
 
 
-
-
-bool is_word ( string words[], string word )
-{
-	for ( int i=0; i<length( words ); i=i+1 )
-		if ( words[i] == word )
-			return true;
-
-	return false;
-}
-
-int word_pos ( string words[], string word )
-{
-	for ( int i=0; i<length( words ); i=i+1 )
-		if ( words[i] == word )
-			return i;
-
-	return -1;
-}
 
 
 // move words of   string text   into   words[]
@@ -471,7 +667,8 @@ void move_words ( string text, string words[] )
 			words[ words_iter ] = "";
 		}
 		else
-			words[ words_iter ] = words[ words_iter ] + text[i];
+			if ( text[i] != '	')
+				words[ words_iter ] = words[ words_iter ] + text[i];
 }
 
 bool is_char ( string a, char b )
@@ -483,7 +680,7 @@ bool is_char ( string a, char b )
 	return false;
 }
 
-void scan_class ( string filename )
+void scan_class ( string &filename )
 {
 	bool is_class_name = false;
 
@@ -560,6 +757,49 @@ void scan_class ( string filename )
 			a.inheritance = inheritance[i];
 		}
 
+
+		fi.open ( filename );
+
+		temp = "";
+
+		a.num_virtuals = 0;
+
+		while ( getline( fi, temp ) )
+		{
+			move_words( temp, temps );
+
+			if ( is_word( temps, a.name ) )
+			{
+				while ( getline( fi, temp ) )
+				{
+					if ( is_word( temps, name[ i + 1 ] ) ) 
+						break;
+
+					move_words( temp, temps );
+
+					if ( is_word( temps, "virtual" ) and is_word( temps, "=" ) )
+					{
+						int k=0;
+						a.virtuals[ a.num_virtuals ] = "["; 
+						while ( temps[k] != "=" )
+						{
+							if ( temps[k] != "virtual" )
+								a.virtuals[ a.num_virtuals ] = a.virtuals[ a.num_virtuals ] + temps[k] + ' ';
+							k = k + 1;
+						}
+
+						a.virtuals[ a.num_virtuals ][ a.virtuals[ a.num_virtuals ].length() - 1 ] = ']';
+
+						replace_spaces_virtual( a.virtuals[ a.num_virtuals ] );
+
+						a.num_virtuals = a.num_virtuals + 1;
+					}
+				}
+			}
+		}
+
+		fi.close();
+
 		add_class(a);
 	}
 }
@@ -573,7 +813,7 @@ void scan_class ( string filename )
 
 
 string valid_choices[1000] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "exit" };
-string choices[1000]= { "Add Class", "Add Inheritance", "Add Inheritor", "Remove Class", "Remove Inheritance", "Remove Inheritor", "Show Classes" };
+string choices[1000]= { "Add Class", "Add Inheritance", "Add Inheritor", "Remove Class", "Remove Inheritance", "Remove Inheritor", "Show Classes", "Add Virtual", "Remove Virtual" };
 
 
 string choice = "";
@@ -608,6 +848,8 @@ void spaces ( int iter )
 // gets choice
 void get_choice ()
 {
+	cout << "printf \033c";
+
 	cout << "Choices:";
 
 	for ( int i=0; i<length( choices ); i=i+1 )
@@ -618,7 +860,7 @@ void get_choice ()
 		spaces( i );
 	}
 
-	cout << "\n\n  exit. Exits\n\n";
+	cout << "\n\n  exit. Exits to file \"class\"\n\n";
 
 	cout << "Your choice: ";
 	getline( cin, choice );
@@ -631,7 +873,7 @@ void get_choice ()
 		return;
 	}
 
-	if ( !is_in_strings( valid_choices, choice ) )
+	if ( !is_word( valid_choices, choice ) )
 	{
 		cout << "Invalid choice. Retry.\n\n";
 		choice = "";
@@ -646,8 +888,8 @@ void get_choice ()
 	{
 
 		string choice_get;
-		cout << "\n1. Enter class name and inheritance.\n";
-		cout << "2. Scan a file.\n";
+		cout << "\nChoices for classes:\n1. Enter class name and inheritance.\n";
+		cout << "2. Scan a file.\n\n";
 
 		cout << "Your choice: ";
 		getline( cin, choice_get );
@@ -712,7 +954,6 @@ void get_choice ()
 		if ( choice_inheritors != "y" )
 		{
 			add_class(a);
-			cout << "Class \"" << a.name << "\" added.\n";
 			continues();
 
 			cout << "printf \033c";
@@ -732,12 +973,55 @@ void get_choice ()
 			replace_spaces( a.inheritors[l] );
 		}
 
+		bool have_more = false;
+		for ( int l=0; l<a.num_inheritors - 1; l=l+1 )
+			for ( int k = l + 1; k<a.num_inheritors; k=k+1 )
+				if ( a.inheritors[k] == a.inheritors[l] )
+				{
+					have_more = true;
+					remove_string_iter(  a.inheritors, k );
+					a.num_inheritors = a.num_inheritors - 1;
+				}
+
+		if ( have_more )
+			cout << "Removed inheritors with same name.\n";
+
+		
+		cout << "Virtuals num.:";
+		cin >> a.num_virtuals;
+
+		if ( a.num_virtuals > 0 )
+			cout << "Example: \"void b ( int a )\"\n";
+
+		if ( a.num_virtuals < 0 )
+		{
+			cout << "Invalid virtuals num.\n";
+			continues();
+			return;
+		}
+
+		for ( int i=0; i<a.num_virtuals; i=i+1 )
+		{
+			cout << "Virtual num. " << i + 1 << ": ";
+			getline( cin, a.virtuals[i] );
+			while ( a.virtuals[i] == "" )
+				getline( cin, a.virtuals[i] );
+		}
+
 		add_class(a);
 		continues();
 	}
 
 	if ( choice == "2" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 
 		int iter;
@@ -766,6 +1050,14 @@ void get_choice ()
 
 	if ( choice == "3" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 
 		int iter;
@@ -793,6 +1085,14 @@ void get_choice ()
 
 	if ( choice == "4" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 
 		int iter;
@@ -814,6 +1114,14 @@ void get_choice ()
 
 	if ( choice == "5" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 
 		int iter;
@@ -834,6 +1142,14 @@ void get_choice ()
 
 	if ( choice == "6" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 
 		int iter;
@@ -863,10 +1179,102 @@ void get_choice ()
 
 	if ( choice == "7" )
 	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
 		show_classes();
 		continues();
 	}
 
+
+	if ( choice == "8" )
+	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
+		show_classes();
+
+		int iter;
+		cout << "Num. of class to add completly virtual to: ";
+		cin >> iter;
+
+		iter = iter - 1;
+
+		if ( iter < 0 or iter >= classes_iter )
+		{
+			cout << "Class num. invalid. Retry.\n";
+			continues();
+			return;
+		}
+
+		string virtual_string;
+		cout << "Comp. Virtual name to add ( Example: \"void b ( int a )\" ): ";
+		getline( cin, virtual_string );
+		getline( cin, virtual_string );
+
+		replace_spaces_virtual( virtual_string );
+
+		add_virtual( iter, virtual_string );
+
+	}
+
+	if ( choice == "9" )
+	{
+		if ( classes_iter <= 0 )
+		{
+			cout << "Classes not made yet.\n";
+			continues();
+			return;
+		}
+
+
+		show_classes();
+
+		int iter;
+		cout << "Num. of class to remove completly virtual of: ";
+		cin >> iter;
+
+		iter = iter - 1;
+
+		if ( iter < 0 or iter >= classes_iter )
+		{
+			cout << "Class num. invalid. Retry.\n";
+			continues();
+			cout << "printf \033c";
+			return;
+		}
+
+		int virtual_choice;
+		for ( int l=0 ;l<classes[iter].num_virtuals; l=l+1 )
+			cout << l + 1 << ") " << add_spaces_virtual( classes[iter].virtuals[l] ) << "\n";
+
+		cout << "\nNum. of virtual: ";
+		cin >> virtual_choice;
+
+		virtual_choice = virtual_choice - 1;
+
+		if ( virtual_choice < 0 or virtual_choice >= classes[iter].num_virtuals )
+		{
+			cout << "Invalid virtual num. Retry.\n";
+			continues();
+			cout << "printf \033c";
+			return;
+		}
+
+		string virtual_string = classes[ iter ].virtuals[ virtual_choice ];
+
+		remove_virtual( iter, virtual_string );
+	}
 
 	if ( choice == "exit" )
 		return;
@@ -881,6 +1289,6 @@ int main ()
 	while ( choice != "exit" )
 		get_choice();
 
-	cout << "\nExited.\n";
+	cout << "\nExited to file \"class\".\n";
 	return 0;
 }

@@ -1,3 +1,0 @@
-# Applications
-
-Applications I made:

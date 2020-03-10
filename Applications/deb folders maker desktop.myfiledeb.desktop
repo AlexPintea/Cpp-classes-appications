@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Deb folders maker desktop.myfiledeb
-Exec=gnome-terminal -e /usr/my_debs/deb folders maker desktop.myfiledeb
-Icon=utilities-terminal
-Type=Application

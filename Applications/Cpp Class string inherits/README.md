@@ -1,4 +1,4 @@
-# Cpp Class string brackets
+# Cpp Class string inherits
 
 Makes a Cpp Class and stores class items.
 
@@ -6,4 +6,6 @@ Makes a Cpp Class and stores class items.
 - a string of variable names
 - a string with their types
 
-"brackets" means that it is able to define arrays of any size.
+"inherits" means that it is able to define what the class it makes inherits. 
+
+- it is able to define arrays of any size.

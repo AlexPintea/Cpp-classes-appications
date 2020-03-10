@@ -542,6 +542,7 @@ void get_data_1( string &name, string parameters[], string types[], int &num_par
 	cout << "Name: ";
 	std::getline(cin, name);
 
+	replace_space( name );
 
 	cout << "You are editing: " << name << ".cpp\n\n";
 
@@ -597,6 +598,7 @@ void get_data_2 ( string &name, string parameters[], string types[], int &num_pa
 	cout << "Name: ";
 	std::getline(cin, name);
 
+	replace_space( name );
 
 	cout << "You are editing: " << name << ".cpp\n\n";
 

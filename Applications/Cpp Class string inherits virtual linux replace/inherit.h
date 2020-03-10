@@ -222,13 +222,19 @@ bool is_class_added ( string a )
 	return false;
 }
 
+
+void remove_class( int iter );
+
 void add_class( Class a )
 {
 
+	get_classes();
+
 	if ( is_class_added(a.name) )
 	{
-		cout << "Class name \"" << a.name << "\" already added.\n";
-		return;
+		for ( int i=0; i<classes_iter; i=i+1 )
+			if ( a.name == classes[i].name )
+				remove_class(i);
 	}
 
 
@@ -295,7 +301,7 @@ void add_class( Class a )
 
 	get_classes();
 
-	cout << "Class \"" << a.name << "\" added.\n";
+	cout << "Class \"" << a.name << "\" added to inheritances.\n";
 }
 
 void remove_class( int iter )
@@ -358,8 +364,6 @@ void remove_class( int iter )
 
 	get_classes();
 
-	cout << "Class removed.\n";
-	continues();
 }
 
 void show_classes()
@@ -669,39 +673,13 @@ bool is_char ( string a, char b )
 
 void scan_class ( string &filename )
 {
-	bool is_class_name = false;
 
 
-	string name[1000];
-	string inheritance[1000];
-	int name_iter = 0;
+	string name;
+	string inheritance;
 
 
 	ifstream fi;
-
-	// makes file with '_' instead of ' '
-	if ( is_char( filename, ' ' ) )
-	{
-		fi.open( filename );
-
-		string temp;
-		string file = "";
-		while ( getline( fi, temp ) )
-			file = file + temp + "\n";
-
-		fi.close();
-
-		replace_spaces( filename );
-
-		// makes the file
-		ofstream fo;
-		fo.open( filename );
-		fo.close();
-
-		fo.open( filename );
-		fo << file;
-		fo.close();
-	}
 
 	fi.open( filename );
 
@@ -713,82 +691,105 @@ void scan_class ( string &filename )
 
 		if ( is_word( temps, "class" ) )
 		{
-			name[ name_iter ] = temps[ word_pos( temps, "class" ) + 1 ];
+			name = temps[ word_pos( temps, "class" ) + 1 ];
 
 			if ( is_word( temps, "public" ) )
-				inheritance[ name_iter ] = temps[ word_pos( temps, "public" ) + 1 ];
+				inheritance = temps[ word_pos( temps, "public" ) + 1 ];
 			else
-				inheritance[ name_iter ] = "";
-
-			name_iter = name_iter + 1;
+				inheritance = "";
 		}
 	}
 
 	fi.close();
 
-	if ( name_iter == 0 )
+
+	Class a;
+	a.name = name;
+	a.inherits = false;
+	if ( inheritance != "" )
 	{
-		cout << "File does not have valid classes / Filename not valid.\n";
-		continues();
-		return;
+		a.inherits = true;
+		a.inheritance = inheritance;
 	}
 
-	for ( int i=0; i<name_iter; i=i+1 )
+
+	fi.open ( filename );
+
+	temp = "";
+
+	a.num_virtuals = 0;
+
+	while ( getline( fi, temp ) )
 	{
-		Class a;
-		a.name = name[i];
-		a.inherits = false;
-		if ( inheritance[i] != "" )
+		move_words( temp, temps );
+
+		if ( is_word( temps, "virtual" ) )
 		{
-			a.inherits = true;
-			a.inheritance = inheritance[i];
-		}
 
-
-		fi.open ( filename );
-
-		temp = "";
-
-		a.num_virtuals = 0;
-
-		while ( getline( fi, temp ) )
-		{
-			move_words( temp, temps );
-
-			if ( is_word( temps, a.name ) )
+			int k=0;
+			a.virtuals[ a.num_virtuals ] = "["; 
+			while ( temps[k] != "=" )
 			{
-				while ( getline( fi, temp ) )
-				{
-					if ( is_word( temps, name[ i + 1 ] ) ) 
-						break;
-
-					move_words( temp, temps );
-
-					if ( is_word( temps, "virtual" ) and is_word( temps, "=" ) )
-					{
-						int k=0;
-						a.virtuals[ a.num_virtuals ] = "["; 
-						while ( temps[k] != "=" )
-						{
-							if ( temps[k] != "virtual" )
-								a.virtuals[ a.num_virtuals ] = a.virtuals[ a.num_virtuals ] + temps[k] + ' ';
-							k = k + 1;
-						}
-
-						a.virtuals[ a.num_virtuals ][ a.virtuals[ a.num_virtuals ].length() - 1 ] = ']';
-
-						replace_spaces_virtual( a.virtuals[ a.num_virtuals ] );
-
-						a.num_virtuals = a.num_virtuals + 1;
-					}
-				}
+				if ( temps[k] != "virtual" )
+					a.virtuals[ a.num_virtuals ] = a.virtuals[ a.num_virtuals ] + temps[k] + ' ';
+				k = k + 1;
 			}
+
+			a.virtuals[ a.num_virtuals ][ a.virtuals[ a.num_virtuals ].length() - 1 ] = ']';
+
+			replace_spaces_virtual( a.virtuals[ a.num_virtuals ] );
+
+			a.num_virtuals = a.num_virtuals + 1;
+		}
+	}
+	
+	fi.close();
+
+	add_class(a);
+
+
+
+	for ( int i=0; i<classes_iter; i=i+1 )
+		if ( classes[i].name == inheritance and classes[i].num_virtuals != 0 )
+		{
+			fi.open( filename );
+
+			string file = "";
+	
+			temp = "";
+			while ( getline( fi, temp ) )
+			{
+				if ( temp[0] == '}' and temp[1] == ';' )
+					break;
+
+				file = file + temp + "\n";
+			}
+
+			fi.close();			
+
+			// clears the file
+			ofstream fo;
+			fo.open( filename );
+			fo.close();
+
+
+			fo.open( filename );
+			
+			fo << file;
+
+			for ( int l=0; l<classes[i].num_virtuals; l=l+1 )
+			{
+				fo << "	" << add_spaces_virtual( classes[i].virtuals[l] ) << "\n";
+				fo << "	{\n";
+				fo << "		// inherited, please implement\n";
+				fo << "	}\n\n";
+			}
+
+			fo << "\n};\n\n\nint main()\n{\n\n	return 0;\n}\n";
+
+			fo.close();
 		}
 
-		fi.close();
-
-		add_class(a);
-	}
 }
 
 
@@ -797,485 +798,3 @@ void scan_class ( string &filename )
 
 
 
-
-
-string valid_choices[1000] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "exit" };
-string choices[1000]= { "Add Class", "Add Inheritance", "Add Inheritor", "Remove Class", "Remove Inheritance", "Remove Inheritor", "Show Classes", "Add Virtual", "Remove Virtual" };
-
-
-string choice = "";
-
-
-// makes columns with your choices
-void spaces ( int iter )
-{
-	int size = length( choices );
-
-	int max_length = 0;
-
-	for ( int i=0; i<size; i=i+1 )
-		if ( i % 3 == iter % 3 )
-		{
-			string temp = valid_choices[i] + ". " + choices[i];
-
-			if ( temp.length() > max_length )
-				max_length = temp.length();
-		}
-
-	max_length = max_length + 2;
-
-	string entry = valid_choices[iter] + ". " + choices[iter];
-	int entry_size = entry.length();
-
-	for ( int i=entry_size; i<max_length; i=i+1 )
-		cout << " ";
-}
-
-
-// gets choice
-void get_choice ()
-{
-	cout << "printf \033c";
-
-	cout << "Choices:";
-
-	for ( int i=0; i<length( choices ); i=i+1 )
-	{
-		if ( i % 3 == 0 )
-			cout << "\n    ";
-		cout << valid_choices[i] << ". " << choices[i];
-		spaces( i );
-	}
-
-	cout << "\n\n  exit. Exits\n\n";
-
-	cout << "Your choice: ";
-	getline( cin, choice );
-//	if ( i == 0 ) // only if the case
-//		getline( cin, choice );
-
-	if ( choice == "" )
-	{
-		cout << "printf \033c";
-		return;
-	}
-
-	if ( !is_word( valid_choices, choice ) )
-	{
-		cout << "Invalid choice. Retry.\n\n";
-		choice = "";
-		continues();
-		cout << "printf \033c";
-		return;
-	}
-
-
-
-	if ( choice == "1" )
-	{
-
-		string choice_get;
-		cout << "\nChoices for classes:\n1. Enter class name and inheritance.\n";
-		cout << "2. Scan a file.\n\n";
-
-		cout << "Your choice: ";
-		getline( cin, choice_get );
-
-		if ( choice_get == "2" )
-		{
-			string filename;
-			cout << "Filename in this folder ( spaces are to be removed ): ";
-			getline( cin, filename );
-
-			scan_class ( filename );
-
-			continues();
-			cout << "printf \033c";
-			return;
-		}
-
-		if ( choice_get != "1" )
-		{
-			cout << "Invalid choice. Retry.\n";	
-			continues();
-
-			cout << "printf \033c";
-			return;
-		}
-
-		Class a;
-
-		cout << "Class name: ";
-		getline( cin, a.name );
-		replace_spaces( a.name );
-
-
-
-		if ( is_class_added(a.name) )
-		{
-			cout << "Class name already added.\n";
-			continues();
-
-			cout << "printf \033c";
-			return;
-		}
-
-
-
-		cout << "Class inherits ( y / n ): ";
-
-		string choice_inherits;
-		getline( cin, choice_inherits );
-		if ( choice_inherits == "y" )
-			a.inherits = true;
-		if ( a.inherits )
-		{
-			cout << "Class it inherits: ";
-			getline( cin, a.inheritance );
-			replace_spaces( a.inheritance );
-		}
-
-		string choice_inheritors;
-		cout << "Class has inheritors ( y / n ): ";
-		getline( cin, choice_inheritors );
-		if ( choice_inheritors != "y" )
-		{
-			add_class(a);
-			continues();
-
-			cout << "printf \033c";
-			return;
-		}
-
-		cout << "Class inheritors num.: ";
-		cin >> a.num_inheritors;
-
-		for ( int l=0; l<a.num_inheritors; l=l+1 )
-		{
-			cout << "Inheritor " << l + 1 << " name: ";
-			getline( cin, a.inheritors[l] );
-			if ( a.inheritors[l] == "" )
-				getline( cin, a.inheritors[l] );
-
-			replace_spaces( a.inheritors[l] );
-		}
-
-		bool have_more = false;
-		for ( int l=0; l<a.num_inheritors - 1; l=l+1 )
-			for ( int k = l + 1; k<a.num_inheritors; k=k+1 )
-				if ( a.inheritors[k] == a.inheritors[l] )
-				{
-					have_more = true;
-					remove_string_iter(  a.inheritors, k );
-					a.num_inheritors = a.num_inheritors - 1;
-				}
-
-		if ( have_more )
-			cout << "Removed inheritors with same name.\n";
-
-		
-		cout << "Virtuals num.:";
-		cin >> a.num_virtuals;
-
-		if ( a.num_virtuals > 0 )
-			cout << "Example: \"void b ( int a )\"\n";
-
-		if ( a.num_virtuals < 0 )
-		{
-			cout << "Invalid virtuals num.\n";
-			continues();
-			return;
-		}
-
-		for ( int i=0; i<a.num_virtuals; i=i+1 )
-		{
-			cout << "Virtual num. " << i + 1 << ": ";
-			getline( cin, a.virtuals[i] );
-			while ( a.virtuals[i] == "" )
-				getline( cin, a.virtuals[i] );
-		}
-
-		add_class(a);
-		continues();
-	}
-
-	if ( choice == "2" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to add inheritance to: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		string name_inheritance;
-		cout << "Name of inheritance: ";
-		getline( cin, name_inheritance );
-		if ( name_inheritance == "" )
-			getline( cin, name_inheritance );
-
-		replace_spaces( name_inheritance );
-
-		add_inheritance( iter, name_inheritance );
-	}
-
-	if ( choice == "3" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to add inheritor to: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		string name_inheritor = "";
-		cout << "Name of inheritor: ";
-		getline( cin, name_inheritor );
-		if ( name_inheritor == "" )
-			getline( cin, name_inheritor );
-		replace_spaces( name_inheritor );
-
-		add_inheritor( iter, name_inheritor );
-	}
-
-	if ( choice == "4" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to remove: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		remove_class ( iter );
-	}
-
-
-	if ( choice == "5" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to remove inheritance of: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		remove_inheritance ( iter );
-	}
-
-	if ( choice == "6" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to remove inheritor of: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		string name_inheritor = "";
-		cout << "Name of inheritor to remove: ";
-		getline( cin, name_inheritor );
-		if ( name_inheritor == "" )
-			getline( cin, name_inheritor );
-		replace_spaces( name_inheritor );
-
-		remove_inheritor ( iter, name_inheritor );
-	}
-
-
-
-	if ( choice == "7" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-		continues();
-	}
-
-
-	if ( choice == "8" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to add completly virtual to: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			return;
-		}
-
-		string virtual_string;
-		cout << "Comp. Virtual name to add ( Example: \"void b ( int a )\" ): ";
-		getline( cin, virtual_string );
-		getline( cin, virtual_string );
-
-		replace_spaces_virtual( virtual_string );
-
-		add_virtual( iter, virtual_string );
-
-	}
-
-	if ( choice == "9" )
-	{
-		if ( classes_iter <= 0 )
-		{
-			cout << "Classes not made yet.\n";
-			continues();
-			return;
-		}
-
-
-		show_classes();
-
-		int iter;
-		cout << "Num. of class to remove completly virtual of: ";
-		cin >> iter;
-
-		iter = iter - 1;
-
-		if ( iter < 0 or iter >= classes_iter )
-		{
-			cout << "Class num. invalid. Retry.\n";
-			continues();
-			cout << "printf \033c";
-			return;
-		}
-
-		int virtual_choice;
-		for ( int l=0 ;l<classes[iter].num_virtuals; l=l+1 )
-			cout << l + 1 << ") " << add_spaces_virtual( classes[iter].virtuals[l] ) << "\n";
-
-		cout << "\nNum. of virtual: ";
-		cin >> virtual_choice;
-
-		virtual_choice = virtual_choice - 1;
-
-		if ( virtual_choice < 0 or virtual_choice >= classes[iter].num_virtuals )
-		{
-			cout << "Invalid virtual num. Retry.\n";
-			continues();
-			cout << "printf \033c";
-			return;
-		}
-
-		string virtual_string = classes[ iter ].virtuals[ virtual_choice ];
-
-		remove_virtual( iter, virtual_string );
-	}
-
-	if ( choice == "exit" )
-		return;
-
-	cout << "printf \033c";
-}
-
-int main ()
-{
-	get_classes();
-
-	while ( choice != "exit" )
-		get_choice();
-
-	cout << "\nExited.\n";
-	return 0;
-}

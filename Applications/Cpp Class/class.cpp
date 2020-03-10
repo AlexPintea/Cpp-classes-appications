@@ -265,6 +265,7 @@ int main ()
 	std::getline(cin, name);
 	std::getline(cin, name);
 
+	replace_space( name );
 
 	filename = name + ".cpp";
 	cout << "You are editing: " << filename << "\n\n";

@@ -1,3 +1,4 @@
-2
-class_file    1  class_file_inheritance     0  0  
-class_file_1    1    class_file_inheritance    0   0   
+3
+class_file_1    0    0   1  [void&sub()] 
+class_file_0    1    class_file_1    0   1  [void&sub9()] 
+class    0    0   0  

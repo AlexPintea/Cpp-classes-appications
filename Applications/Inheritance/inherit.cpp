@@ -85,15 +85,18 @@ void make_classes_file ()
 
 void get_classes()
 {
-	classes_iter = -1;
+	classes_iter = -10;
 
 	ifstream fi;
 	fi.open( "classes" );
 
 	fi >> classes_iter;
 
-	if ( classes_iter == -1 )
+	if ( classes_iter == -10 )
+	{
+		classes_iter = 0;
 		make_classes_file();
+	}
 
 	for ( int i=0; i<classes_iter; i=i+1 )
 	{
@@ -218,15 +221,24 @@ void remove_class( int iter )
 
 		fo << classes[i].name << "    ";
 
-		fo << classes[i].inherits << "    ";
-		if ( classes[i].inherits )
-			fo << classes[i].inheritance << "    ";
+		if ( classes[i].inherits and classes[i].inheritance == classes[iter].name )
+			fo << 0 << "    ";
+		else
+		{
+			fo << classes[i].inherits << "    ";
+			if ( classes[i].inherits )
+				fo << classes[i].inheritance << "    ";
+		}
 
+		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
+			if ( classes[iter].name == classes[i].inheritors[l] )	
+				classes[i].num_inheritors = classes[i].num_inheritors - 1;
 
 		fo << classes[i].num_inheritors << "   ";
 
 		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
-			fo << classes[i].inheritors[l] << " ";
+			if ( classes[iter].name != classes[i].inheritors[l] )
+				fo << classes[i].inheritors[l] << " ";
 
 		fo << "\n";
 	}
@@ -255,7 +267,7 @@ void show_classes()
 
 		cout << ":   ";
 		if ( classes[i].inherits )
-			cout << "Inherits = " << classes[i].inheritance << "   ";
+			cout << "  Inherits = " << classes[i].inheritance << "   ";
 
 		if ( classes[i].num_inheritors == 0 )
 		{
@@ -263,7 +275,7 @@ void show_classes()
 			continue;
 		}
 
-		cout << "Inheritors = ";
+		cout << "  Inheritors = ";
 		for ( int l=0; l<classes[i].num_inheritors; l=l+1 )
 		{
 			cout << classes[i].inheritors[l];

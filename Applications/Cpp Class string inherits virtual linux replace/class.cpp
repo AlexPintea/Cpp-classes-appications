@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <string.h>
+#include "inherit.h"
 
 using namespace std;
 
@@ -19,6 +20,15 @@ string types[100];
 int lengths[10] = { -1, -1, -1, -1, -1, -1, -1 };
 int copies[10] = { -1, -1, -1, -1, -1, -1, -1 };
 
+struct Subprogram 
+{
+	string name;
+	int count;
+	string types[1000];
+	bool is_virtual;
+	string return_type;
+} subprogram[ 1000 ];
+int subprogram_iter = 0;
 
 // length of a string
 int length (string a)
@@ -35,20 +45,6 @@ int length (string a)
 	return i;
 }
 
-
-// length of a string[]
-int length ( string a[] )
-{
-
-	int i=0;
-
-	while ( a[i].length() > 0 )
-	{
-		i=i+1;
-	}
-
-	return i;
-}
 
 // invert a string
 string invert_string (string a)
@@ -639,6 +635,85 @@ void get_data_2 ( string &name, string parameters[], string types[], int &num_pa
 }
 
 
+// gets subprograms for your class
+void get_subprograms ()
+{
+	string choice;
+	cout << "Add subprograms? ( y / n ): ";
+	getline( cin, choice );
+
+	if ( choice != "y" )
+		return;
+
+	cout << "\nNum. of subprograms: ";
+	cin >> subprogram_iter;
+
+	cout << "\n\n";
+	for ( int i=0; i<subprogram_iter; i=i+1 )
+	{
+		cout << "Name of subprogram " << i + 1 << ": ";
+		cin >> subprogram[i].name;
+
+		cout << "Parameter count of subprogram " << i + 1 << ": ";
+		cin >> subprogram[i].count;
+
+		if ( subprogram[i].count != 0 )
+			cout << "1. int  2. float  3. double  4. char  5. string  6. long  7. bool   or   custom ( enter now )\n";
+
+		for ( int l=0; l<subprogram[i].count; l=l+1 )
+		{
+			cout << "Enter type of parameter " << l + 1 << " or subprogram " << i + 1 << ": ";
+			cin >> subprogram[i].types[l];
+			subprogram[i].types[l] = type( subprogram[i].types[l] );
+		}
+
+		cout << "Enter return type of subprogram ( type \"void\" if the case ) " << i + 1 << ": ";
+		cin >> subprogram[i].return_type;
+		subprogram[i].return_type = type( subprogram[i].return_type );
+
+		string temp_choice;
+		cout << "Virtual subprogram " << i + 1 << " without implementation in this class ( y / n ): ";
+		getline( cin, temp_choice );
+		getline( cin, temp_choice );
+
+		if ( temp_choice == "y" )
+			subprogram[i].is_virtual = true;
+		else
+			subprogram[i].is_virtual = false;
+
+		cout << "\n\n";
+	}
+
+	int counter = 0;
+	file << "\n\n";
+	for ( int i=0; i<subprogram_iter; i=i+1 )
+	{
+		file << "	";
+		if ( subprogram[i].is_virtual )
+			file << "virtual ";
+		file << subprogram[i].return_type << " " << subprogram[i].name << " ( ";
+		for ( int l=0; l<subprogram[i].count; l=l+1 )
+		{
+			file << subprogram[i].types[l] << " parameter_" << counter;
+			if ( l != subprogram[i].count - 1 )
+				file << ", ";
+			counter = counter + 1;
+		}
+
+		file << " )";
+
+		if ( subprogram[i].is_virtual )
+			file << " = 0;\n\n";
+		else
+		{
+			file << "\n	{\n";
+			file << "		// implementation\n";
+			file << "	}\n\n";
+		}
+	}
+
+}
+
 
 
 // set the data into our cpp file
@@ -693,14 +768,36 @@ void set_data( string name, string parameters[], string types[], int num_paramet
 
 
 
+
+
 	// Class
 
 
 
 
 
+
+
 	// class name
-	file << "class " << large_char(name) << " {\n";
+	file << "class " << large_char(name);
+
+
+	string inherits_choice;
+	cout << "Inherits anything ( y / n ): ";
+	getline( cin, inherits_choice );
+	if ( inherits_choice == "" )	
+		getline( cin, inherits_choice );
+
+	if ( inherits_choice == "y" )
+	{
+		string inheritance;
+		cout << "Enter inheritance name: ";
+		getline( cin, inheritance );
+
+		file << " : public " << inheritance << " // include it";
+	}
+
+	file << "\n{\n";
 
 	// a comment in the class about the class parameters
 	file << "\n	// \"" << large_char(name) << "\" has parameters: ";
@@ -1208,6 +1305,12 @@ void set_data( string name, string parameters[], string types[], int num_paramet
 
 	file << "	}\n\n";
 
+
+
+	get_subprograms();
+
+
+
 	file << "};\n\n\n";
 
 	file << "int main ()\n";
@@ -1243,22 +1346,63 @@ int get_class_choice()
 
 int main ()
 {
+	cout << "printf \033c";
 
-	int choice = 0;
+	string choice_edit = "";
 
-	while ( choice == 0 )
-		choice = get_class_choice();
+	cout << "Choices:\n";
+	cout << "    1. Make a class\n";
+	cout << "    2. Edit inheritance of classes\n\n";
+	cout << "  exit. Exits\n\n";
+
+	cout << "Your choice: ";
+	getline( cin, choice_edit );
+
+	if ( choice_edit != "1" and choice_edit != "2"  and choice_edit != "exit" )
+	{
+		cout << "Choice Invalid.\n";
+		continues();
+	}
+
+	if ( choice_edit == "1" )
+	{
+		int choice = 0;
+
+		while ( choice == 0 )
+			choice = get_class_choice();
 
 
-	if ( choice == 1 )
-		get_data_1( name, parameters, types, num_parameters );
-	if ( choice == 2 )
-		get_data_2( name, parameters, types, num_parameters );
+		if ( choice == 1 )
+			get_data_1( name, parameters, types, num_parameters );
+		if ( choice == 2 )
+			get_data_2( name, parameters, types, num_parameters );
 
-	set_data( name, parameters, types, num_parameters );
+		set_data( name, parameters, types, num_parameters );
 
-	cout << "\n\nClass is complete.\n\n";
+		cout << "\n\nClass is complete.\n";
 
+		scan_class( filename );
+
+		continues();
+
+	}
+
+	if ( choice_edit == "2" )
+	{
+		char command[] = "./inherit";
+		system( command );
+
+		continues();
+	}
+
+	if ( choice_edit == "exit" )
+	{
+		cout << "\nExited.\n";
+		return 0;	
+	}
+
+	char command[] = "./class";
+	system( command );
 
 	return 0;
 
