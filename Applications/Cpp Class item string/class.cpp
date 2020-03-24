@@ -1093,12 +1093,35 @@ void set_data( string &name, string parameters[], string types[], int &num_param
 			file << "		entries << \"  \" << size_of_temp << \"  \";\n\n";
 
 			file << "		for ( int i=0; i<size_of_temp; i=i+1 )\n";
+			file << "		{\n";
+
+			if ( is_numeric(i) and type( types[i] ) != "bool" )
+			{
+				file << "			if ( temp_" << i << "[i] == 0 )\n";
+				file << "			{\n";
+				file << "				entries << 5714 << \' \';\n";
+				file << "				continue;\n";
+				file << "			}\n";
+			}
+
 			file << "			entries << temp_" << i << "[i] << \' \';\n";
+			file << "		}\n";
 			file << "		entries << \"  \";\n\n";
 		}
 		else
 		{
-			file << "		entries << item_entries[i].get_" << parameters[i] << "() << \" \";\n\n";
+
+			if ( is_numeric(i) and type( types[i] ) != "bool" )
+			{
+
+				file << "		" << type(types[i]) << " temp_" << i << " = item_entries[i].get_" << parameters[i] << "();\n";
+				file << "		if ( temp_" << i << " == 0 )\n";
+				file << "			entries << 5714 << \' \';\n";
+				file << "		else\n";
+				file << "			entries << item_entries[i].get_" << parameters[i] << "() << \" \";\n\n";
+			}
+			else
+				file << "		entries << item_entries[i].get_" << parameters[i] << "() << \" \";\n\n";
 		}
 	}
 
@@ -1150,6 +1173,14 @@ void set_data( string &name, string parameters[], string types[], int &num_param
 			file << "		for ( int i=0; i<counter; i=i+1 )\n";
 			file << "		{\n";
 			file << "			entries >> temp_" << i << "[i]; // null val.-s do not pass this\n";
+
+			if ( is_numeric(i) and type( types[i] ) != "bool" )
+			{
+				file << "\n			if ( temp_" << i << "[i] == 5714 )\n";
+				file << "				temp_" << i << "[i] = 0;\n";
+			}
+
+
 			file << "		}\n\n";
 
 			file << "		item_entries[i].set_" << remove_brackets( parameters[i] ) << "( temp_" << i << " );\n";
@@ -1160,6 +1191,13 @@ void set_data( string &name, string parameters[], string types[], int &num_param
 			file << "		" << type( types[i] ) << " temp_" << type( types[i] ) << "_" << i << ";\n\n";
 
 			file << "		entries >> temp_" << type( types[i] ) << "_" << i << ";\n";
+
+			if ( is_numeric(i) and type( types[i] ) != "bool" )
+			{
+				file << "\n			if ( temp_" << type( types[i] ) << "_" << i << " == 5714 )\n";
+				file << "				temp_" << type( types[i] ) << "_" << i << " = 0;\n";
+			}
+
 
 			file << "		item_entries[i].set_" << parameters[i] << "( temp_" << type( types[i] ) << "_" << i << " );\n";
 		}

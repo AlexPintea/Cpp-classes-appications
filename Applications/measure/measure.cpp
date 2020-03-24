@@ -14,6 +14,7 @@ void enter( string reason )
 }
 
 
+
 double counter = 0;
 
 // function to show the timer 

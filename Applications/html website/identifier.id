@@ -1,0 +1,18 @@
+12035ring edit (string a)
+{
+	for (int i=0; i<a.length(); i=i+1)
+	{
+		if ( a[i] == '\"' )
+		{	
+			a.length()++;
+
+			for (int r=i+1; r<a.length(); r=r+1)
+				a[r] = a[r-1];
+
+			a[i-1] = "\\";
+		}		
+	}
+
+	
+}
+

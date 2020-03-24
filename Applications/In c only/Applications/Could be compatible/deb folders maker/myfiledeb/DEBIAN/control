@@ -1,0 +1,6 @@
+Package: myfiledeb
+Version: 1.0
+Architecture: all
+Installed-Size: 1024
+Maintainer: myfiledeb
+Description: myfiledeb

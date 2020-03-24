@@ -814,6 +814,22 @@ void edit_simmilar_file()
 		return;
 	}
 
+	// make "simmilar" file if not available
+	string simmilar_file = "";
+	string temp;
+	ifstream fi;
+	fi.open( "simmilar" );
+	while ( getline( fi, temp ) )
+		simmilar_file = simmilar_file + temp + "\n";
+	fi.close();
+	if ( simmilar_file == "" )
+	{
+		ofstream f;
+		f.open( "simmilar" );
+		f.close();		
+	}
+
+
 	if ( choice_string == "3" )
 	{
 

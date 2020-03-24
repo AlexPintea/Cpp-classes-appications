@@ -81,7 +81,7 @@ int main ()
 
 	for ( int i=0; i<entries_num; i=i+1 )
 	{
-		file << "echo " << entries[i] << "\n";
+		file << entries[i] << "\n";
 	}
 
 	file.close();

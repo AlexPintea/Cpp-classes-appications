@@ -1,0 +1,55 @@
+
+// makes columns with your choices
+void spaces ( int iter )
+{
+	int size = length( choices );
+
+	int max_length = 0;
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( i % 4 == iter % 4 )
+		{
+			string temp = valid_choices[i] + ". " + choices[i];
+
+			if ( temp.length() > max_length )
+				max_length = temp.length();
+		}
+
+	max_length = max_length + 2;
+
+	string entry = valid_choices[iter] + ". " + choices[iter];
+	int entry_size = entry.length();
+
+	for ( int i=entry_size; i<max_length; i=i+1 )
+		cout << " ";
+}
+
+
+// gets choice
+void get_choice ( int &i )
+{
+	cout << "Choices:";
+
+	for ( int i=0; i<length( choices ); i=i+1 )
+	{
+		if ( i % 4 == 0 )
+			cout << "\n    ";
+		cout << valid_choices[i] << ". " << choices[i];
+		spaces( i );
+	}
+
+	cout << "\n\n  exit. Exits\n\n";
+
+	cout << "Your choice: ";
+	getline( cin, choice );
+//	if ( i == 0 ) // only if the case
+//		getline( cin, choice );
+
+	if ( !is_in_strings( valid_choices, choice ) )
+	{
+		cout << "Invalid choice. Retry.\n\n";
+		choice = "";
+		return;
+	}
+
+

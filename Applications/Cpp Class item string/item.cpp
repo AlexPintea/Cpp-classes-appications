@@ -6,38 +6,56 @@
 using namespace std;
 
 int num_parameters = 3;
-string parameters[4] = { "parameter", "parameter", "parameter" };
-string columns[4] = { "parameter", "parameter", "parameter" };
-string types[4] = { "int", "int", "int" };
+string parameters[4] = { "parameter1", "parameter2[10]", "parameter" };
+string columns[4] = { "parameter1", "parameter2[10]", "parameter" };
+string types[4] = { "int", "float", "bool" };
 
 class Item {
 
-	// "Item" has parameters: parameter, parameter, parameter 
+	// "Item" has parameters: parameter1, parameter2[10], parameter 
 
 	// Parameters:
-	int parameter;
-	int parameter;
-	int parameter;
+	int parameter1;
+	int parameter2_count;
+	float parameter2[10];
+	bool parameter;
 
 	bool is_empty;
 
   public:
 
 
+	// length of a float[]
+	int length ( float data[] ) // returns length + 1, returning i - 1 does not help
+	{
+		int i = 0;
+		while ( data[i] )
+			i=i+1;
+
+		return i;
+	}
+
+
+	// make a copy of a float[]
+	void copy ( float source[], float dest[] )
+	{
+		for ( int i=0; i<length(source); i=i+1)
+			dest[i] = source[i];
+	}
 
 	Item()
 	{
-		this->parameter = null;
-		this->parameter = null;
-		this->parameter = null;
+		this->parameter1 = 0;
+//		copy( {}, this->parameter2 ); // You edit this
+		this->parameter = false;
 
 		this->is_empty = true;
 	}
 
-	Item ( int parameter, int parameter, int parameter )
+	Item ( int parameter1, float parameter2[], bool parameter )
 	{
-		this->parameter = parameter;
-		this->parameter = parameter;
+		this->parameter1 = parameter1;
+		copy( parameter2, this->parameter2 );
 		this->parameter = parameter;
 
 		this->is_empty = true;
@@ -45,29 +63,50 @@ class Item {
 
 
 	// Getters:
-	int get_parameter() { return this->parameter; };
-	int get_parameter() { return this->parameter; };
-	int get_parameter() { return this->parameter; };
+	int get_parameter1() { return this->parameter1; };
+	void get_parameter2( float dest[] ) { copy( this->parameter2, dest ); };
+	float get_parameter2( int i ) // get parameter2[i]
+	{
+		if ( i < parameter2_count and i >= 0 )
+			return parameter2[i];
+		else
+		{
+			cout << "\n(get) Item at '" << i << "' ("<< i+1 << "-th) is not available in 'parameter2[10]'. Its size is '" << parameter2_count << "'. 0 was returned.\n";
+			return 0;
+		}
+	}
+	int get_parameter2_count() { return this->parameter2_count; }
+	bool get_parameter() { return this->parameter; };
 
 	bool get_is_empty() { return this->is_empty; }
 
-	void get ( int parameter, int parameter, int parameter )
+	void get ( int parameter1, float parameter2[], bool parameter )
 	{
-		parameter = this->parameter;
-		parameter = this->parameter;
+		parameter1 = this->parameter1;
+		copy( this->parameter2, parameter2 );
 		parameter = this->parameter;
 	}
 
 
 	// Setters:
-	void set_parameter( int data ) { this->parameter = data; this->is_empty = false;  };
-	void set_parameter( int data ) { this->parameter = data; this->is_empty = false;  };
-	void set_parameter( int data ) { this->parameter = data; this->is_empty = false;  };
-
-	void set ( int parameter, int parameter, int parameter )
+	void set_parameter1( int data ) { this->parameter1 = data; this->is_empty = false;  };
+	void set_parameter2( float data[] ) { copy( data, this->parameter2 ); this->is_empty = false;  };
+	void set_parameter2( float data, int i ) // set parameter2[i] to data
 	{
-		this->parameter = parameter;
-		this->parameter = parameter;
+		if ( i < parameter2_count and i >= 0 )
+			parameter2[i] = data;
+		else
+		{
+			cout << "\n(set) Item at '" << i << "' ("<< i+1 << "-th) is not available in 'parameter2[10]'. Its size is '" << parameter2_count << "'. It was not modified.\n";
+		}
+	}
+	void set_parameter2_count( int data ) { this->parameter2_count = data; }
+	void set_parameter( bool data ) { this->parameter = data; this->is_empty = false;  };
+
+	void set ( int parameter1, float parameter2[], bool parameter )
+	{
+		this->parameter1 = parameter1;
+		copy( parameter2, this->parameter2 );
 		this->parameter = parameter;
 
 	 	this->is_empty = false;
@@ -77,9 +116,14 @@ class Item {
 	void info()
 	{
 		cout << "\nclass Item " << "{" << '\n';
-		cout << "	int" << ' ' << "parameter = " << parameter << '\n';
-		cout << "	int" << ' ' << "parameter = " << parameter << '\n';
-		cout << "	int" << ' ' << "parameter = " << parameter << '\n';
+		cout << "	int" << ' ' << "parameter1 = " << parameter1 << '\n';
+		cout << "	int parameter2_count = " << parameter2_count << '\n';
+		cout << "	float" << ' ' << "parameter2[10] = { ";
+		for ( int i=0; i<parameter2_count; i=i+1 )
+			cout << "'" << parameter2[i] << "' ";
+		cout << "}\n";
+
+		cout << "	bool" << ' ' << "parameter = " << parameter << '\n';
 	 	cout << '}' << "\n\n";
 	}
 
@@ -103,31 +147,53 @@ Item make_entry ()
 
 	int counter = 0;
 
-	cout << "Enter val. for \'parameter\' of type \'int\': ";
+	cout << "Enter val. for \'parameter1\' of type \'int\': ";
 
 	int temp_int_0;
 
 	cin >> temp_int_0;
-	entry.set_parameter( temp_int_0 );
+	entry.set_parameter1( temp_int_0 );
 
-	cout << "Enter val. for \'parameter\' of type \'int\': ";
+	float temp_1[10000] = {};
 
-	int temp_int_1;
+	counter = 0;
+	cout << "Enter num. or val.-s you want to enter for \'parameter2[10]\' of type \'float\': ";
+	cin >> counter;
 
-	cin >> temp_int_1;
-	entry.set_parameter( temp_int_1 );
+	for ( int i=0; i<counter; i=i+1 )
+	{
+		cout << "Enter val. " << i + 1;
+		cout << ": ";
+		cin >> temp_1[i]; // null val.-s do not pass this
+	}
 
-	cout << "Enter val. for \'parameter\' of type \'int\': ";
+	entry.set_parameter2( temp_1 );
+	entry.set_parameter2_count ( counter );
 
-	int temp_int_2;
+	cout << "Enter val. for \'parameter\' of type \'bool\' ( 1 / 0 ): ";
 
-	cin >> temp_int_2;
-	entry.set_parameter( temp_int_2 );
+	string temp_string_2;
+	cin >> temp_string_2;
+
+	if ( temp_string_2[0] == '0' or temp_string_2 == "false" )
+		entry.set_parameter( 0 );
+	else		entry.set_parameter( 1 );
 
 	cout << "\n\n";
 
 	return entry;
 }
+
+// Was removed
+bool is_in_delete_entries ( int a )
+{
+	for ( int i=0; i<delete_iter; i=i+1 )
+		if ( delete_entries[i] == a )
+			return true;
+
+	return false;
+}
+
 
 // Add entry
 void add_entry ( Item entry )
@@ -137,7 +203,7 @@ void add_entry ( Item entry )
 }
 
 
-// Add entries
+void get_entries(); // to reset entries when adding// Add entries
 void add_entries ()
 {
 	ofstream entries;
@@ -145,7 +211,7 @@ void add_entries ()
 	entries.close();
 	entries.open("item_entries");
 
-	entries << iter << '\n';
+	entries << iter - delete_iter << '\n';
 
 	for ( int i=0; i<num_parameters; i=i+1 )
 		entries << columns[i] << " ";
@@ -159,9 +225,30 @@ void add_entries ()
 
 	for ( int i=0; i<iter; i=i+1 )
 	{
-		entries << item_entries[i].get_parameter() << " ";
+		if ( is_in_delete_entries( i ) )
+			continue;
 
-		entries << item_entries[i].get_parameter() << " ";
+		int temp_0 = item_entries[i].get_parameter1();
+		if ( temp_0 == 0 )
+			entries << 5714 << ' ';
+		else
+			entries << item_entries[i].get_parameter1() << " ";
+
+		float temp_1[10000];
+		item_entries[i].get_parameter2( temp_1 );
+		size_of_temp = item_entries[i].get_parameter2_count();
+		entries << "  " << size_of_temp << "  ";
+
+		for ( int i=0; i<size_of_temp; i=i+1 )
+		{
+			if ( temp_1[i] == 0 )
+			{
+				entries << 5714 << ' ';
+				continue;
+			}
+			entries << temp_1[i] << ' ';
+		}
+		entries << "  ";
 
 		entries << item_entries[i].get_parameter() << " ";
 
@@ -170,6 +257,10 @@ void add_entries ()
 	}
 
 	entries.close();
+
+	get_entries();
+
+	delete_iter = 0;
 }
 
 
@@ -194,36 +285,39 @@ void get_entries()
 		int temp_int_0;
 
 		entries >> temp_int_0;
-		item_entries[i].set_parameter( temp_int_0 );
-		int temp_int_1;
 
-		entries >> temp_int_1;
-		item_entries[i].set_parameter( temp_int_1 );
-		int temp_int_2;
+			if ( temp_int_0 == 5714 )
+				temp_int_0 = 0;
+		item_entries[i].set_parameter1( temp_int_0 );
+		float temp_1[10000] = {};
 
-		entries >> temp_int_2;
-		item_entries[i].set_parameter( temp_int_2 );
+		counter = 0;
+		entries >> counter;
+
+		for ( int i=0; i<counter; i=i+1 )
+		{
+			entries >> temp_1[i]; // null val.-s do not pass this
+
+			if ( temp_1[i] == 5714 )
+				temp_1[i] = 0;
+		}
+
+		item_entries[i].set_parameter2( temp_1 );
+		item_entries[i].set_parameter2_count ( counter );
+		bool temp_bool_2;
+
+		entries >> temp_bool_2;
+		item_entries[i].set_parameter( temp_bool_2 );
 	}
 
 	entries.close();
 }
 
 
-// Was removed
-bool is_in_delete_entries ( int a )
-{
-	for ( int i=0; i<delete_iter; i=i+1 )
-		if ( delete_entries[i] == a )
-			return true;
-
-	return false;
-}
-
-
 // Show entry
 void show_entry( int i )
 {
-	if ( i >= iter )
+	if ( i < 0 or i >= iter )
 	{
 		cout << "Entry num. '" << i + 1 << "' is not valid.\n" ;
 		return;
@@ -237,9 +331,17 @@ void show_entry( int i )
 
 	int size_of_temp;
 
-	cout << item_entries[i].get_parameter() << " ";
+	cout << item_entries[i].get_parameter1() << " ";
 
-	cout << item_entries[i].get_parameter() << " ";
+	float temp_1[10000];
+	item_entries[i].get_parameter2( temp_1 );
+	size_of_temp = item_entries[i].get_parameter2_count();
+	cout << "  [ size: ";
+	cout << size_of_temp << " = ( ";
+
+	for ( int i=0; i<size_of_temp; i=i+1 )
+		cout << temp_1[i] << ' ';
+	cout << ") ]  ";
 
 	cout << item_entries[i].get_parameter() << " ";
 
@@ -275,14 +377,14 @@ void sort ( int i, int order )
 		for ( int a=0; a<iter-1; a=a+1 )
 			for ( int b=a+1; b<iter; b=b+1 )
 			{
-				if ( item_entries[a].get_parameter() <  item_entries[b].get_parameter() and order == 1 )
+				if ( item_entries[a].get_parameter1() <  item_entries[b].get_parameter1() and order == 1 )
 				{
 					Item copy = item_entries[a];
 					item_entries[a] = item_entries[b];
 					item_entries[b] = copy;
 				}
 
-				if ( item_entries[a].get_parameter() >  item_entries[b].get_parameter() and order == 0 )
+				if ( item_entries[a].get_parameter1() >  item_entries[b].get_parameter1() and order == 0 )
 				{
 					Item copy = item_entries[a];
 					item_entries[a] = item_entries[b];
@@ -295,14 +397,14 @@ void sort ( int i, int order )
 		for ( int a=0; a<iter-1; a=a+1 )
 			for ( int b=a+1; b<iter; b=b+1 )
 			{
-				if ( item_entries[a].get_parameter() <  item_entries[b].get_parameter() and order == 1 )
+				if ( item_entries[a].get_parameter2_count() <  item_entries[b].get_parameter2_count() and order == 1 )
 				{
 					Item copy = item_entries[a];
 					item_entries[a] = item_entries[b];
 					item_entries[b] = copy;
 				}
 
-				if ( item_entries[a].get_parameter() >  item_entries[b].get_parameter() and order == 0 )
+				if ( item_entries[a].get_parameter2_count() >  item_entries[b].get_parameter2_count() and order == 0 )
 				{
 					Item copy = item_entries[a];
 					item_entries[a] = item_entries[b];
@@ -359,7 +461,7 @@ bool shown( int a )
 void get_entry_item( long item )
 {
 	for ( int i=0; i<iter; i=i+1 )
-		if ( item_entries[i].get_parameter() == item and !shown(i) )
+		if ( item_entries[i].get_parameter1() == item and !shown(i) )
 		{
 			show_entry(i);
 			shown_entries[ shown_iter ] = i;
@@ -367,12 +469,17 @@ void get_entry_item( long item )
 		}
 
 	for ( int i=0; i<iter; i=i+1 )
-		if ( item_entries[i].get_parameter() == item and !shown(i) )
-		{
-			show_entry(i);
-			shown_entries[ shown_iter ] = i;
-			shown_iter = shown_iter + 1;
-		}
+	{
+		int size = item_entries[i].get_parameter2_count();
+		for ( int a=0; a<size; a=a+1 )
+			if ( item_entries[i].get_parameter2(a) == item and !shown(i) )
+			{
+				show_entry(i);
+				shown_entries[ shown_iter ] = i;
+				shown_iter = shown_iter + 1;
+			}
+
+	}
 
 	for ( int i=0; i<iter; i=i+1 )
 		if ( item_entries[i].get_parameter() == item and !shown(i) )
@@ -393,6 +500,8 @@ void swap ( int a, int b )
 		Item copy = item_entries[a];
 		item_entries[a] = item_entries[b];
 		item_entries[b] = copy;
+		cout << "Entries were swapped and saved.\n";
+
 	}
 	else
 		cout << "Could not swap / move: invalid entry num.\n";
@@ -421,6 +530,21 @@ void move ( int entry_num, int direction, int iterations )
 			swap( i, i + 1 );
 	}
 
+}
+void show_entries()
+{
+	if ( iter == 0 )
+		return;
+
+	cout << "- Entries";
+
+	show_columns();
+
+	for ( int i=0; i<iter; i=i+1 )
+	{
+		cout << "(" << i + 1 << ")   ";
+		show_entry( i );
+	}
 }
 
 
@@ -467,6 +591,13 @@ int main()
 		// Show entry
 		if ( choice == "2" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			int i;
 			cout << "Enter num. of entry: ";
 			cin >> i;
@@ -479,70 +610,97 @@ int main()
 		if ( choice == "3" )
 		{
 			if ( iter == 0 )
-				cout << "Entries are empty.\n";
-			else
 			{
-				show_columns();
-				for ( int i=0; i<iter; i=i+1 )
-					show_entry(i);
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
 			}
+
+			show_entries();
 			enter();
 		}
 
 		// Show entries
 		if ( choice == "4" )
 		{
-			int int_entries;
-			cout << "Enter num.-s or entries ( 142, 1542 etc. ): ";
-			cin >> int_entries;
-
-			int digits[10], num = 0;
-			while ( int_entries != 0 )
+			if ( iter == 0 )
 			{
-				digits[ num ] = int_entries % 10;
-				num = num + 1;
-				int_entries = int_entries / 10;
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
 			}
 
-			show_columns();
-			for ( int i=num-1; i>=0; i=i-1 )
-				show_entry( digits[i] - 1 );
+			int entry_iter;
+			cout << "Stop with -1\n";
+			while ( entry_iter != -1 )
+			{
+				cout << "Enter num. of entry: ";
+				cin >> entry_iter;
+
+				if ( entry_iter == -1 )
+					break;
+
+				show_entry( entry_iter - 1 );
+			}
+			entry_iter = 0;
 			enter();
 		}
 
 		// Remove entry
 		if ( choice == "5" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
+			show_entries();
 			int i;
 			cout << "Enter num. of entry: ";
 			cin >> i;
 
-			cout << "\nEntry that was deleted\n";
-			show_columns();
 			delete_entries[ delete_iter ] = i - 1;
 			delete_iter = delete_iter + 1;
 
 			add_entries();
+			cout << "\nEntry was deleted\n";
 			enter();
 		}
 
 		// Remove entries
 		if ( choice == "6" )
 		{
-			int int_entries;
-			cout << "Enter num.-s or entries ( 142, 1542 etc. ): ";
-			cin >> int_entries;
-
-			cout << "Entries that were deleted\n";
-			show_columns();
-			while ( int_entries != 0 )
+			if ( iter == 0 )
 			{
-				delete_entries[ delete_iter ] = int_entries % 10 - 1;
-				show_entry( delete_iter );
-				delete_iter = delete_iter + 1;
-				int_entries = int_entries / 10;
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
 			}
 
+			show_entries();
+			int entry_iter;
+			cout << "Stop with -1\n";
+			while ( entry_iter != -1 )
+			{
+				cout << "Enter num. of entry to remove: ";
+				cin >> entry_iter;
+
+				if ( entry_iter == -1 )
+					break;
+
+				if ( entry_iter <= 0 or entry_iter > iter )
+				{
+					cout << "Entry num. is invalid.\n";
+					entry_iter = 0;
+					continue;
+				}
+
+				delete_entries[ delete_iter ] = entry_iter - 1;
+				delete_iter = delete_iter + 1;
+			}
+			entry_iter = 0;
 			add_entries();
 			enter();
 		}
@@ -550,6 +708,13 @@ int main()
 		// Clear entries
 		if ( choice == "7" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			iter = 0;
 			add_entries();
 			cout << "Entries were cleared.\n";
@@ -559,6 +724,13 @@ int main()
 		// Sort ( show / save )
 		if ( choice == "8" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			cout << "1. \'Show\'  but not save entries       ";
 			cout << "2. \'Save\'  but not show entries\n\n";
 			cout << "Enter your choice: ";
@@ -611,6 +783,13 @@ int main()
 		// Move
 		if ( choice == "9" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			int entry_num;
 			cout << "Enter entry num. you want to move: ";
 			cin >> entry_num;
@@ -635,6 +814,13 @@ int main()
 		// Swap
 		if ( choice == "10" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			int a, b;
 			cout << "Enter entry num. or entry 1 you want to swap: ";
 			cin >> a;
@@ -644,14 +830,19 @@ int main()
 			swap( a - 1, b - 1 );
 
 			add_entries();
-			cout << "Entries were swapped and saved.\n";
-
 			enter();
 		}
 
 		// Show entries that have [item]
 		if ( choice == "item" )
 		{
+			if ( iter == 0 )
+			{
+				cout << "Entries are empty.\n";
+				choice = "";
+				continue;
+			}
+
 			string type;
 			long item_parameter;
 			cout << "Get item by parameter val.: ";
@@ -690,7 +881,10 @@ int main()
 
 		// Exit
 		if ( choice == "exit" )
+		{
+			cout << "Exited.\n";
 			break;
+		}
 
 		choice = "";
 

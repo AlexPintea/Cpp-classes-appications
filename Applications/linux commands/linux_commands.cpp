@@ -33,7 +33,7 @@ bool is_in_strings ( string words[], string word )
 void continues ()
 {
 	char chars;
-	cout << "[ \']\' + Enter ] to continue: ";
+	cout << "[ \']\' + Ent. ] to continue: ";
 	cin >> chars;
 	cout << "\n";
 
@@ -54,7 +54,7 @@ void continues ()
 string choice = "";
 
 string valid_choices[1000] = {  "1",      "2",       "3",     "4",      "5",      "6",      "7",     "exit" };
-string choices[1000] = {     "update", "install", "remove", "task_4", "task_5", "task_6", "task_7" };
+string choices[1000] = {     "update", "fix install", "remove", "dpkg", "fsck", "dkms", "task_7" };
 
 // makes columns with your choices
 void spaces ( int iter )
@@ -109,11 +109,59 @@ void get_choice ( int &i )
 		return;
 	}
 
-	// task_1
+
+	// Update
 	if ( choice == "1" )
 	{
-		// your cod
+		char command[] = "apt-get update";
+		system( command );
 	}
+
+	// Fix Install
+	if ( choice == "2" )
+	{
+		char command[] = "apt --fix-broken install";
+		system( command );
+	}
+
+	// 
+	if ( choice == "3" )
+	{
+		char command[] = "apt-get update";
+		system( command );
+	}
+
+	// Dpkg
+	if ( choice == "4" )
+	{
+		char command[] = "dpkg --configure a";
+		system( command );
+	}
+
+
+	// 
+	if ( choice == "5" )
+	{
+		char command[] = "apt-get update";
+		system( command );
+	}
+
+
+	// 
+	if ( choice == "6" )
+	{
+		char command[] = "apt-get update";
+		system( command );
+	}
+
+
+	// 
+	if ( choice == "7" )
+	{
+		char command[] = "apt-get update";
+		system( command );
+	}
+
 
 
 	i=i+1;

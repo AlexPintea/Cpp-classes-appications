@@ -1,8 +1,3 @@
-# Format text
+# Linux list maker
 
-Format text can make you custom:
-- thankyou-s
-- invitations
-- apologies
-
-and much more!
+Linux list maker makes you a list of commands.
