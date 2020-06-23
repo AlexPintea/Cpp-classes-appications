@@ -155,8 +155,8 @@ int main ()
 
 	cout << "Enter a filename that is not in this folder: ";
 	getline( cin, name );
+	cout << "\n";
 
-	
 	filename = name + ".cpp";
 
 	cout << "Num. of data you want to get: ";

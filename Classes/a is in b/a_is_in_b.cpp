@@ -288,8 +288,8 @@ bool a_is_in_b ( string a, string b )
 				}
 			}
 	}
-	return 1;
 
+	return 0;
 }
 
 // checks if  b  is in  a  for datatype "string"
