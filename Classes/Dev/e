@@ -1,0 +1,22 @@
+printf "\033c"
+
+if test -f "Makefile"
+then
+	make -s
+	./dev
+	rm -r dev
+else
+	g++ -L a.out dev.cpp
+	./a.out
+	rm -r a.out
+fi
+
+if test -f "dev"
+then
+	rm -r dev
+fi
+
+if test -f "a.out"
+then
+	rm -r a.out
+fi

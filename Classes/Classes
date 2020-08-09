@@ -1,0 +1,77 @@
+a_is_in_b - length, empty
+aproximation - length
+lists - length, empty
+asc desc - length
+brackets
+convert - length, ( invert_string, is_numeric )
+digits - length, empty
+empty - length
+file counter class
+files
+find - length, ( max min )
+for_each - length
+get set data - length
+gmtr
+grphs
+last
+leave remove - length, empty
+length
+Linuxfile
+max min - length
+mhmtces - length ( order, is_in, invert [] )
+multi class 
+name type - length, leave remove, empty ( remove char )
+on lnux - length, convert ( num_digits )
+rndm
+round
+sort - length, swap
+string ints
+swap
+types
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+length - empty - digits, a_is_in_b, lists, leave remove - name type
+       - min max - find
+       - asc desc
+       - aproximation
+       - convert - on lnux
+       - for_each
+       - get set data
+       - mhmtces
+       - sort
+brackets
+types
+swap - sort
+rndm
+round
+string ints
+multi class
+Linuxfile
+gmtr
+grphs
+last - convert, mhmtces
+file counter class
+files
+
+
+
+
+
+
+
+
+
+
+

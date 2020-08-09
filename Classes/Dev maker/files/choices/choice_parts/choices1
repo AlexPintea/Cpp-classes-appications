@@ -1,0 +1,45 @@
+#include "../../Includes/include.cpp"
+#include "dev_files/.dev.h"
+
+// length of a string[]
+int length( string a[] )
+{
+	int i = 0;
+
+	while ( a[ i ].length() > 0 )
+		i = i + 1;
+
+	return i;
+}
+
+// is in string[]
+int in_strings ( string words[], string word )
+{
+	int size = length( words );
+
+	for ( int i = 0; i < size; i = i + 1 )
+		if ( word == words[i] )
+			return i;
+
+	return -1;
+}
+
+// to continue
+void continues ()
+{
+	char chars;
+	cout << "[ \']\' + Enter ] to continue: ";
+	cin >> chars;
+	cout << '\n';
+}
+
+
+
+
+
+
+
+
+
+string choice = "";
+

@@ -1,0 +1,13 @@
+ </title>
+
+		<link rel="stylesheet" href="style/style.css">
+
+	</head>
+
+
+	<body>
+
+		<div id="title_div" style="height: 43px;">  </div>
+
+		<div id="title_parallax" class="parallax" style="height: 210px;" >
+			<h1 class="title" > <span>

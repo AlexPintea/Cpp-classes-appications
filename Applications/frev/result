@@ -1,0 +1,24 @@
+Results of:
+ "file"
+ "file1"
+
+
+1. string - frev: 10
+2. strings - frev: 6
+3. string1 - frev: 5
+4. string2 - frev: 2
+
+
+Results in file "file":
+	1. string - frev: 5
+	2. string1 - frev: 3
+	3. strings - frev: 3
+	4. string2 - frev: 1
+
+
+Results in file "file1":
+	1. string - frev: 5
+	2. strings - frev: 3
+	3. string1 - frev: 2
+	4. string2 - frev: 1
+

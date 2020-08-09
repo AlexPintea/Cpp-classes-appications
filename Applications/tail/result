@@ -1,0 +1,10 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\title{Name}
+\author{}
+\begin{document}
+\maketitle
+\section{Tail}
+
+A person called Name was a person.
+\end{document}

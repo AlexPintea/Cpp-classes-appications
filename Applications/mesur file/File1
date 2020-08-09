@@ -1,0 +1,12 @@
+"File1" measurement results
+
+File1 = 15.755 +- 24.7483
+
+File1  Average   Error Average-Error 
+
+0.9    15.755     14.855  24.7483 
+0.95             14.805  
+0.72             15.035  
+0.91             14.845  
+1.05             14.705  
+90               74.245  

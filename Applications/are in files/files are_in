@@ -1,0 +1,81 @@
+Line num of files, what is there.
+
+
+File: 'file':
+
+  For "are5":
+     9: are5
+     12: are5
+     17: are534
+     18: are534
+     20: are54
+
+  For "are34":
+     5: are342
+     7: are34
+     10: are34
+     13: are342
+     15: are34
+
+  For "are21":
+     16: are21
+
+  For "are1":
+     11: are12
+     21: are1
+
+  For "are":
+     1: are
+     2: are243
+     3: are23
+     4: are234
+     5: are342
+     6: are65
+     7: are34
+     8: are321
+     9: are5
+     10: are34
+     11: are12
+     12: are5
+     13: are342
+     14: are65
+     15: are34
+     16: are21
+     17: are534
+     18: are534
+     19: are2
+     20: are54
+     21: are1
+
+
+
+
+File: 'file1':
+
+  For "are5":
+     3: are321 are5 are34
+     4: are12 are5 are342 are65 are34 are21 
+     5: are534 are534 are2 are54 are1
+
+  For "are34":
+     1: are are243 are23 are234 are342 
+     2: are65 are34 
+     3: are321 are5 are34
+     4: are12 are5 are342 are65 are34 are21 
+
+  For "are21":
+     4: are12 are5 are342 are65 are34 are21 
+
+  For "are1":
+     4: are12 are5 are342 are65 are34 are21 
+     5: are534 are534 are2 are54 are1
+
+  For "are":
+     1: are are243 are23 are234 are342 
+     2: are65 are34 
+     3: are321 are5 are34
+     4: are12 are5 are342 are65 are34 are21 
+     5: are534 are534 are2 are54 are1
+
+
+

@@ -11,6 +11,11 @@ using namespace std;
 
 
 
+string filename;
+string ext;
+
+
+
 
 // inverts a string
 void invert_string( string &a )
@@ -260,6 +265,29 @@ void set_strings ()
 
 
 
+
+
+
+
+
+
+	string file_string_1 = "";
+	string file_1[ 1000 ];
+	for ( int i = 1; i < file_iter; i = i + 1 )
+		file_1[ i ]	= file[ i ];
+
+	for ( int i = 1; i < file_iter; i = i + 1 )
+	{
+		set_string_1_to_string_2( file_1[ i ] );
+		file_string_1 = file_string_1 + file_1[ i ] + "\n";
+	}
+
+	set_file( filename + " initial", file_string_1 );
+
+
+
+
+
 	int num_files = -1;
 	string filenames[ 1000 ];
 	for ( int i = files; i < before_iter; i = i + 1 )
@@ -275,8 +303,14 @@ void set_strings ()
 			for ( int l = 5; l < before[ i ].length(); l = l + 1 )
 				if ( before[ i ][ l ] != ' ' and before[ i ][ l ] != '	' and before[ i ][ l ] != '\n' )
 					filenames[ num_files ] = filenames[ num_files ] + before[ i ][ l ];
+
+			for ( int i = 0; i < length( string_files_2 ); i = i + 1 )
+				string_files_2[ i ] = string_2[ i ];
+
 			continue;
+
 		}
+
 
 		if ( ! ( before[ i ][ 0 ] == '-' and before[ i ][ 1 ] == '(' ) )	
 			continue;		
@@ -292,19 +326,14 @@ void set_strings ()
 		}
 
 
+
+
 		int iter_2 = string_in_strings( string_1, strings_1 );
 		if ( iter_2 == -1 )
 			continue;
-
-
-		for ( int l = 0; l < strings_iter; l = l + 1 )
-			string_files_2[ l ] = string_2[ l ];
-
-
 		while ( ! ( before[ i ][ l ] == '-' and before[ i ][ l + 1 ] == '(' ) )
 			l = l + 1;
 		l = l + 2;
-
 
 		string_files_2[ iter_2 ] = "";
 
@@ -314,10 +343,7 @@ void set_strings ()
 			l = l + 1;
 		}
 
-
-
 		string file_string = "";
-
 		string file_2[ 1000 ];
 		for ( int i = 1; i < file_iter; i = i + 1 )
 			file_2[ i ]	= file[ i ];
@@ -328,19 +354,20 @@ void set_strings ()
 			file_string = file_string + file_2[ i ] + "\n";
 		}
 
-		set_file( filenames[ num_files ], file_string );
+		set_file( filename + ' ' + filenames[ num_files ] + ext, file_string );
+
+
+
+
 	}
 }
-
-void get_file ( string filename )
+bool get_file ( string filename )
 {
 	ifstream fi;
 	fi.open( filename );
 
 
 	string temp;
-
-	bool num = true;
 	bool before_file = true;
 
 	while ( getline( fi, temp ) )
@@ -360,7 +387,54 @@ void get_file ( string filename )
 		}
 	}
 
+
+
 	fi.close();
+
+
+	if ( before_file ) 
+	{
+		
+
+
+
+		fi.open( filename );
+		while ( getline( fi, temp ) )
+		{
+			file[ file_iter ] = temp;
+			file_iter = file_iter + 1;			
+		}
+		fi.close();
+
+
+		if ( file_iter <= 1 ) { cout << "File is empty.\n"; return false; }
+
+		string filename_before;
+		cout << "Filename of before file: ";
+
+
+		getline( cin, filename_before );
+
+		fi.open( filename_before );
+
+
+		while ( getline( fi, temp ) )
+		{
+			if ( before_file )
+			{
+				before[ before_iter ] = temp;
+				before_iter = before_iter + 1;
+			}
+		}
+
+	}
+
+	if ( file_iter <= 1 ) { cout << "File is empty.\n"; return false; }
+
+
+
+
+	return true;
 }
 
 
@@ -373,20 +447,64 @@ void get_file ( string filename )
 
 
 
+void filename_ext ()
+{
+	
+	ext = "";
 
+	bool have_ext = false;
+	for ( int i = 0; i < filename.length(); i = i + 1 )
+	{
+		if ( filename[ i ] == '.' )
+		{
+			have_ext = true;
+
+			break;
+		}
+	}
+
+
+
+	if ( ! have_ext )
+		return;
+	string file_name = "";
+	int l = 0;
+	for ( int i = 0; i < filename.length(); i = i + 1 )
+	{
+		if ( filename[ i ] == '.' )
+		{
+			l = i;
+			break;
+		}
+
+		file_name = file_name + filename[ i ];
+	}
+
+
+	
+	for ( int i = l; i < filename.length(); i = i + 1 )
+	{
+		if ( filename[ i ] == '.' ) continue;	
+
+		ext = ext + filename[ i ];
+	}
+
+
+	filename = file_name;
+
+}
  
 
  
 
 int main ()
 {
-	string filename;
-	cout << "Filename:        ";
-	cout << "cout";
+	cout << "Filename: ";
 	getline( cin, filename );
+	filename_ext();
 
-	get_file ( filename );
-	set_strings ();
+	if ( get_file ( filename ) )
+		set_strings ();
 
 	return 0;
 }

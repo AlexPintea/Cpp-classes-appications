@@ -1,0 +1,23 @@
+
+	i = i + 1;
+
+	if ( choice == "exit" )
+		return;
+
+
+	continues();
+
+	cout << "printf \033c";
+}
+
+
+int main ()
+{
+	int i=0;
+	while ( choice != "exit" )
+		get_choice( i );
+
+	cout << "\nExited.\n";
+	return 0;
+}
+

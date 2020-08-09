@@ -62,6 +62,18 @@ string invert_string (string a)
 	return r;
 }
 
+// is in string[]
+bool is_in_strings ( string words[], string word )
+{
+	int size = length( words );
+
+	for ( int i=0; i<size; i=i+1 )
+		if ( word == words[i] )
+			return true;
+
+	return false;
+}
+
 // convert an int to a string 
 string int_string (int a)
 {

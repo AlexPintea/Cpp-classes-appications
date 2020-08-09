@@ -1,0 +1,5 @@
+[ atrb ], .atrb  { color: rgb( 90, 90, 90 ); }
+
+.atrb { color: rgb( 123, 123, 123 ); }
+
+[ atrib = "val" ] { color: rgb( 214, 214, 214 ); }

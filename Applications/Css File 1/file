@@ -12,8 +12,9 @@
 -()- -()-
 -()- -()-
 -()- -()-
--(string1)- -(5_string)-
--()- -()-
+-(string1)- -(1_string)-
+-(string5)- -(5_string)-
+-(string2)- -(2_string)-
 
 
 ((((( filename_2
@@ -49,8 +50,8 @@
 
 
 -()- -()-
--(string1)- -(string_50)-
 -(string5)- -(string_file_1)-
+-(string2)- -(string_50)-
 -()- -()-
 -()- -()-
 
@@ -59,8 +60,8 @@
 
 file
 
+string2
 string1
-
 	string5
 
 	file

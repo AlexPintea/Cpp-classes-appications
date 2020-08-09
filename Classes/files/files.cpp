@@ -87,7 +87,7 @@ void copy_file ( string filename )
 	set_file_data ( filename, file_data );
 }
 
-// copy a file including a counterr in the filename
+// copy a file including a counter in the filename
 void copy_file_count ( string filename )
 {
 	// counter in file
@@ -124,7 +124,7 @@ void copy_file_count ( string filename )
 
 	string file_data = get_file_data( filename );
 
-	get_copy_filename( filename, "(" + counter_string + ")" );
+	get_copy_filename( filename, '(' + counter_string + ')' );
 
 	make_file( filename );
 
@@ -185,7 +185,7 @@ void add_word_to_file ( string filename, string data )
 {
 	string file_data = get_file_data( filename );
 
-	file_data = file_data + " " + data;
+	file_data = file_data + ' ' + data;
 
 	set_file_data( filename, file_data );
 }
@@ -239,16 +239,97 @@ int file_count ( string name )
 
 
 
+// Get Filename and Ext. of file "filename"
+
+
+
+bool have_ext ( string filename )
+{
+	for ( int i = 0; i < filename.length(); i = i + 1 )
+	{
+		if ( filename[ i ] == '.' )
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+string get_filename ( string filename )
+{
+	if ( ! have_ext ( filename ) ) return filename;
+
+	string file_name = "";
+	int l = 0;
+	for ( int i = 0; i < filename.length(); i = i + 1 )
+	{
+		if ( filename[ i ] == '.' )
+		{
+			l = i;
+			break;
+		}
+
+		file_name = file_name + filename[ i ];
+	}
+
+	return file_name;
+}
+
+string get_ext ( string filename )
+{
+	if ( ! have_ext ( filename ) ) return "";
+
+	string ext = "";
+	int l = 0;
+	for ( int i = filename.length() - 1; i >= 0; i = i - 1 )
+	{
+		if ( filename[ i ] == '.' )
+		{
+			l = i;
+			break;
+		}
+	}
+
+	for ( int i = l + 1; i < filename.length(); i = i + 1 )	
+		ext = ext + filename[ i ];
+
+	return ext;
+}
+
+
+void filename_ext ( string &filename, string &ext )
+{
+	
+	ext = "";
+	if ( ! have_ext ( filename ) ) return;
+
+
+	ext = get_ext ( filename );
+	filename = get_filename ( filename );
+}
+
 int main ()
 {
 
-	cout << file_count( "files" ); // makes file "files_counter"
+//	cout << file_count( "files" ) << "\n"; // makes file "files_counter"
 
-	make_file( "file_1" );
+//	make_file( "file_1" );
 
-	add_to_file( "file_1", "data\n\n\n" );
+//	add_to_file( "file_1", "data\n\n\n" );
 
-	copy_file_count ( "file_1" );
+//	copy_file_count ( "file_1" );
+
+	string filename = "filename.css";
+	string ext;
+
+
+	
+
+	filename_ext( filename, ext );
+
+	cout << "Filename: " << filename << "\n";
+	cout << "Ext: " << ext << "\n";
 
 //	clear_file( "file_1" );
 

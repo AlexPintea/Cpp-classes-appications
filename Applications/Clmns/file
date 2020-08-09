@@ -1,0 +1,7 @@
+CREATE TABLE name ( name int );
+
+INSERT INTO name ( name ) VALUES ( 9 );
+INSERT INTO name ( name ) VALUES ( 9 );
+INSERT INTO name ( name ) VALUES ( 9 );
+INSERT INTO name ( name ) VALUES ( 9 );
+INSERT INTO name ( name ) VALUES ( 9 );

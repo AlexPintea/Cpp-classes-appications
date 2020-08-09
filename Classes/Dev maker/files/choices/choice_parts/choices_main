@@ -1,0 +1,40 @@
+
+	i = i + 1;
+
+	if ( choice == "exit" )
+		return;
+
+
+	if ( in_strings( valid_choices, choice ) != -1 or choice == "" )
+		continues();
+}
+
+
+int main ()
+{
+	cout << "\033c";
+	// make ( "apl.cpp" ); // always on top ( precedes all your code )
+	remake ( "apl.cpp" ); // remakes your makefile, file 'e', and does 'make'
+
+	// 'make' and 'remake': commit every 10 compilations
+	// 'make': makes you a deb file
+	// 'remake': remakes makefile and file 'e', makes deb file
+
+	// also separatly:
+
+	// save ( "apl.cpp" ); // ( commits every 10 compilations )
+	// makefile ( "apl.cpp" ); // remakes makefile
+ 	// make_file_e ( "apl.cpp" ); // remakes file 'e'
+	// deb ( "apl.cpp" ); // makes deb file
+
+	continues();
+
+	// your code
+	int i = 0;
+	while ( choice != "exit" )
+		get_choice( i );
+
+	cout << "\nExited.\n";
+	return 0;
+}
+

@@ -41,6 +41,16 @@ void continues ()
 	getline( cin, empty );
 }
 
+// makes a[0] into uppercase, if not already
+string large_char (string a)
+{
+	if ( a[0] >= 'a' && a[0] <= 'z' )
+		a[0] = a[0] - 32;
+
+	return a;
+}
+
+
 
 
 string part;
