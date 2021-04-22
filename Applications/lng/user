@@ -1,0 +1,38 @@
+attach "include"
+
+function ints show [ string a ]
+(
+	if [ 1 ]
+	(
+		cout << "1 ":
+	)
+
+	couts << a << '\n':
+
+	return 1:
+)
+
+
+
+	ints i:
+	floats f:
+	ints l:
+	floats ints_floats_1:
+
+// what
+
+
+/*
+	adfddf
+
+function ints show2 [ string a ]
+(
+	couts << a << '\n':
+)
+
+*/
+
+
+	fors [ ints i = 0: i < 10: i = i + 1 ]
+		couts << "what ":
+

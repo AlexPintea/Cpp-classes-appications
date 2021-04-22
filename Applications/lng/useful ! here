@@ -1,0 +1,71 @@
+int have_comment ( string a ) // not used
+{
+	int size = a.length();
+	int comment_iter = -1;
+
+	for ( int i = 0; i < size - 1; i = i + 1 )
+	{
+		if ( a[ i ] == '/' and ( a[ i + 1 ] == '/' or a[ i + 1 ] == '*' ) )
+		{
+			comment_iter = i + 1;
+			break;
+		}
+
+		if ( a[ i ] == '*' and a[ i + 1 ] == '/' )
+		{
+			comment_iter = i + 1;
+			break;
+		}
+	}
+
+	return comment_iter;
+}
+
+int have_macro ( string a ) // not used
+{
+	int size = a.length();
+
+	int comment_iter = have_comment( a );
+
+	for ( int i = 0; i < size; i = i + 1 )
+		if ( a[ i ] == (char) 35 && ( comment_iter > i or comment_iter == -1 ) )
+			return i;
+
+	return -1;
+}
+
+void collapse ( string filename ) // not used
+{
+	ifstream fi;
+	fi.open( filename );
+
+	string temp;
+	string file = "";
+
+	while ( getline( fi, temp ) )
+	{
+		if ( have_macro( temp ) != -1 or have_comment( temp ) != -1 )
+		{
+			if ( file.length() != 0 and file[ file.length() - 1 ] != '\n' )
+				file = file + '\n';
+
+			file = file + temp + '\n';
+			continue;
+		}
+
+		file = file + temp + ' ';			
+	}
+
+	fi.close();
+
+	ofstream fo;
+	fo.open( filename );
+	fo.close(); // clear file
+	
+	fo.open( filename );
+
+	fo << file;
+	
+	fo.close();	
+}
+

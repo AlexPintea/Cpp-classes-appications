@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+struct fle
+{ 
+	fle fle;
+	123 123;
+}
+
+void fle_attr ( struct fle strct, fle fle, 123 123 )
+{
+	strct.fle = fle;
+	strct.123 = 123;
+}
+
+void fle_info ()
+{
+	printf( "  fle properties:\n" );
+	printf( "     %s: %s\n", "fle", fle.fle );
+	printf( "     %s: %s\n", "123", fle.123 );
+}
+

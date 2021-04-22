@@ -1,0 +1,13 @@
+attach "include2"
+
+function ints show_include [ string a ]
+(
+	if [ 1 ]
+	(
+		cout << "1 ":
+	)
+
+	couts << a << '\n':
+
+	return 1:
+)

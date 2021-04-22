@@ -119,8 +119,6 @@ void get_file ( string filename )
 	ifstream fi;
 	fi.open( filename );
 
-
-
 	for ( int i = 0; i < 90; i = i + 1 )
 		files[ i ] = "";
 
@@ -144,7 +142,6 @@ string get_maker_file ( string filename )
 {
 	ifstream fi;
 	fi.open( filename );
-
 
 	string temp;
 	string file = "";

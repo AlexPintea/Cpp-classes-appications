@@ -1,0 +1,11 @@
+function ints show_include_2 [ string a ]
+(
+	if [ 1 ]
+	(
+		cout << "1 ":
+	)
+
+	couts << a << '\n':
+
+	return 1:
+)

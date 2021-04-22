@@ -1,0 +1,23 @@
+"title" text text text text text text
+
+"title" text 
+text text 
+text text text
+
+- Paragraphs do ! have "\n\n"
+- Every title has ""
+
+- Extracts titles of ""
+- Replaces '	' with ' '
+- Removes ( trims ) ' ', "\n " and reduces ' '
+- Makes large first letter ( only if first is a letter )
+
+Make sure:
+- If there are 4, 5 '"' in a paragraph - take title, leave them
+- 
+
+Could also:
+- Add / Remove '.', '?' ...
+- Make lists
+- Add small prgrph titls
+- 

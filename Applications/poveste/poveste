@@ -1,0 +1,52 @@
+character:
+ - firstname 
+ - lastname 
+ - other name ( only if negative )
+ - age
+ - gender
+ - status ( what is he / she )
+ - adjectives ( qualities and defects separately )
+ - appearance ( also adjectives )
+ - positive / negative
+
+
+
+
+[prot_(property)]
+[mother_(property)]
+[father_(property)]
+[sibling_(1,2,3)_(property)]
+
+
+[place1_(property)]
+[place2_(property)]
+[achivement]
+
+
+[char_(1,2,3)_(property)]
+[challange_(property)]
+[place_(property)]
+
+
+
+
+
+place:
+ - name
+ - adjectives
+
+	protagonist:
+	 - has siblings ( if so, how many and their names and ages )
+	 - family ( and their status and age )
+	 - items ( which  he / she  has / gathers  as a result of challanges )
+
+achivement:
+ - type
+
+challange:
+ - completed how ( what protagonist did )
+ - time to complete
+ - item to get
+place - group / character ( positive and negative ( negative optional ) ) - challange
+
+
