@@ -1,0 +1,36 @@
+	void add_years ( int years )
+	{
+		if ( year + years < 0 )
+		{
+			year = 0;
+			return;
+		}
+
+		year = year + years;
+	}
+
+	void add_months ( int months )
+	{
+		int years = months / 12;
+		if ( months > 0 )
+			months = months % 12;
+		else
+			months = - months % 12;
+
+		add_years( years );
+
+		if ( month + months > 12 )
+		{
+			add_years( 1 );
+			month = month + months - 12;
+		}
+
+		if ( month + months <= 0  )
+		{
+			add_years( 1 );
+			month = month + months - 12;
+		}
+
+		month = month + months;
+	}
+
