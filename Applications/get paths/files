@@ -1,0 +1,16 @@
+/home/account/C apl/unzip/zips
+.:
+unzip (copy).zip
+unzip.zip
+zips_1/
+zips_1 (copy)/
+
+./zips_1:
+unzip (another copy).zip
+unzip (copy).zip
+unzip.zip
+
+./zips_1 (copy):
+unzip (another copy).zip
+unzip (copy).zip
+unzip.zip
