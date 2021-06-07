@@ -1,0 +1,492 @@
+For every:
+- is it: example, trivial, application version, final application
+- what it does - list
+- just for linux / cross-platform
+
+
+Braille EAN13: trivial, cross-platform
+
+Consists of 2 seperate applications that were sent to the same contest.
+
+Braille:
+- offers features for both english and japanese braille systems
+- replaces alphabet symbols ( individual letters for english and groups of letters for japanese ) with the binary representation of the braille alphabet
+- able to translate files
+
+EAN13 ( scannable codes you find on grocery ... ):
+- converts the binary value of the code into readable integers
+- conversion done using base 2 to base 10 conversion
+- able to decode price and country
+
+
+
+
+Brightly: final application, linux
+
+- modifies the screen brightness
+- offers the following options:
+  1. Modify Bright - able to adjust the brightness up and down
+                   - use [ and ] to dim up and down, type "done" to mention that you are done
+  2. Bright Choices - presets for screen brightness ( 1. Bright  2. Default  3. Really bright  4. Normal )
+  3. Continous slow - preset for unstoppable slow flicker ( only stoppable if you exit the application )
+  4. Continous flicker - preset for unstoppable fast flicker ( only stoppable if you exit the application )
+  more. More Birghties - executes a user-defined series of flickers, which stops when completed ( does not repeat like the 'continous' presets )
+                       - users are asked to 
+  reset. Reset Bright - resets brightness to default
+
+ [exit]. Exits - exist the application
+
+Improvements:
+- get the screen name, do not ask the user to enter it
+- make it so that the user is able to make their custom preset repeat
+- make more presets for the user that they can choose / edit / delete / add
+- remake the interface so that it has: 1. Modify brightness ( merge 1 and 2 ),  2. Show ( merge 3, 4 and more ), reset, info ( about each option ) and exit. 
+
+
+Clmns
+
+
+Cpp Class item string
+
+
+Cpp Class item
+
+
+Cpp Class multiple items string folders linux cpp
+
+
+Cpp Class multiple items string folders linux
+
+
+Cpp Class multiple items string
+
+
+Cpp Class multiple items
+
+
+Cpp Class string brackets
+
+
+Cpp Class string inherits virtual linux replace
+
+
+Cpp Class string inherits
+
+
+Cpp Class string
+
+
+Cpp Class
+
+
+Css Atribs
+
+
+Css File 1
+
+
+Css File
+
+
+Css
+
+
+File Counter
+
+
+Format text
+
+
+Git Readme Maker folder
+
+
+Git Readme Maker
+
+
+In c only
+
+
+Inheritance file virtual
+
+
+Inheritance file
+
+
+Inheritance
+
+
+Interface
+
+
+Interval
+
+
+Linux list Maker
+
+
+Linux operations
+
+
+Server
+
+
+Slce
+
+
+Sql Maker
+
+
+align
+
+
+application
+
+
+are in files
+
+
+are in
+
+
+blar
+
+
+chars
+
+
+choices 1
+
+
+choices lnux
+
+
+choices
+
+
+cmb file
+
+
+cmb
+
+
+codes
+
+
+colors
+
+
+commit linux same folder
+
+
+commit same folder
+
+
+commit your file
+
+
+common frev multiple
+
+
+common frev
+
+
+common
+
+
+compare files
+
+
+compare
+
+
+convert file
+
+
+convert
+
+
+cpp sh
+
+
+datatype
+
+
+deb folders maker desktop my_debs
+
+
+deb folders maker desktop
+
+
+deb folders maker
+
+
+desktop maker folder
+
+
+desktop maker
+
+
+details
+
+
+double
+
+
+dplma
+
+
+errors
+
+
+file browser
+
+
+file choices
+
+
+file counter
+
+
+file lines
+
+
+file string
+
+
+file type
+
+
+files lines
+
+
+files path
+
+
+filesize
+
+
+form
+
+
+format file
+
+
+format
+
+
+formats
+
+
+frev
+
+
+gap
+
+
+get files
+
+
+get length
+
+
+get paths
+
+
+header folder
+
+
+header
+
+
+html website
+
+
+invalid
+
+
+linux commands
+
+
+lng
+
+
+maker folder
+
+
+maker
+
+
+measure
+
+
+mesur file
+
+
+mesur
+
+
+more
+
+
+nums
+
+
+organise
+
+
+parts
+
+
+pattern
+
+
+percision
+
+
+phrse common
+
+
+prcns
+
+
+prgrph
+
+
+remove
+
+
+rename
+
+
+repeat string
+
+
+repeat
+
+
+repeat_files
+
+
+replace filename
+
+
+replace
+
+
+response
+
+
+rhthm notes
+
+
+rhthm
+
+
+scrpts
+
+
+set time
+
+
+sh in cpp
+
+
+site maker 1
+
+
+site maker linux
+
+
+site maker
+
+
+size more common
+
+
+size more
+
+
+size sh
+
+
+size
+
+
+slc file 1
+
+
+slc file
+
+
+sldn
+
+
+slid
+
+
+sntce
+
+
+sort
+
+
+speak
+
+
+strys
+
+
+sure
+
+
+swap
+
+
+syllab
+
+
+tale
+
+
+theme
+
+
+thread
+
+
+type lnux details
+
+
+type lnux
+
+
+type
+
+
+types
+
+
+unrar
+
+
+unzip
+
+
+verify
+
+
+whitespace
+
+
+Readme.md
+
+
+a.out
+
+
+code.cpp
+
+
+main.cpp
+
+
