@@ -19,7 +19,7 @@ int main ()
 
 
 
-a_is_in_b:
+a_is_in_b: decide in a string is in another string ( for all available data-types )
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -30,14 +30,14 @@ a_is_in_b:
 #include "Includes/Includes/a_is_in_b.cpp"
 
 
-aproximation:
+aproximation: aproximate numbers
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/aproximation.cpp"
 
 
-asc_desc:
+asc_desc: sorting
 
 #include "Includes/Includes/includes.cpp"
 
@@ -51,7 +51,7 @@ brackets:
 #include "Includes/Includes/brackets.cpp"
 
 
-convert:
+convert: converts
 
 #include "Includes/Includes/includes.cpp"
 

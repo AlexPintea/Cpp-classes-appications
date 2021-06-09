@@ -1,3 +1,3 @@
-[data1] - choices: 1 2 
-[data4] - choice: 'that is data'
+[data1] - choices: 1 
+[data4] - choice: '1'
 [data] - slider( 0.3 - 1 ): 1

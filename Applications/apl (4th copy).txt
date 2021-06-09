@@ -4,7 +4,7 @@ For every:
 - what it does - list ( state what it does, then detail ) 
 - improvements
 - just for linux / cross-platform
-- visible
+
 
 
 
@@ -39,7 +39,7 @@ EAN13 ( scannable codes you find on grocery ... ):
 
 
 
-Brightly: final application, linux, visible
+Brightly: final application, linux
 
 - modifies the screen brightness
 - offers the following options:
@@ -68,7 +68,7 @@ Improvements:
 
 
 
-Clmns: final application, cross-platform, needs rnd, visible
+Clmns: final application, cross-platform, needs rnd
 
 - makes data for tables, either sql or plain data with column names
 - has 3 datatypes for the columns: int, string and double
@@ -85,7 +85,7 @@ Improvements:
 
 
 
-Cpp Class string brackets: final application, cross-platform, visible
+Cpp Class string brackets: final application, cross-platform
 - makes classes when given the properties
 - able to both define each data-type and recognise when given example data
 - able to recognise table / array sizes or fill them in when they do not appear ( even if partial data if provided, only a size out of 7 for example )
@@ -106,7 +106,7 @@ Improvements:
 
 
 
-Cpp Class multiple items string folders linux cpp: final application, linux, visible
+Cpp Class multiple items string folders linux cpp: final application, linux
 - database application able to make table connections
 - available options ( database ):
 	- make. Make class file - makes tables
@@ -159,7 +159,7 @@ Cpp Class: application version, cross-platform
 
 
 
-Css Atribs: final application, cross-platform, visible
+Css Atribs: final application, cross-platform
 - converts css attributes, attribute values and classes amongst each other
 - many times, css classes are made to style applications, however using attributes instead of classes can prove easier and more visible. So, conversions are needed. 
 - even after conversion, both the initial data and the result are kept ( both classes and attributes for example, when converting class to attribute )
@@ -174,7 +174,7 @@ Improvements:
 
 
 
-Css File 1: final application, cross-platform, visible
+Css File 1: final application, cross-platform
 - using a header, the application can replace strings of the file to output multiple distinct variants of replacement ( for every result you replace what you want with what you need )
 - the application orders the strings that need to be replaced, so that conflicts between replacement strings do not appear ( the result of the one replacement needs not be replaced by another replacement )
 - even if made with css themes in mind, the application is versatile, meaning that it can replace any given strings
@@ -301,7 +301,7 @@ Improvements:
 
 
 
-Server: final application, linux, visible
+Server: final application, linux
 - server for databases of "Cpp Class multiple items string folders linux cpp"
 - able to add and remove databases, as well as edit their names
 
@@ -331,12 +331,12 @@ Sql Maker: final application, trivial, cross-platform
 
 
 
-align: final application, cross-platform, visible
+align: final application, cross-platform
 - alignes text in a .txt file
 - options available: 1. Left  2. Center  3. Right  4. Middle  5. table
 
-Improvements:
-- add other features
+
+
 
 
 
@@ -353,7 +353,7 @@ application: final application, trivial, cross-platform
 
 
 
-are in files: final application, cross-platform, visible
+are in files: final application, cross-platform
 - searches one or many files for multiple queries ( strings )
 - results of the search are shown in a result file for all the searched files
 - able to keep your search queries in another file, one on each line
@@ -371,7 +371,7 @@ are in: application version, cross-platform
 
 
 
-blar: final application, cross-platform, visible
+blar: final application, cross-platform
 - array of bool made into class
 - for bool arrays, there is a constant need to adjust the length of the array in a separate variable. So, the data-type has a good reason to become a class.
 - there are 2 paramaters for the primitive bool array and for its length
@@ -397,7 +397,7 @@ Improvements:
 
 
 
-chars: example, cross-platform, visible
+chars: example cross-platform
 - encodes common words with uncommon characters
 - able to both encode and decode files
 
@@ -408,7 +408,7 @@ chars: example, cross-platform, visible
 
 
 
-choices 1: final application, cross-platform, visible
+choices 1: final application, cross-platform
 - makes an application with numerotated choices
 - asks for the application name and its features = options = choices, and makes an application that is able to:
 	- keep showing choices until the user wants to exit
@@ -434,7 +434,7 @@ choices lnux: final application, trivial, cross-platform
 
 
 
-cmb file: final application, cross-platform, needs rnd, visible
+cmb file: final application, cross-platform, needs rnd
 - outputs a combination of file lines
 - can be used to generated human names, item names ...
 - uses files that the user mentions ( also stores them )
@@ -465,7 +465,7 @@ codes: final application, example, cross-platform
 
 
 
-colors: final application, linux, visible
+colors: final application, linux
 - able to output colored text to the linux terminal
 - bold / italic / strike-though / udnerline and dim also avaialble for formatting
 - 9 colors available ( all the available ones )
@@ -496,7 +496,7 @@ commit your file: final application, cross-platform
 
 
 
-common frev multiple: final application, cross-platform, visible
+common frev multiple: final application, cross-platform
 - used to determine the most common words by topic
 - when a file is added ( to a topic or not ), the freqvency for each of its words is calculated and added next to the word in a file. After adding the words of the file with their freqvencies to a file that stores the most common words without regard to any topic, the user is asked if they want to add the file to a topic too. The process is repeated for the specified topic file.
 - available options:
@@ -535,7 +535,7 @@ Improvements
 
 
 
-compare files: not completed, cross-platform, visible
+compare files: not completed, cross-platform
 - compare sentances of multiple files to determine if they were plagiated
 - the application separates the files into lowercased sentances. In order to compare the files, each sentance of 1 file compared with every sentance of the other files to determine how simmilar they are. Simmilarity is determined by the number of common words in the sentances.
 
@@ -551,14 +551,14 @@ compare: application version, cross-platform
 
 
 
-convert file: example, cross-platform, visible
+convert file: example, cross-platform
 - shows how conversions can be done using an external file ( output a data-type and read another )
 
 
 
 
 
-convert: not completed, cross-platform, visible
+convert: not completed, cross-platform
 - converts between any 2 units of measurement ( for now it can only multiply one unit by a constant to get another, nneds to be done with rules )
 - stores the conversions
 - available options: 1. Convert  2. Add Convert  3. Edit Convert  4. Remove Convert  5. Show Converts
@@ -594,19 +594,13 @@ Improvements:
 
 
 
-deb folders maker desktop my_debs: final application, linux
-- makes a deb for an application and saves in a special folder for all your applications
-- adds a desktop file
-
-Improvement:
-- make a deb at every compilation
+deb folders maker desktop my_debs
 
 
-deb folders maker desktop: application verion, linux
-- adds a desktop file
+deb folders maker desktop
 
 
-deb folders maker: application verion, linux
+deb folders maker
 
 
 
@@ -656,7 +650,7 @@ Improvements:
 
 
 
-dplma: not completed, linux, visible
+dplma: not completed, linux
 - used to make diplomas
 - enter the occasion, then either type or add a file with the names of the recipients
 
@@ -670,7 +664,7 @@ Improvements:
 
 
 
-errors: example, trivial, library version, cross-platform, visible
+errors: example, trivial, cross-platform
 - correlate error codes with their actual text
 - defining your error is only done manually
 
@@ -685,7 +679,7 @@ Improvements:
 
 
 
-file browser: final application, linux, visible
+file browser: final application, linux
 - uses only linux commands to move around the files
 - available options: / 1. Home  / 2. Return / 3. Move Upwards / 4. Details / exit. Exits
 - there is also a cpp version, not complete
@@ -736,7 +730,7 @@ Improvements:
 
 
 
-file type: not completed, final application, cross-platform, visible
+file type: not completed, final application, cross-platform
 - file format that is very easy to use to make paragraphs with titles
 - when considering a document, it is usually observable that it is made only out of paragraphs with titles. So, in order to format a document, thet is the only vital information that the user needs to provide. Documents need to be formated in multiple formats ( using latex, ... ), so there should be a base format for all of them.
 
@@ -758,7 +752,7 @@ files lines: final application, trivial, cross-platform
 
 
 
-files path: example, not completed, library version, trivial linux
+files path: example, not completed, trivial linux
 - gets all the filenames of a folder in cpp
 
 Improvements
@@ -771,7 +765,7 @@ Improvements
 
 
 
-filesize: final application, linux, visible
+filesize: final application, linux
 - able to determine the filesize for every file-type in a folder, as well as show a percentage of each filesize out of total filesize
 
 
@@ -781,7 +775,7 @@ filesize: final application, linux, visible
 
 
 
-form: final application, cross-platform, visible
+form: final application, cross-platform
 - able to make forms that can be completed in the terminal
 - provides with:
 	- multiple choices
@@ -825,7 +819,7 @@ format: application version, cross-platform
 
 
 
-formats: final application, cross-platform, visible
+formats: final application, cross-platform
 - adds style to a plain text file by adding user-defined strings before and after: words, lines or chatacters
 
 
@@ -844,7 +838,7 @@ frev: final application, cross-platform
 
 
 
-gap: final application, cross-platform, visible
+gap: final application, cross-platform
 - given a file with gaps defined by [], the user can replace each of the gaps with their input to make a file they can name
 
 
@@ -861,7 +855,7 @@ get files: library version, cross-platform
 
 
 
-get length: final application, cross-platform, visible
+get length: final application, cross-platform
 - gets words of certain files based only on their length
 - available options: 1. Larger  2. Fewer  3. Equal
 - shows results in a separate file, also mentioning the line number where they were found
@@ -875,7 +869,7 @@ Improvement:
 
 
 
-get paths: final application, library version, linux
+get paths: final application, linux
 - able to go through all folders in a folder to show what is in each of them ( does so for folder it finds, until there are no more )
 - outputs the result in a file
 - the output can be used to represent the file structure in a format that takes up the least memory possible
@@ -889,7 +883,7 @@ Improvement
 
 
 
-header folder: final application, linux, visible
+header folder: final application, linux
 - converts a cpp application to a header file that uses every function it has besides main ( the functions are stored separately, onlt the function names are in the header file )
 
 
@@ -903,10 +897,7 @@ header: application version, cross-platform
 
 
 
-html website: final application, cross-platform, visible
-- makes a website
-- enter a title and a small description, choose 1 of 5 available themes
-- enter the text for your website in the terminal ( for both About and Contact )
+html website
 
 
 
@@ -922,7 +913,7 @@ invalid: final application, trivial, cross-platform
 
 
 
-linux commands: remake, final application, linux, visible
+linux commands: remake, final application, linux
 - use choices to execute linux commands
 - could be used for repiring the system
 
@@ -932,7 +923,7 @@ linux commands: remake, final application, linux, visible
 
 
 
-lng: final application, cross-platform, visible
+lng: final application, cross-platform
 - given a list of language-specific symbols and their replacements, the application converts code written in the language that uses the replacements to cpp, then compiles it
 - does not need a main function
 - code can exist outside any other functions
@@ -966,7 +957,7 @@ measure: final application, trivial, cross-platform
 
 
 
-mesur file: final application, cross-platform, visible
+mesur file: final application, cross-platform
 - given a set of numeric data, the application calculates the average, errors for every entry, and an average error
 - it also saves every file with measurements
 - able to remove large errors by comparing with the average error
@@ -999,7 +990,7 @@ more: not completed, linux
 
 
 
-nums: final application, cross-paltform, visible
+nums: final application, cross-paltform
 - able to separate the data by int, string and double and group it
 - for string:
 	- counts them, both total and distinct
@@ -1072,547 +1063,151 @@ Improvements:
 
 
 
+organise: 
 
 
+parts
 
 
-organise: final application, linux
-- make and edit files, add them to categories
-- available options:
-  1. Make a file   2. Ctg a file   3. !Ctg a file    4. Edit a file   5. Rename file
-  6. Add ctg       7. Show ctgs    8. Remove ctg     9. Rename ctg
-  delete. Delete file                 exit. Exit
+pattern
 
 
-Improvement:
-- add files to a spearate folder, so they do not go over the code files
+percision
 
 
+phrse common
 
 
+prcns
 
 
+prgrph
 
 
+remove
 
 
-parts: final application, cross-platform, visible
-- uses parts of speech to make sentances
-available options:  1. Add File  2. Get Sentance  3. Sentances and words  4. Subjects  5. Exits
-- add a file and it asks you what part of speech the word is, and if it is common or not
-- memorises both the parts of speech in separate files, as well as the sentance ( the sentance is used as a template that uses the parts of speech you mentioned )
+rename
 
 
+repeat string
 
 
+repeat
 
 
+repeat_files
 
 
-pattern: final application, cross-platform
-- memorises order of common words in a sentance ( could be used to determine if a sentance is gramatically valid )
+replace filename
 
 
+replace
 
 
+response
 
 
+rhthm notes
 
 
-percision: final application, library version, trivial
-- replicates the functionality of a cpp library that outputs decimals with a certain precision and spatiates the output
-- has 2 identical files - why
+rhthm
 
-Improvements:
-- make into library
 
+scrpts
 
 
+set time
 
 
+sh in cpp
 
 
+site maker 1
 
-phrse common: final application, cross-platform, visible
-- eliminates phrases that have mostly common words ( that do not mean much )
-- could be used to extract meaning on a text
 
+site maker linux
 
 
+site maker
 
 
+size more common
 
 
+size more
 
-prcns: final application, cross-platform, visible
-- given a text that has numeric data, the application extracts the numeric data and calculates how much each of the numbers is out of the total
-- if a number is preceded by a string, the value represents it ( the string is the name of what that number represents )
 
+size sh
 
 
+size
 
 
+slc file 1
 
 
+slc file
 
-prgrph: final application, cross-paltform
-- slices a paragraph into smaller paragraphs, when given a maximum sentance count
-- only separates when sentances end
 
+sldn
 
 
+slid
 
 
+sntce
 
 
+sort
 
 
+speak
 
 
-remove: final application, cross-platform, visible
-- given files on a certain topic, the application determines common words and makes a file consisting of the most used uncommon words in order.
-- if the application realises that the file that was added belongs to a topic that was added before by another file, the "most used uncommon words" of the files are merged
-- available options:
-  add. Add usual word          adds. Add usual words - add 1 or multiple usual words
-  remove.  Remove usual word   removes. Remove usual words - remove 1 or multiple usual words
-  [help].  Enter text, enter which words make sense to improve - you improve the application by adding text and mentioning afterwards which if the words are uncommon ( to determine which are common )
-  [enter]. Enter text and get words that make sense - type text and get the uncommon words 
-  [sense]. Enter a word and get correlated words - using the "most used uncommon words" files, the application gives you words related to a word you enter
-  files.   Show save file filenames - show filenames for the files with most used uncommon words
-  show. Show usual words - shows common words
-  copy. Make a copy of "usual_words" file - copies the usual words file, in case you need it
-  save. Save usual words ( done anyways ) - save feature, just to make the user feel safe
-  exit. Exit - exits the application
-- the application does not crash when the user enters wrong data ( data is takes as a string, then converted if needed )
-- other available options for editing save files:
-  add. Add save word          adds. Add save words - add 1 or multiple unusual words for a "most used uncommon words" file
-  remove.  Remove save word   removes. Remove save words - remove 1 or multiple unusual words out of a "most used uncommon words" file
-  show. Show words of a save file - shows uncommon words of a "most used uncommon words" file
-  files. Consider / Do not consider a save file for correlations - help by excluding files that seem to not have words that correlate with each other
-  copy. Make a copy of a save file - copy a save file for the user
-- able to identify plurals - even irregular
+strys
 
-Improvements:
-- keep freqvency too
-- add data to the application
-- fle
 
+sure
 
 
+swap
 
 
+syllab
 
-rename: final application, linux
-- renames all files ina  folder to numerotate them ( just numbers for filenames )
 
-Improvements:
-- detete the generated commands file
+tale
 
 
+theme
 
 
+thread
 
 
+type lnux details
 
-repeat string: final application, cross-platform
-- repeats the text in a file by replacing one word with other words multiple times
 
+type lnux
 
 
+type
 
 
+types
 
 
-repeat: final application, cross-platform
-- shows a top of the 10 most used words in the file
-- able to identify plurals
+unrar
 
-Improvement:
-- identify irregular plurals
 
+unzip
 
 
+verify
 
 
-
-
-repeat_files: final application, cross-paltform
-- after you type your text, the application removes commmon words and plurals to let you know which uncommon words you use the most
-- memorises which uncommon words you used a their freqvence of use - shows you your most used words now and until now
-
-
-
-
-
-
-
-
-replace filename: final application, cross-platform, visible
-- given a file that contains a list of filenames ( one on each row ), the application is able to replace strings in their filenames
-- able to replace multiple strings at once without causing replacement conflicts
-
-
-
-
-
-
-
-replace: trivial, final application, cross-platform
-- replaces multiples strings in a file
-- able to replace multiple strings at once without causing replacement conflicts
-
-
-
-
-
-
-
-
-response: example, trivial, cross-paltform
-- example of how cpp files can communicate like they were client and server
-
-
-
-
-
-
-
-rhthm notes: trivial, example, cross-platform
-- generates all combinations of 10 taken 4
-
-
-rhthm: application version, trivial, example, cross-platform
-- generates all combinations of 10 taken 8
-
-
-
-
-
-
-
-scrpts: final application, linux, visible
-- keeps your scripts
-- able to copy the script files you give it into its own folder, add a title and details for them
-- numerortates your scripts and executes them
-
-
-
-
-
-
-set time: example, trivial, linux
-- changes the time
-
-
-
-
-
-
-
-
-sh in cpp: frinal application, example, trivial, linux
-- adds: if / if else / for / while to a sh file ( only adds them, so you do not have to type them )
-
-
-
-
-
-
-
-
-site maker 1: application version, cross-platform
-
-
-site maker linux: final application, remake, linux, visible
-- given a file that uses the "file format" application format, the application is able to make a website
-- uses custom styling
-- saves the file and its style in a separate folder
-
-
-site maker: application version, cross-platform
-
-
-
-
-
-
-
-
-
-size more common: final application, cross-paltform, visible
-- able to determine the average word length for every topic you give it
-- available options: 1. Add File  2. Add topic  3. Remove topic  4. Show topics and sizes  5. Exits
-- when you add a file you have to add it to a topic
-- able to add a new topic when you add a file
-
-
-size more: application version, cross-platform
-
-
-
-
-
-
-
-size sh: example, trivial, remake, linux
-- tells you a filesize for a certain filepath
-
-
-
-
-
-
-
-size: final application, cross-platform
-- calculates average word length, shows you the previous result when you execute ( add another file )
-
-
-
-
-
-
-
-slc file 1: final application, cross-paltform
-- able to separate files with lots of text into multiple smaller files that only have a specified maximum size
-
-
-slc file: application version, cross-platform
-- slices files
-
-
-
-
-
-
-
-
-
-sldn: final application, cross-platform, visible
-- given a string the application makes you a terminal text animation 
-- offers 4 default presets for inserting strings between letters, and 1 custom ( you decide what comes befor and after each of the letters )
-
-
-
-
-
-
-
-
-
-slid: trivial, fianl application, cross-platform
-- it types a strings letter by letter ( repeats until you stop it )
-
-
-
-
-
-
-
-
-
-sntce: final application, cross-paltform
-- given a text that lacks proper formatting ( there are tabls and speaces everywhere ), the application is able to identify sentances, reduce whitespace and list all sentances on rows, lowercased
-
-
-
-
-
-
-
-
-
-
-sort: final application, cross-platform
-- given a file, the application sorts strings or numerics ( ehich are either on lines or separated by a ' ' ), asc or desc, showing the result in a separate file, either on each line, or separated by a space
-
-
-
-
-
-
-
-
-
-
-speak: final application, linux
-- able to use linux commands to speak sentances written in a file
-- adapts the rate at which the words are said, to make the speech inteligeble
-
-
-
-
-
-
-
-
-
-
-
-
-strys: not completed, cross-platform, needs rnd, visible
-- given a file with [], the application is able to use data files to fill in the missing words, which could be any of the words of a certain file mentioned between the []
-
-
-
-
-
-
-
-
-
-
-
-
-sure: final application, linux, needs rnd, visible
-- given a function in a file, the application is able to conduct a series of tests to make sure that the results are the ones you would expect
-
-
-
-
-
-
-
-
-
-
-
-
-swap: final application, cross-platform
-- able to swap any number of words in a certain given file
-
-Improvements:
-- add swapping for multiple files
-
-
-
-
-
-
-
-
-
-
-syllab: trivial, finalapplication, cross-paltform
-- separates a word into its syllabels
-
-
-
-
-
-
-
-
-
-
-tale: example, remake, trivial, cross-paltform
-- aims to make a stry by prplacing the progagonist ...
-
-
-
-
-
-
-
-
-
-
-theme: final applications, cross-platform, visible
-- aims to determine the theme of a text by identifying in how sentances each uncommon word appears
-- shows multiple theme options if there are 
-
-
-
-
-
-
-
-
-
-thread: example, cross-platform
-- shows how threads can be used in cpp
-
-
-
-
-
-
-
-
-type lnux details: final application, cross-platform, visible
-- makes a text animation in the terminsl, to show the application name and the details ( which apprar line by line )
-- able to add a file, or type in the details
-
-
-type lnux: application version, cross-platform
-
-
-
-
-
-
-
-type: final application, cross-platform, visible
--types the text of a file in the terminal, letter by letter
-
-
-
-
-
-
-
-types: library version, trivial, cross-platform
-- given a string, the application determines the data-type that the data could be stored in ( double, int, bool, long, char or string )
-
-
-
-
-
-
-
-unrar: final application, linux, visible
-- unzip / unrar all the files in a certain folder ( also in the folders of that folder and so on )
-
-
-
-
-
-
-
-
-
-unzip: library version, linux
-- unzip / unrar a certain file using a cpp function
-
-
-
-
-
-
-
-
-verify: final application, cross-paltform, visible
-- checks a cpp file to identify if the last character in a line is a valid cpp character, which takes care of:
-	- forgotten ;
-	- paranthesis left unclosed
-	- quotes left unclosed
-- does not consider comments, since they need not confirm to any cpp formatting ( checks for last character before comments )
-
-
-
-
-
-
-
-
-whitespace: final application, cross-platform
-- determines how much whitespace there is in a file ( both how many charachers and how much of the total whitespace and non-whitespace represent )
-- shows the filesize
-
-
-
-
-
-
+whitespace
 
 
 Readme.md

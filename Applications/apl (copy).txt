@@ -1,0 +1,550 @@
+For every:
+- is it: example, trivial, application version, remake, final application
+- needs rnd - optional
+- what it does - list ( state what it does, then detail ) 
+- improvements
+- just for linux / cross-platform
+
+
+Braille EAN13: trivial, cross-platform
+
+Consists of 2 seperate applications that were sent to the same contest.
+
+Braille:
+- offers features for both english and japanese braille systems
+- replaces alphabet symbols ( individual letters for english and groups of letters for japanese ) with the binary representation of the braille alphabet
+- able to translate files
+
+EAN13 ( scannable codes you find on grocery ... ):
+- converts the binary value of the code into readable integers
+- conversion done using base 2 to base 10 conversion
+- able to decode price and country
+
+
+
+
+Brightly: final application, linux
+
+- modifies the screen brightness
+- offers the following options:
+  1. Modify Bright - able to adjust the brightness up and down
+                   - use [ and ] to dim up and down, type "done" to mention that you are done
+  2. Bright Choices - presets for screen brightness ( 1. Bright  2. Default  3. Really bright  4. Normal )
+  3. Continous slow - preset for unstoppable slow flicker ( only stoppable if you exit the application )
+  4. Continous flicker - preset for unstoppable fast flicker ( only stoppable if you exit the application )
+  more. More Birghties - executes a user-defined series of flickers, which stops when completed ( does not repeat like the 'continous' presets )
+                       - users are asked to 
+  reset. Reset Bright - resets brightness to default
+
+ [exit]. Exits - exist the application
+
+Improvements:
+- get the screen name, do not ask the user to enter it
+- make it so that the user is able to make their custom preset repeat
+- make more presets for the user that they can choose / edit / delete / add
+- remake the interface so that it has: 1. Modify brightness ( merge 1 and 2 ),  2. Show ( merge 3, 4 and more ), reset, info ( about each option ) and exit. 
+
+
+
+
+Clmns: final application, cross-platform, needs rnd
+
+- makes data for tables, either sql or plain data with column names
+- has 3 datatypes for the columns: int, string and double
+- able to include self-oteration column
+
+Improvements:
+- add other data-types: char, bool, ...
+
+
+
+
+Cpp Class string brackets: final application, cross-platform
+- makes classes when given the properties
+- able to both define each data-type and recognise when given example data
+- able to recognise table / array sizes or fill them in when they do not appear ( even if partial data if provided, only a size out of 7 for example )
+- besides the class, the user receives arrays with the variable names provided, in case they need them for automating the generated code ...
+- class is provided with:
+	- private parameters
+	- constructors ( one empty with initialisations and one with all paramaters )
+	- getters and setters - multiple verifications available ( if you want to set a value at a position that exceeds the table size ... )
+	- for tables, multiple intermediary functions are provided ( length, copy, ...  ) as well as multiple getters and setters
+	- for tables ( with size >= 2 ) an array containing their data is provided to take care of operations such as copying data and others
+	- a function to output information about the class parameter values
+- available data-types for parameters: 1. int  2. float  3. double  4. char  5. string  6. long  7. bool   or   custom
+- all gerenated classes use a boolean variable to determine if they are empty or not
+- each generated class is fully commented
+
+Improvements:
+- when you use the constructor that takes values, make is_empty = 0, not true
+
+Cpp Class multiple items string folders linux cpp: final application, linux
+- database application able to make table connections
+- available options ( database ):
+	- make. Make class file - makes tables
+	- edit. Edit / Show a class file - edit / show a table and its data
+	- simmilar. Enter simmilar files - makes table connections ( add, remove and show connections )
+	- delete. Delete a class file - delete a table
+	- exit. Exit - exits the application
+- available options ( table ):
+	- 1. Add entry - add a table row
+	- 2. Show entry - show a table row ( and the rows of other tables that are connected to it, when the values coincide, same for all show functions )
+	- 3. Show entries - complete - shows all entries and numerotates them
+	- 4. Show entries - shows multiple entries as you enter their id ( which is >= 1 )
+	- 5. Remove entry - removes a table row
+	- 6. Remove entries - removes multiple entries as you enter their id ( which is >= 1 )
+	- 7. Clear entries - deletes all entries
+	- 8. Sort ( show / save ) - sort by any column ( asc / desc ) and decide to just show the result, or also save it
+	- 9. Move - move a certain entry up and down how many rows you want
+	- 10. Swap - swaps 2 table rows
+	- item. Show entries that have [item] - search though the table data for a certain string ( also available for other data types, converstions are made )
+	- save. Save - saves the table ( table is saved anyway, only to make the user feel safe )
+	- exit. Exit - exits to the database options
+
+Improvements:
+- failed to save sorted rows - added 0 instead of 1 when swapping or such
+
+Meaning of names given to intermediary versions:
+item - means you can store a table for the class
+multiple - means you can have multiple tables - database
+inherits - uses inhertitance to define classes
+string - able to input recognise the data-type of the entered data to make a class / table
+folders - organised
+linux - uses commands to delete folders when the user requests
+brackets - able to deal with multidimentional tables to make classes ( any size for tables )
+
+Cpp Class item string: application version, cross-platform
+Cpp Class item: application version, cross-platform
+Cpp Class multiple items string folders linux: application version, linux
+Cpp Class multiple items string: application version, cross-platform
+Cpp Class multiple items: application version, cross-platform
+Cpp Class string: application version, cross-platform
+Cpp Class string inherits virtual linux replace: application version, cross-platform
+Cpp Class string inherit: application version, cross-platform
+Cpp Class: application version, cross-platform
+
+
+
+
+Css Atribs: final application, cross-platform
+- converts css attributes, attribute values and classes amongst each other
+- many times, css classes are made to style applications, however using attributes instead of classes can prove easier and more visible. So, conversions are needed. 
+- even after conversion, both the initial data and the result are kept ( both classes and attributes for example, when converting class to attribute )
+- attribute values can be converted to classes as such: [ atrib = "val" ] becomes .atrib-val
+
+Improvements:
+- convert attribute values to attributes, like with classes [ atrib-val ] 
+
+
+
+
+Css File 1: final application, cross-platform
+- using a header, the application can replace strings of the file to output multiple distinct variants of replacement ( for every result you replace what you want with what you need )
+- the application orders the strings that need to be replaced, so that conflicts between replacement strings do not appear ( the result of the one replacement needs not be replaced by another replacement )
+- even if made with css themes in mind, the application is versatile, meaning that it can replace any given strings
+
+Css File: application version, cross-platform
+- only outputs 1 specified file
+
+Css: remake of "Css File", cross-platform
+- define your css properties using an array and replace css_1 with css[1] = "your css" and such
+
+File Counter: 
+
+
+Format text
+
+
+Git Readme Maker folder
+
+
+Git Readme Maker
+
+
+In c only
+
+
+Inheritance file virtual
+
+
+Inheritance file
+
+
+Inheritance
+
+
+Interface
+
+
+Interval
+
+
+Linux list Maker
+
+
+Linux operations
+
+
+Server
+
+
+Slce
+
+
+Sql Maker
+
+
+align
+
+
+application
+
+
+are in files
+
+
+are in
+
+
+blar
+
+
+chars
+
+
+choices 1
+
+
+choices lnux
+
+
+choices
+
+
+cmb file
+
+
+cmb
+
+
+codes
+
+
+colors
+
+
+commit linux same folder
+
+
+commit same folder
+
+
+commit your file
+
+
+common frev multiple
+
+
+common frev
+
+
+common
+
+
+compare files
+
+
+compare
+
+
+convert file
+
+
+convert
+
+
+cpp sh
+
+
+datatype
+
+
+deb folders maker desktop my_debs
+
+
+deb folders maker desktop
+
+
+deb folders maker
+
+
+desktop maker folder
+
+
+desktop maker
+
+
+details
+
+
+double
+
+
+dplma
+
+
+errors
+
+
+file browser
+
+
+file choices
+
+
+file counter
+
+
+file lines
+
+
+file string
+
+
+file type
+
+
+files lines
+
+
+files path
+
+
+filesize
+
+
+form
+
+
+format file
+
+
+format
+
+
+formats
+
+
+frev
+
+
+gap
+
+
+get files
+
+
+get length
+
+
+get paths
+
+
+header folder
+
+
+header
+
+
+html website
+
+
+invalid
+
+
+linux commands
+
+
+lng
+
+
+maker folder
+
+
+maker
+
+
+measure
+
+
+mesur file
+
+
+mesur
+
+
+more
+
+
+nums
+
+
+organise
+
+
+parts
+
+
+pattern
+
+
+percision
+
+
+phrse common
+
+
+prcns
+
+
+prgrph
+
+
+remove
+
+
+rename
+
+
+repeat string
+
+
+repeat
+
+
+repeat_files
+
+
+replace filename
+
+
+replace
+
+
+response
+
+
+rhthm notes
+
+
+rhthm
+
+
+scrpts
+
+
+set time
+
+
+sh in cpp
+
+
+site maker 1
+
+
+site maker linux
+
+
+site maker
+
+
+size more common
+
+
+size more
+
+
+size sh
+
+
+size
+
+
+slc file 1
+
+
+slc file
+
+
+sldn
+
+
+slid
+
+
+sntce
+
+
+sort
+
+
+speak
+
+
+strys
+
+
+sure
+
+
+swap
+
+
+syllab
+
+
+tale
+
+
+theme
+
+
+thread
+
+
+type lnux details
+
+
+type lnux
+
+
+type
+
+
+types
+
+
+unrar
+
+
+unzip
+
+
+verify
+
+
+whitespace
+
+
+Readme.md
+
+
+a.out
+
+
+code.cpp
+
+
+main.cpp
+
+
