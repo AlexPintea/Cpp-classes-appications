@@ -26,9 +26,9 @@ void add_string ( string &a, string b, int string_iter )
 
 	a = result;
 }
+
 void filename_ext ()
 {
-	
 	ext = "";
 
 	bool have_ext = false;
@@ -80,6 +80,7 @@ void filename_ext ()
 
 	filename = file_name;
 }
+
 void set_file ()
 {
 	ifstream fi;
@@ -100,11 +101,10 @@ void set_file ()
 
 	if ( choice == "1" )	
 	{
-
+		file_name = filename + " converted 1";
 		if ( ext != "" )
-			file_name = filename + " converted 1." + ext;
-		else
-			file_name = filename + " converted 1";
+			file_name = filename + '.' + ext;
+
 
 		fo.open( file_name );
 
@@ -149,12 +149,12 @@ void set_file ()
 		else
 			cout << "File: \"" << file_name << "\" was made. Filepath: " << filepath << " \n";
 	}
+
 	if ( choice == "2" )	
 	{
+		file_name = filename + " converted 2";
 		if ( ext != "" )
-			file_name = filename + " converted 2." + ext;
-		else
-			file_name = filename + " converted 2";
+			file_name = filename + '.' + ext;
 
 		fo.open( file_name );
 
@@ -182,12 +182,13 @@ void set_file ()
 			cout << "File: \"" << file_name << "\" was made. Filepath: " << filepath << " \n";
 
 	}
+
 	if ( choice == "3" )	
 	{
+		file_name = filename + " converted 3";
 		if ( ext != "" )
-			file_name = filename + " converted 3." + ext;
-		else
-			file_name = filename + " converted 3";
+			file_name = filename + '.' + ext;
+
 
 		fo.open( file_name );
 
@@ -196,7 +197,6 @@ void set_file ()
 		{
 			if ( file[ i ] == '[' )
 			{
-
 				bool have_val = 0;
 				int l = i;
 				while ( file[ l ] != '=' )
@@ -250,6 +250,73 @@ void set_file ()
 			cout << "File: \"" << file_name << "\" was made. Filepath: " << filepath << " \n";
 	}
 
+	if ( choice == "4" )	
+	{
+		file_name = filename + " converted 4";
+		if ( ext != "" )
+			file_name = filename + '.' + ext;
+
+
+		fo.open( file_name );
+
+
+		for ( int i = 0; i < file.length(); i = i + 1 )
+		{
+			if ( file[ i ] == '[' )
+			{
+				bool have_val = 0;
+				int l = i;
+				while ( file[ l ] != '=' )
+				{
+					if ( file[ l ] == ']' )
+						break;
+
+					l = l + 1;
+				}
+
+				if ( file[ l ] == '=' )
+					have_val = 1;
+				
+
+				if ( ! have_val )
+					continue;
+
+				i = i + 1;
+				string val = "";
+				temp = "";
+				while ( file[ i ] == ' ' or file[ i ] == '	' )
+					i = i + 1;
+
+				while ( file[ i ] != '=' )
+				{
+					if ( file[ i ] != ' ' and file[ i ] != '	' )
+						temp = temp + file[ i ];
+
+					i = i + 1;
+				}
+
+				while ( file[ i ] != ']' )
+				{
+
+					if ( file[ i ] != ' ' and file[ i ] != '	' and file[ i ] != '\'' and file[ i ] != '"' and file[ i ] != '=' )
+						val = val + file[ i ];
+
+					i = i + 1;
+				}
+
+				add_string( file, ", [ " + temp + '-' + val + " ]", i );
+			}
+		}
+
+		fo << file;
+
+
+		if ( filepath == "" )
+			cout << "File: \"" << file_name << "\" was made. \n";
+		else
+			cout << "File: \"" << file_name << "\" was made. Filepath: " << filepath << " \n";
+	}
+
 
 	fo.close();
 }
@@ -264,6 +331,15 @@ void remove_spaces ( string &a )
 
 	a = result;
 }
+
+
+
+
+
+
+
+
+
 int main ()
 {
 	cout << "\033c";
@@ -289,6 +365,7 @@ int main ()
 		cout << " 1. Attributes to Classes\n";
 		cout << " 2. Classes to Attributes\n";
 		cout << " 3. Attribute Values to Classes\n";
+		cout << " 4. Attribute Values to Attributes ( not completed ) \n";
 
 		cout << "\nInvalid. Retry.";
 		cout << "\nChoice: ";
@@ -304,5 +381,6 @@ int main ()
 		getline( cin, filename );
 
 	set_file();
+
 	return 0;
 }

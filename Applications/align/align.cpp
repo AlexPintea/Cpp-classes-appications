@@ -40,7 +40,6 @@ void move_words ( string text, string words[] )
 			words[ words_iter ] = words[ words_iter ] + text[i];
 }
 
-
 // removes a char in a string
 void remove_char( string &a, int iter )
 {
@@ -57,7 +56,6 @@ void remove_char( string &a, int iter )
 
 	a = result;
 }
-
 
 string reduce_spaces ( string &a )
 {
@@ -91,7 +89,7 @@ string reduce_spaces ( string &a )
 	return a;
 }
  
-void get_file ( string filename )
+void get_file_rows ( string filename )
 {
 	ifstream fi;
 	fi.open( filename );
@@ -116,6 +114,35 @@ void empty ( string a[] )
 
 	for ( int i = 0; i < size; i = i + 1 )
 		a[ i ] = "";
+}
+
+string get_file ( string filename )
+{
+	ifstream fi;
+	fi.open( filename );
+
+	string temp;
+	string file = "";
+
+	while ( getline( fi, temp ) )
+		file = file + temp + '\n';
+
+	fi.close();
+
+	return file;
+}
+
+void set_file ( string filename, string file )
+{
+	ofstream fo;
+	fo.open( filename );
+	fo.close(); // clear file
+
+	fo.open( filename );
+
+	fo << file;
+
+	fo.close();
 }
 
 
@@ -194,10 +221,6 @@ void align ( string filename, int alignment )
 		}
 	}
 
-
-
-
-
 	if ( alignment == 5 )
 	{
 		int max_num = 0;
@@ -240,11 +263,31 @@ void align ( string filename, int alignment )
 		}
 
 		fi.close();
-
 	}
 
 
 	fo.close();
+}
+
+string int_to_string ( int m )
+{
+	string result = "";
+
+	while ( m != 0 )
+	{
+		result = result + (char) ( m % 10 );
+		m = m / 10;
+	}
+
+	string temp = result;
+	int size = temp.length();
+
+	result = "";
+
+	for ( int i = size - 1; i >= 0; i = i - 1 )
+		result = result + temp[ i ];
+
+	return result;
 }
 
 int main ()
@@ -258,11 +301,12 @@ int main ()
 
 
 
-	get_file( filename );
+	get_file_rows( filename );
 
 	if ( strings_iter != 0 )
 	{
 		cout << "Choices:  1. Left  2. Center  3. Right  4. Middle  5. table\n";
+		cout << "          6. Upper 7. Lower   8. Mark \n";
 		cout << "Choice: ";
 
 		string choice;
@@ -271,25 +315,162 @@ int main ()
 		if ( choice == "" )
 			getline( cin, choice );
 
-		if ( choice == "1" )
+		if ( choice == "1" ) // left
 		{
 			align( filename, 1 );
 		}
-		if ( choice == "2" )
+		if ( choice == "2" ) // center
 		{
 			align( filename, 2 );
 		}
-		if ( choice == "3" )
+		if ( choice == "3" ) // right
 		{
 			align( filename, 3 );
 		}
-		if ( choice == "4" )
+		if ( choice == "4" ) // middle
 		{
 			align( filename, 4 );
 		}
-		if ( choice == "5" )
+		if ( choice == "5" ) // table
 		{
 			align( filename, 5 );
+		}
+		if ( choice == "6" ) // upper
+		{
+			cout << "Choices: 1. Only first letter of sentances  2. Every letter\n";
+			cout << "Choice: ";
+
+			getline( cin, choice );
+			if ( choice == "" )
+				getline( cin, choice );
+
+			string file = get_file( filename );
+			int size = file.length();
+
+			if ( choice == "1" ) // only first letter
+			{
+				bool have_sentance = 0;
+
+				for ( int i = 0; i < size; i = i + 1 )
+				{
+					if ( file[ i ] == '.' or file[ i ] == '?' or file[ i ] == '!' )
+						have_sentance = 1;
+
+					if ( have_sentance and file[ i ] >= 'a' and file[ i ] <= 'z' )
+					{
+						have_sentance = 0;
+						file[ i ] = file[ i ] - 32;
+					}
+
+					if ( have_sentance and file[ i ] >= 'A' and file[ i ] <= 'Z' )
+						have_sentance = 0;
+				}
+			}
+			if ( choice == "2" ) // every letter
+			{
+				for ( int i = 0; i < size; i = i + 1 )
+					if ( file[ i ] >= 'a' and file[ i ] <= 'z' )
+						file[ i ] = file[ i ] - 32;
+			}
+
+			set_file( filename, file );
+		}
+		if ( choice == "7" ) // lower
+		{
+			cout << "Choices: 1. Only those that are not first letter of sentance  2. Every letter\n";
+			cout << "Choice: ";
+
+			getline( cin, choice );
+			if ( choice == "" )
+				getline( cin, choice );
+
+			string file = get_file( filename );
+			int size = file.length();
+
+			if ( choice == "1" ) // only first letter
+			{
+				bool have_sentance = 0;
+
+				for ( int i = 0; i < size; i = i + 1 )
+				{
+					if ( file[ i ] == '.' or file[ i ] == '?' or file[ i ] == '!' )
+						have_sentance = 1;
+
+					if ( ! have_sentance and file[ i ] >= 'A' and file[ i ] <= 'Z' )
+						file[ i ] = file[ i ] + 32;
+
+					if ( have_sentance and ( ( file[ i ] >= 'a' and file[ i ] <= 'z' ) or ( file[ i ] >= 'A' and file[ i ] <= 'Z' ) ) )
+						have_sentance = 0;
+				}
+			}
+			if ( choice == "2" ) // every letter
+			{
+				for ( int i = 0; i < size; i = i + 1 )
+					if ( file[ i ] >= 'A' and file[ i ] <= 'Z' )
+						file[ i ] = file[ i ] + 32;
+			}
+
+			set_file( filename, file );
+		}
+		if ( choice == "8" ) // 
+		{
+			cout << "Choices: 1. Numbers  2. Same mark\n";
+			cout << "Choice: ";
+
+			getline( cin, choice );
+			if ( choice == "" )
+				getline( cin, choice );
+
+			string mark;
+
+			if ( choice == "1" ) // numbers
+			{
+				int iter = 1;
+				cout << "First number: ";
+
+				cin >> iter;
+
+				cout << "Mark ( any word / character, goes after number ): ";
+
+				getline( cin, mark );
+				if ( mark == "" )
+					getline( cin, mark );
+
+				string file = "";
+
+				int max_size = 0;
+
+				for ( int i = 0; i < strings_iter; i = i + 1 )
+					if ( int_to_string( iter + i ).length() > max_size )
+						max_size = int_to_string( iter + i ).length();
+
+				for ( int i = 0; i < strings_iter; i = i + 1 )
+				{
+					file = file + int_to_string( iter + i ) + mark;
+
+					for ( int p = 0; p < max_size - int_to_string( iter + i ).length(); p = p + 1 )
+						file = file + ' ';
+
+					file = file + strings[ i ] + '\n';
+				}
+
+				set_file( filename, file );
+			}
+			if ( choice == "2" ) // same mark
+			{
+				cout << "Mark ( any word / character ): ";
+
+				getline( cin, mark );
+				if ( mark == "" )
+					getline( cin, mark );
+
+				string file = "";
+
+				for ( int i = 0; i < strings_iter; i = i + 1 )
+					file = file + mark + ' ' + strings[ i ] + '\n';
+
+				set_file( filename, file );
+			}
 		}
 	}
 	else

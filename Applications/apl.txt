@@ -5,7 +5,15 @@ For every:
 - improvements
 - just for linux / cross-platform
 - visible
+- gasit probleme pbinfo
+- for applications that make statistics: use data sets
+- for chars and chars file: determine how much the storage space is reduced
+- 
+- 
 
+- code generation: cpp, web
+- common word: 
+- statistics: 
 
 
 
@@ -55,7 +63,7 @@ Brightly: final application, linux, visible
  [exit]. Exits - exist the application
 
 Improvements:
-- get the screen name, do not ask the user to enter it
+- / get the screen name, do not ask the user to enter it - have to edit that in every brightly file ( for every option it executes another file )
 - make it so that the user is able to make their custom preset repeat
 - make more presets for the user that they can choose / edit / delete / add
 - remake the interface so that it has: 1. Modify brightness ( merge 1 and 2 ),  2. Show ( merge 3, 4 and more ), reset, info ( about each option ) and exit. 
@@ -68,14 +76,14 @@ Improvements:
 
 
 
-Clmns: final application, cross-platform, needs rnd, visible
+Clmns: final application, cross-platform, needs rnd, visible, code generation
 
 - makes data for tables, either sql or plain data with column names
 - has 3 datatypes for the columns: int, string and double
 - able to include self-oteration column
 
 Improvements:
-- add other data-types: char, bool, ...
+- / add other data-types: char, bool, ...
 
 
 
@@ -85,7 +93,7 @@ Improvements:
 
 
 
-Cpp Class string brackets: final application, cross-platform, visible
+Cpp Class string brackets: final application, cross-platform, visible, code generation
 - makes classes when given the properties
 - able to both define each data-type and recognise when given example data
 - able to recognise table / array sizes or fill them in when they do not appear ( even if partial data if provided, only a size out of 7 for example )
@@ -100,13 +108,14 @@ Cpp Class string brackets: final application, cross-platform, visible
 - available data-types for parameters: 1. int  2. float  3. double  4. char  5. string  6. long  7. bool   or   custom
 - all gerenated classes use a boolean variable to determine if they are empty or not
 - each generated class is fully commented
+- has function fo generation clss out of code - not sure if it does
 
 Improvements:
 - when you use the constructor that takes values, make is_empty = 0, not true
 
 
 
-Cpp Class multiple items string folders linux cpp: final application, linux, visible
+Cpp Class multiple items string folders linux cpp: final application, linux, visible, code generation
 - database application able to make table connections
 - available options ( database ):
 	- make. Make class file - makes tables
@@ -159,14 +168,14 @@ Cpp Class: application version, cross-platform
 
 
 
-Css Atribs: final application, cross-platform, visible
+Css Atribs: final application, cross-platform, visible, code generation
 - converts css attributes, attribute values and classes amongst each other
 - many times, css classes are made to style applications, however using attributes instead of classes can prove easier and more visible. So, conversions are needed. 
 - even after conversion, both the initial data and the result are kept ( both classes and attributes for example, when converting class to attribute )
 - attribute values can be converted to classes as such: [ atrib = "val" ] becomes .atrib-val
 
 Improvements:
-- convert attribute values to attributes, like with classes [ atrib-val ] 
+- / convert attribute values to attributes, like with classes [ atrib-val ] 
 
 
 
@@ -215,10 +224,10 @@ Format text: trivial, cross-platform
 
 
 
-Git Readme Maker folder: final application, trivial, cross-platform
+Git Readme Maker folder: final application, trivial, cross-platform, code generation
 - keep your project details in your code file, with every compilation the actual separate file gets updated
 
-Git Readme Maker: application version, trivial, cross-platform
+Git Readme Maker: application version, trivial, cross-platform, code generation
 - without separate folder
 
 
@@ -226,7 +235,71 @@ Git Readme Maker: application version, trivial, cross-platform
 
 
 
-In c only
+In c only:
+
+
+application: trivial, final application, cross-platform
+- adds variables to a file to make code
+
+
+
+
+choice: final application, cross-platform, code generation
+- makes a c choices application using your features
+
+
+
+
+Could be compatible: 
+
+
+
+
+desktop maker: application version, cross-platform, code generation
+
+
+desktop maker folder: final application, cross-platform, code generation
+- makes desktop file with every compilation
+
+
+
+
+
+maker: application version, cross-platform, code generation
+
+
+maker folder: final application, cross-platform, code generation
+- makes makefile with every compilation
+
+
+
+
+
+readme: application version, cross-platform, code generation
+
+
+readme folder: final application, cross-platform, code generation
+- makes it with every compilation
+
+
+
+
+rndm: final application, cross-platform
+- makes rndm nums, between a max and a min
+
+
+
+
+
+struct: final application, cross-platform, code generation
+- makes a struct
+- makes function for adding values to every struct field
+- makes function for shoowing the struct values
+
+
+
+
+
 
 
 
@@ -311,7 +384,7 @@ Server: final application, linux, visible
 
 
 
-Slce: final application, trivial, cross-platform
+Slce: final application, trivial, cross-platform, code generation
 - separates any cpp application into what is before the main function and the main function ( using  files that are correlated to compile )
 
 
@@ -320,7 +393,7 @@ Slce: final application, trivial, cross-platform
 
 
 
-Sql Maker: final application, trivial, cross-platform
+Sql Maker: final application, trivial, cross-platform, code generation
 - makes sql commands to create a table nased on the user-defined column names and data-types
 - only uses int and char data-types
 - adds self-iterating on its own, no need to add it yourself
@@ -336,11 +409,11 @@ align: final application, cross-platform, visible
 - options available: 1. Left  2. Center  3. Right  4. Middle  5. table
 
 Improvements:
-- add other features
+- / add other features: Upper, Lower, numerorate lines, wrd / line spacing ... - added, however it keeps outputting non-english alphabet letters
 
 
 
-application: final application, trivial, cross-platform
+application: final application, trivial, cross-platform, code generation
 - makes an application layout
 - able to add:
   1. variable   2. subprogram   3. class   4. struct
@@ -397,18 +470,19 @@ Improvements:
 
 
 
-chars: example, cross-platform, visible
+chars: example, cross-platform, visible, common words
 - encodes common words with uncommon characters
 - able to both encode and decode files
 
+Improvements:
+- ) omit wrds that only have 1 letter ( why encode them ) - not needed, hrdcoded fle done
 
 
 
 
 
 
-
-choices 1: final application, cross-platform, visible
+choices 1: final application, cross-platform, visible, code generation
 - makes an application with numerotated choices
 - asks for the application name and its features = options = choices, and makes an application that is able to:
 	- keep showing choices until the user wants to exit
@@ -422,10 +496,10 @@ Improvements:
 - if the user enters a feature called "exit" that has to not appear twice
 
 
-choices: application version, cross-platform
+choices: application version, cross-platform, code generation
 
 
-choices lnux: final application, trivial, cross-platform
+choices lnux: final application, trivial, cross-platform, code generation
 - makes a choices application for the linux command line ( takes application features and makes an application layout with them using only linux commands )
 
 
@@ -452,7 +526,7 @@ cmb: final application, cross-platform, needs rnd
 
 
 
-codes: final application, example, cross-platform
+codes: final application, example, cross-platform, code generation
 - example of guided self-generated code
 - able to:
     1. Make an if    2. Make an if / else  3. Make a for      4. Make a struct  
@@ -496,7 +570,7 @@ commit your file: final application, cross-platform
 
 
 
-common frev multiple: final application, cross-platform, visible
+common frev multiple: final application, cross-platform, visible, common word
 - used to determine the most common words by topic
 - when a file is added ( to a topic or not ), the freqvency for each of its words is calculated and added next to the word in a file. After adding the words of the file with their freqvencies to a file that stores the most common words without regard to any topic, the user is asked if they want to add the file to a topic too. The process is repeated for the specified topic file.
 - available options:
@@ -510,7 +584,7 @@ common frev multiple: final application, cross-platform, visible
 - the application checks for the same topic to not get added twice
 
 
-common frev: application version, cross-platform
+common frev: application version, cross-platform, common word
 - only uses 1 file to store the most common words ( does not have topics )
 
 
@@ -535,15 +609,15 @@ Improvements
 
 
 
-compare files: not completed, cross-platform, visible
+compare files: not completed, linux, visible, common word
 - compare sentances of multiple files to determine if they were plagiated
 - the application separates the files into lowercased sentances. In order to compare the files, each sentance of 1 file compared with every sentance of the other files to determine how simmilar they are. Simmilarity is determined by the number of common words in the sentances.
 
 Improvements:
-- the common words and the lines they appear on are not counted correctly, only need to increment in 1 for, not in both  ( lines 290 )
+- / the common words and the lines they appear on are not counted correctly, only need to increment in 1 for, not in both  ( lines 290 )
 - delete the "lines" files
 
-compare: application version, cross-platform
+compare: application version, cross-platform, common word
 
 
 
@@ -553,6 +627,7 @@ compare: application version, cross-platform
 
 convert file: example, cross-platform, visible
 - shows how conversions can be done using an external file ( output a data-type and read another )
+
 
 
 
@@ -594,7 +669,7 @@ Improvements:
 
 
 
-deb folders maker desktop my_debs: final application, linux
+deb folders maker desktop my_debs: final application, linux, code generation
 - makes a deb for an application and saves in a special folder for all your applications
 - adds a desktop file
 
@@ -602,11 +677,11 @@ Improvement:
 - make a deb at every compilation
 
 
-deb folders maker desktop: application verion, linux
+deb folders maker desktop: application verion, linux, code generation
 - adds a desktop file
 
 
-deb folders maker: application verion, linux
+deb folders maker: application verion, linux, code generation
 
 
 
@@ -614,12 +689,12 @@ deb folders maker: application verion, linux
 
 
 
-desktop maker folder: final application, linux
+desktop maker folder: final application, linux, code generation
 - makes desktop file for linux
 - for every compilation, a desktop file is made
 
 
-desktop maker: application versions, linux
+desktop maker: application versions, linux, code generation
 
 
 
@@ -656,7 +731,7 @@ Improvements:
 
 
 
-dplma: not completed, linux, visible
+dplma: not completed, linux, visible, code generation
 - used to make diplomas
 - enter the occasion, then either type or add a file with the names of the recipients
 
@@ -742,6 +817,7 @@ file type: not completed, final application, cross-platform, visible
 
 Improvements:
 - add file formats
+- outputs non-english letters to file, solve that
 
 
 
@@ -758,7 +834,7 @@ files lines: final application, trivial, cross-platform
 
 
 
-files path: example, not completed, library version, trivial linux
+files path: example, not completed, library version, trivial, linux
 - gets all the filenames of a folder in cpp
 
 Improvements
@@ -781,7 +857,7 @@ filesize: final application, linux, visible
 
 
 
-form: final application, cross-platform, visible
+form: final application, cross-platform, visible, code generation
 - able to make forms that can be completed in the terminal
 - provides with:
 	- multiple choices
@@ -800,7 +876,7 @@ Improvements:
 
 
 
-format file: trivial, example, cross-platform
+format file: trivial, example, cross-platform, code generation
 - you give it a title and details and it formats them, only to add a few new lines and welcome the user to the application
 - intended to make application details
 
@@ -834,7 +910,7 @@ formats: final application, cross-platform, visible
 
 
 
-frev: final application, cross-platform
+frev: final application, cross-platform, common word, statistics
 - counts the freqvence of each word used in multiple specified files
 - outputs the results in a file
 
@@ -889,11 +965,11 @@ Improvement
 
 
 
-header folder: final application, linux, visible
+header folder: final application, linux, visible, code generation
 - converts a cpp application to a header file that uses every function it has besides main ( the functions are stored separately, onlt the function names are in the header file )
 
 
-header: application version, cross-platform
+header: application version, cross-platform, code generation
 - does not use linux commands to put the files in a folder
 - function inplementation in header
 
@@ -903,7 +979,7 @@ header: application version, cross-platform
 
 
 
-html website: final application, cross-platform, visible
+html website: final application, cross-platform, visible, code generation
 - makes a website
 - enter a title and a small description, choose 1 of 5 available themes
 - enter the text for your website in the terminal ( for both About and Contact )
@@ -932,7 +1008,7 @@ linux commands: remake, final application, linux, visible
 
 
 
-lng: final application, cross-platform, visible
+lng: final application, cross-platform, visible, code generation
 - given a list of language-specific symbols and their replacements, the application converts code written in the language that uses the replacements to cpp, then compiles it
 - does not need a main function
 - code can exist outside any other functions
@@ -943,11 +1019,11 @@ lng: final application, cross-platform, visible
 
 
 
-maker folder: final appliation, cross-platform
+maker folder: final appliation, cross-platform, code generation
 - makes a makefile with every compilation
 
 
-maker: application version, cross-platform
+maker: application version, cross-platform, code generation
 
 
 
@@ -966,7 +1042,7 @@ measure: final application, trivial, cross-platform
 
 
 
-mesur file: final application, cross-platform, visible
+mesur file: final application, cross-platform, visible, statistics
 - given a set of numeric data, the application calculates the average, errors for every entry, and an average error
 - it also saves every file with measurements
 - able to remove large errors by comparing with the average error
@@ -999,7 +1075,7 @@ more: not completed, linux
 
 
 
-nums: final application, cross-paltform, visible
+nums: final application, cross-paltform, visible, common word, statistics
 - able to separate the data by int, string and double and group it
 - for string:
 	- counts them, both total and distinct
@@ -1096,7 +1172,7 @@ Improvement:
 
 
 
-parts: final application, cross-platform, visible
+parts: final application, cross-platform, visible, common word
 - uses parts of speech to make sentances
 available options:  1. Add File  2. Get Sentance  3. Sentances and words  4. Subjects  5. Exits
 - add a file and it asks you what part of speech the word is, and if it is common or not
@@ -1109,7 +1185,7 @@ available options:  1. Add File  2. Get Sentance  3. Sentances and words  4. Sub
 
 
 
-pattern: final application, cross-platform
+pattern: final application, cross-platform, common word
 - memorises order of common words in a sentance ( could be used to determine if a sentance is gramatically valid )
 
 
@@ -1133,7 +1209,7 @@ Improvements:
 
 
 
-phrse common: final application, cross-platform, visible
+phrse common: final application, cross-platform, visible, common word
 - eliminates phrases that have mostly common words ( that do not mean much )
 - could be used to extract meaning on a text
 
@@ -1144,7 +1220,7 @@ phrse common: final application, cross-platform, visible
 
 
 
-prcns: final application, cross-platform, visible
+prcns: final application, cross-platform, visible, statistics
 - given a text that has numeric data, the application extracts the numeric data and calculates how much each of the numbers is out of the total
 - if a number is preceded by a string, the value represents it ( the string is the name of what that number represents )
 
@@ -1169,7 +1245,7 @@ prgrph: final application, cross-paltform
 
 
 
-remove: final application, cross-platform, visible
+remove: final application, cross-platform, visible, common word
 - given files on a certain topic, the application determines common words and makes a file consisting of the most used uncommon words in order.
 - if the application realises that the file that was added belongs to a topic that was added before by another file, the "most used uncommon words" of the files are merged
 - available options:
@@ -1223,7 +1299,7 @@ repeat string: final application, cross-platform
 
 
 
-repeat: final application, cross-platform
+repeat: final application, cross-platform, statistics
 - shows a top of the 10 most used words in the file
 - able to identify plurals
 
@@ -1236,7 +1312,7 @@ Improvement:
 
 
 
-repeat_files: final application, cross-paltform
+repeat_files: final application, cross-paltform, common word
 - after you type your text, the application removes commmon words and plurals to let you know which uncommon words you use the most
 - memorises which uncommon words you used a their freqvence of use - shows you your most used words now and until now
 
@@ -1310,7 +1386,7 @@ set time: example, trivial, linux
 
 
 
-sh in cpp: frinal application, example, trivial, linux
+sh in cpp: frinal application, example, trivial, linux, code generation
 - adds: if / if else / for / while to a sh file ( only adds them, so you do not have to type them )
 
 
@@ -1320,7 +1396,7 @@ sh in cpp: frinal application, example, trivial, linux
 
 
 
-site maker 1: application version, cross-platform
+site maker 1: application version, cross-platform, code generation
 
 
 site maker linux: final application, remake, linux, visible
@@ -1329,7 +1405,7 @@ site maker linux: final application, remake, linux, visible
 - saves the file and its style in a separate folder
 
 
-site maker: application version, cross-platform
+site maker: application version, cross-platform, code generation
 
 
 
@@ -1339,14 +1415,14 @@ site maker: application version, cross-platform
 
 
 
-size more common: final application, cross-paltform, visible
+size more common: final application, cross-paltform, visible, statistics
 - able to determine the average word length for every topic you give it
 - available options: 1. Add File  2. Add topic  3. Remove topic  4. Show topics and sizes  5. Exits
 - when you add a file you have to add it to a topic
 - able to add a new topic when you add a file
 
 
-size more: application version, cross-platform
+size more: application version, cross-platform, statistics
 
 
 
@@ -1363,7 +1439,7 @@ size sh: example, trivial, remake, linux
 
 
 
-size: final application, cross-platform
+size: final application, cross-platform, statistics
 - calculates average word length, shows you the previous result when you execute ( add another file )
 
 
@@ -1387,7 +1463,7 @@ slc file: application version, cross-platform
 
 
 
-sldn: final application, cross-platform, visible
+sldn: final application, cross-platform, visible, code generation
 - given a string the application makes you a terminal text animation 
 - offers 4 default presets for inserting strings between letters, and 1 custom ( you decide what comes befor and after each of the letters )
 
@@ -1399,7 +1475,7 @@ sldn: final application, cross-platform, visible
 
 
 
-slid: trivial, fianl application, cross-platform
+slid: trivial, fianl application, cross-platform, code generation
 - it types a strings letter by letter ( repeats until you stop it )
 
 
@@ -1463,7 +1539,7 @@ strys: not completed, cross-platform, needs rnd, visible
 
 
 
-sure: final application, linux, needs rnd, visible
+sure: final application, linux, needs rnd, visible, code generation
 - given a function in a file, the application is able to conduct a series of tests to make sure that the results are the ones you would expect
 
 
@@ -1492,7 +1568,7 @@ Improvements:
 
 
 
-syllab: trivial, finalapplication, cross-paltform
+syllab: trivial, final application, cross-paltform
 - separates a word into its syllabels
 
 
@@ -1516,7 +1592,7 @@ tale: example, remake, trivial, cross-paltform
 
 
 
-theme: final applications, cross-platform, visible
+theme: final applications, cross-platform, visible, common word
 - aims to determine the theme of a text by identifying in how sentances each uncommon word appears
 - shows multiple theme options if there are 
 
@@ -1538,12 +1614,12 @@ thread: example, cross-platform
 
 
 
-type lnux details: final application, cross-platform, visible
+type lnux details: final application, cross-platform, visible, code generation
 - makes a text animation in the terminsl, to show the application name and the details ( which apprar line by line )
 - able to add a file, or type in the details
 
 
-type lnux: application version, cross-platform
+type lnux: application version, cross-platform, code generation
 
 
 
@@ -1551,7 +1627,7 @@ type lnux: application version, cross-platform
 
 
 
-type: final application, cross-platform, visible
+type: final application, cross-platform, visible, code generation
 -types the text of a file in the terminal, letter by letter
 
 
@@ -1604,7 +1680,7 @@ verify: final application, cross-paltform, visible
 
 
 
-whitespace: final application, cross-platform
+whitespace: final application, cross-platform, statistics
 - determines how much whitespace there is in a file ( both how many charachers and how much of the total whitespace and non-whitespace represent )
 - shows the filesize
 
@@ -1626,4 +1702,61 @@ code.cpp
 
 main.cpp
 
+
+
+
+
+
+
+
+Ai
+
+
+strings: final application, example, cross-paltform
+- search in a string[]
+- demo that shows in how many iterations the search gets to a result
+- efficient because:
+	- uses sorted data
+	- approximates the initial search position by the first letter of the searched string
+
+ai: final application, cross-paltform, common word
+- give it statements, and say if they are true or not. When the application comes across a a statement that resambles what you told it, it can decide on its own.
+- eliminates common words to make the comparison with its database effecitve, to offer answers for as many statements as possible
+- improvement tends to be visible
+
+
+
+
+
+
+Dev maker: not completed, linux, code generation
+- ide, makes projects
+
+
+
+
+most used letters: not completed, cross-platform, visible, statistics
+- knows what the most used letters are
+- add file / sentance
+
+Improvements:
+- keeps outputting non-english alphabet letters
+
+
+
+typo: final application, cross-platform, visible
+- has a set of typos that it can replce to modify text
+- Options:
+	- 1. Add file: modifies a file replcing typos
+	- 2. Add typo: add a typo ( a well-spelled word and its mispellings )
+	- 3. Remove typo: remove a typo
+	- 4. Show typos: show available typos
+
+chars file: final application, linux, visible
+- able to determine the most used words of a file and encode them with chrchrs that are not commonly used for words ( , , ,  ... )
+- reduces lots of storage space
+- encodes and decodes a zip file with: the encoded file and its encoding file ( converted file and word-chrctr correlations )
+- words that only have 1 char are not encoded
+- can convert a maximum of 129 words
+ 
 

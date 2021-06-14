@@ -53,15 +53,17 @@ string name;
 // saves name of what we want to dim
 void save_name()
 {
-	cout << "( setup ) Enter name - 2nd line\n";
+	command_linux ( "xrandr > screen_name" );
 
-	enter();
+	ifstream fi;
+	fi.open( "screen_name" );
 
-	command_linux ( "xrandr" );
+	getline( fi, name );
+	fi >> name;
 
-	cout << "\n\nName: ";
-	cin >> name;
-	cout << "\n";
+	fi.close();
+
+	command_linux( "rm -r screen_name" );
 
 	// save name in file
 	ofstream fo;

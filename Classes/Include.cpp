@@ -46,12 +46,12 @@ asc_desc: sorting
 #include "Includes/Includes/asc_desc.cpp"
 
 
-brackets:
+brackets: matrix
 
 #include "Includes/Includes/brackets.cpp"
 
 
-convert: converts
+convert: converts, visible
 
 #include "Includes/Includes/includes.cpp"
 
@@ -62,7 +62,7 @@ convert: converts
 #include "Includes/Includes/convert.cpp"
 
 
-digits:
+digits: deals with number digits ( decimals too )
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -76,38 +76,38 @@ digits:
 #include "Includes/Includes/digits.cpp"
 
 
-empty:
+empty: empty variables
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/empty.cpp"
 
 
-file_counter: 
+file_counter: store a counter in a file for further use, visible
 
 #include "Includes/Includes/file_counter.cpp"
 
 
-files: 
+files: functions for getting / setting / adding to files
 
 #include "Includes/Includes/files.cpp"
 
 
-find: 
+find: search functions
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/find.cpp"
 
 
-for_each:
+for_each: implementation of for_each with functions, visible
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/for_each.cpp"
 
 
-get:
+get: get / set user data in a formatted way, visible
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/last.cpp"
@@ -118,7 +118,7 @@ get:
 #include "Includes/Includes/get.cpp"
 
 
-gmtr:
+gmtr: geometric functions
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/last.cpp"
@@ -127,19 +127,19 @@ gmtr:
 #include "Includes/Includes/gmtr.cpp"
 
 
-grphs:
+grphs: grphs
 
 #include "Includes/Includes/grphs.cpp"
 
 
-last:
+last: useful functions that do not fit anywhere else
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/last.cpp"
 
 
-leave_remove:
+leave_remove: leave / remove letters, digits, symbols
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -147,17 +147,17 @@ leave_remove:
 #include "Includes/Includes/leave_remove.cpp"
 
 
-length:
+length: length of arrays
 
 #include "Includes/Includes/length.cpp"
 
 
-linuxfile:
+linuxfile: class for doing operations on files for linux
 
 #include "Includes/Includes/linuxfile.cpp"
 
 
-lists:
+lists: functions for arrays ( add / find / get / set / remove ... )
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -165,7 +165,7 @@ lists:
 #include "Includes/Includes/lists.cpp"
 
 
-lnux:
+lnux: linux commands made for cpp, visible
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -175,14 +175,14 @@ lnux:
 #include "Includes/Includes/lnux.cpp"
 
 
-max_min:
+max_min: max and min
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/max_min.cpp"
 
 
-mhmtces:
+mhmtces: mathematical functions
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/last.cpp"
@@ -190,14 +190,14 @@ mhmtces:
 #include "Includes/Includes/mhmtces.cpp"
 
 
-multi:
+multi: oop that is able to stor any type of variables in a string, visible
 
 #include "Includes/Includes/length.cpp"
 
 #include "Includes/Includes/multi.cpp"
 
 
-name_type:
+name_type: get the name and type of variables, visible
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -208,17 +208,17 @@ name_type:
 #include "Includes/Includes/name_type.cpp"
 
 
-rndm:
+rndm: rndm functions, visible
 
 #include "Includes/Includes/rndm.cpp"
 
 
-round:
+round: round to nearest integer
 
 #include "Includes/Includes/round.cpp"
 
 
-sort:
+sort: sorting functions
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/empty.cpp"
@@ -230,17 +230,17 @@ sort:
 #include "Includes/Includes/sort.cpp"
 
 
-string_ints:
+string_ints: perform mathematical operations on numbers stored in strings, visible
 
 #include "Includes/Includes/string_ints.cpp"
 
 
-swap:
+swap: swap variable values
 
 #include "Includes/Includes/swap.cpp"
 
 
-types:
+types: trivial functions for data-types ( get the integer part of a float, invert an int, ... )
 
 #include "Includes/Includes/length.cpp"
 #include "Includes/Includes/last.cpp"
@@ -254,7 +254,7 @@ types:
 #include "Includes/Includes/types.cpp"
 
 
-remove:
+remove: remove common words of a text to extract the meaning, visible, common word
 
 #include "../../length.cpp"
 #include "../../empty.cpp"
@@ -262,11 +262,11 @@ remove:
 #include "../../remove.cpp"
 
 
-physics:
+physics: functions for physics 
 
 #include "../../length.cpp"
 #include "../../last.cpp"
 #include "../../mhmtces.cpp"
 
 #include "../../physics.cpp"
-
+fle

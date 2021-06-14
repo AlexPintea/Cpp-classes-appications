@@ -297,6 +297,9 @@ void get_files ()
 						common_lines = common_lines + 1;
 				}
 
+			common_lines = common_lines / file_1_iter;
+			common_files = common_files / file_1_iter;
+
 			cout << common_files << " are common in " << common_lines << " lines of files: \"" << filename_1 << "\", \"" << filename_2 << "\"\n";
 		}
 }

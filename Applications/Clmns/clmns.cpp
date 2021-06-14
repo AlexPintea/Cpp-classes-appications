@@ -21,6 +21,8 @@ string type ( int a )
 	if ( a == 1 ) return "int";
 	if ( a == 2 ) return "string";
 	if ( a == 3 ) return "double";
+	if ( a == 4 ) return "char";
+	if ( a == 5 ) return "bool";
 
 	return "-1";
 }
@@ -30,6 +32,8 @@ string type_sql ( int a )
 	if ( a == 1 ) return "int";
 	if ( a == 2 ) return "varchar(255)";
 	if ( a == 3 ) return "double";
+	if ( a == 4 ) return "char";
+	if ( a == 5 ) return "bool";
 
 	return "-1";
 }
@@ -97,7 +101,7 @@ int main ()
 				getline( cin, temp );
 		}
 		names[ i ] = temp;
-		cout << "1. int  2. string  3. double\n";
+		cout << "1. int  2. string  3. double  4. char  5. bool\n";
 		cout << "Column \"" << names[ i ] << "\" type: ";
 		cin >> types[ i ];
 	}
@@ -209,6 +213,10 @@ int main ()
 					fo << strings[ ( i + l + names[ l ].length() ) % strings_iter ];
 				if ( type( types[ l ] ) == "double" )
 					fo << (double) ( i + l + 5 ) / 10 + (double) names[ l ].length() / ( i + 1 );
+				if ( type( types[ l ] ) == "char" )
+					fo << 'f';
+				if ( type( types[ l ] ) == "bool" )
+					fo << 0;
 				if ( l != num - 1 )
 					fo << " ";
 			}

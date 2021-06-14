@@ -283,7 +283,7 @@ void set_filetype ( string filename, string title[], string files[] )
 
 	int i = 0;
 
-	while ( files[ i ] >= "\"" )
+	while ( files[ i ] != "" )
 	{
 		fo << '"' << title[ i ] << "\"\n";
 		fo << "'" << files[ i ] << "'\n";
@@ -353,28 +353,19 @@ int main ()
 
 	convert_to_filetype( "file", title, files ); // convert user file to arrays
 	
-	set_filetype( "fle", title, files ); // keep the arrays in a file, for easy decoding
+	set_filetype( "type", title, files ); // keep the arrays in a file, for easy decoding
 
-//	get_filetype( "type", title_get, files_get ); // keep the arrays in a file, for easy decoding
+	get_filetype( "type", title_get, files_get ); // keep the arrays in a file, for easy decoding
 
 	
 
 	int i = 0;
-	while ( files[ i ] != "" )
+	while ( files_get[ i ] != "" )
 	{
-		cout << '"' << title[ i ] << "\"\n";
-		cout << "'" << files[ i ] << "'\n";
+		cout << '"' << title_get[ i ] << "\"\n";
+		cout << "'" << files_get[ i ] << "'\n";
 		i = i + 1;
 	}
-
-//	int i = 0;
-//	while ( files_get[ i ] != "" )
-//	{
-//		cout << '"' << title_get[ i ] << "\"\n";
-//		cout << "'" << files_get[ i ] << "'\n";
-//		i = i + 1;
-//	}
-
 
 	return 0;
 }

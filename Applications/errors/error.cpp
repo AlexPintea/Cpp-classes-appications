@@ -21,6 +21,7 @@ int main ()
 {
 	show_error( "error1" );
 	show_error( "error2" );
+	show_error( "division0" );
 
 	return 0;
 }
