@@ -1759,4 +1759,6 @@ chars file: final application, linux, visible
 - words that only have 1 char are not encoded
 - can convert a maximum of 129 words
  
+error formatted: final application, library version, linux, visible
+- shows formatted error for linux terminal
 
