@@ -347,6 +347,7 @@ int main ()
 	cout << " 1. Attributes to Classes\n";
 	cout << " 2. Classes to Attributes\n";
 	cout << " 3. Attribute Values to Classes\n";
+	cout << " 4. Attribute Values to Attributes\n";
 
 	cout << "\nChoice: ";
 	getline( cin, choice );
@@ -358,7 +359,7 @@ int main ()
 
 
 
-	while ( choice != "1" and choice != "2" and choice != "3" )
+	while ( choice != "1" and choice != "2" and choice != "3" and choice != "4" )
 	{
 		cout << "\033c";
 		cout << "Choices:\n";

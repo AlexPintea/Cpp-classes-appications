@@ -60,7 +60,7 @@ int main ()
 	file<<"<style>\n\n";
  
 	cout<<"Color you want the website to be: ";
-	cout<<"1.   2.   3.   4.   5. ";
+	cout<<"1. Elegant  2. Modern  3. Optimistic  4. Fancy  5. Elevated";
 	cout<<"\n\nEnter a number: ";
 	cin>>colors;
 	cout<<"\n\n";

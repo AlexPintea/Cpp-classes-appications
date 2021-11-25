@@ -13,14 +13,14 @@ get_choice() # only continous filenames ( !' ' )
 {
 	# show choices
 	# clear
-	# reset # resets, instead of clear ( really slow )
+	# reset # resets, instead of clear ( really slow )  	printf "//// '$PWD' \\\\\\\\\\ \n"
 	printf "\033c" # resets
-	echo $USER "/ 1. Home  / 2. Return / 3. Move Upwards / 4. Details / exit. Exits"
-	echo "////"$PWD"\\\\\\\\\\"
+	printf "$USER / 1. Home  / 2. Return / 3. Move Upwards / 4. Details / exit. Exits\n"
+	printf "Path: '$PWD' \n"
 
 	ls -p --
 
-	echo ""
+	printf "\n"
 	printf "Enter you choice: "
 
 	# get the choice
@@ -46,7 +46,7 @@ get_choice() # only continous filenames ( !' ' )
 			read gedit_choice
 			if [ $gedit_choice = "y" ]
 			then
-				echo "gedit $choice" | bash
+				printf "gedit $choice" | bash
 			fi
 			return
 		fi
@@ -96,7 +96,7 @@ get_choice() # only continous filenames ( !' ' )
 
 # for value in {1..5}
 # do
-# 	echo $value
+# 	printf $value
 # done
 
 while [[ $choice != "exit" ]]
@@ -104,4 +104,4 @@ do
 	get_choice
 done
 
-echo "Exited."
+printf "Exited.\n"

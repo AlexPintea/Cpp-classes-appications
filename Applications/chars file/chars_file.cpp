@@ -12,7 +12,7 @@ int iter = 0;
 string strings[ 1000 ];
 int strings_frev[ 1000 ];
 int strings_iter = 0;
-
+int l;
 // get file data
 string get_file ( string filename )
 {
@@ -202,7 +202,6 @@ void string_to_chars ( string a, char chars[] )
 
 	for ( i=0; i<size; i=i+1 )
 		chars[i] = a[i];
-	chars[i] = '\0';
 }
 
 // linux command

@@ -1,0 +1,283 @@
+\documentclass[a4paper]{article}
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{multicol, etoolbox}
+\usepackage{listings}
+\usepackage{fontspec}
+\usepackage[margin=0.7in]{geometry}
+% \usepackage[margin=0.5in, outer=1cm, inner=2cm]{geometry} % pentru pg drstn
+\definecolor{Blue}{RGB}{255,124,124}
+\usepackage{tocloft} % add dots to table of contents
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\usepackage[inline]{enumitem} % for enumerate ( list of items with colored dots )
+
+
+\newfontfamily\heading[Scale=10.0]{dplma.ttf}
+\newfontfamily\lisible[Scale=1.79]{DejaVu Sans}
+\newfontfamily\texts[Scale=2.1]{texts.ttf}
+\newfontfamily\largecontents[Scale=3.1]{texts.ttf}
+\newfontfamily\smallcontents[Scale=2.6]{texts.ttf}
+\newfontfamily\nums[Scale=2.1]{dplma 6.ttf}
+
+%\renewcommand{\familydefault}{\texts} % set the defult font of the page
+
+%\AtBeginDocument{\addtocontents{toc}{\protect\begin{multicols}{4}}}
+%\AtEndDocument{\addtocontents{toc}{\protect\end{multicols}}}
+\newcommand{\fakesection}[1]{
+  \par\refstepcounter{section}
+  \sectionmark{#1}
+  \addcontentsline{toc}{section}{\largecontents\protect\numberline{}#1\vspace{6pt}}
+}
+\newcommand{\fakesubsection}[1]{
+  \par\refstepcounter{subsection}
+  \sectionmark{#1}
+  \addcontentsline{toc}{subsection}{\smallcontents\protect\numberline{}#1\vspace{4pt}}
+  
+}
+\usepackage{fancyhdr}
+\pagestyle{plain}
+\pagestyle{fancy}
+% \rhead{Single Coil\\ CD Station\\ \today}
+% \rfoot{ $\bullet$ \\} % headr right
+% \lfoot{ $\bullet$ } % headr left
+  \renewcommand{\headrulewidth}{0pt} % remove line
+\renewcommand{\contentsname}{} % change the title of `table of contents'
+
+  
+\lhead{}
+\chead{}
+\rhead{}
+
+  
+\begin{document}
+
+
+% title
+
+\begin{center}
+
+\begin{verbatim}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\end{verbatim}
+\heading 
+Mancare
+
+
+%\vspace{125pt}
+\begin{verbatim}
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+\end{verbatim} 
+  \texts\Large 
+Buni
+
+\end{center}
+\cfoot{}
+
+\newpage
+
+
+
+
+
+
+
+
+
+% contents
+
+\heading{ Foods }
+\normalfont
+\normalsize
+\tableofcontents
+\cfoot{\verb+  +}
+
+\newpage
+\setcounter{page}{1}
+\cfoot{\centering\colorbox{Blue}{\texts \large \textcolor{white}{ \thepage } }}
+
+
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\fakesection{title}
+
+\colorbox{Blue}{\textcolor{white}{\heading title}}
+
+\lisible
+\vspace{16pt}
+\begin{multicols}{2}
+\begin{enumerate}[font={\Large\color{Blue!50!black}\nums}]
+\item incredients
+\item incredients
+\item incredients
+\item incredients
+\item   fle
+\item   fle
+\item   fle
+\item   fle
+\end{enumerate}
+\end{multicols}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{style.jpg}}
+\vspace{11pt}
+\noindent \textcolor{white}{ preparation
+preparation
+}
+
+\vspace{10pt}
+\newpage
+\end{document}

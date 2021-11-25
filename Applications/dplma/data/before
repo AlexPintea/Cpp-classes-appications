@@ -1,0 +1,20 @@
+\documentclass[a4paper, landscape]{article}
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{lscape}
+\usepackage{fontspec}
+\usepackage[margin=0.5in]{geometry}
+% \usepackage[margin=0.5in, outer=0.7cm, inner=2cm]{geometry} % pentru pg drstn
+
+\newfontfamily\heading[Scale=21.0]{dplma.ttf}
+\newfontfamily\text[Scale=3.9]{texts.ttf}
+\newfontfamily\little[Scale=1.2]{DejaVu Sans}
+
+
+\begin{document}

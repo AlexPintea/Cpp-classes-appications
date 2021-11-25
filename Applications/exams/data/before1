@@ -1,0 +1,23 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc} % large include
+\usepackage[table]{xcolor} % for colored text
+\usepackage[margin=0.5in]{geometry} % set margn of the page
+\usepackage{multicol, etoolbox}
+\usepackage{ulem} % for exam questions
+\usepackage{exsheets} % for exam questions
+\SetupExSheets[question]{type=exam} % for exam questions
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0pt} % remove line
+
+\begin{document}
+
+
+\hfill Name: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\\
+
+\hfill Fle: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\\
+
+\begin{center}
+
+

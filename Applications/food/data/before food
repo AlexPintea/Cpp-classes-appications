@@ -1,0 +1,26 @@
+\end{center}
+\cfoot{}
+
+\newpage
+
+
+
+
+
+
+
+
+
+% contents
+
+\heading{ Foods }
+\normalfont
+\normalsize
+\tableofcontents
+\cfoot{\verb+  +}
+
+\newpage
+\setcounter{page}{1}
+\cfoot{\centering\colorbox{Blue}{\texts \large \textcolor{white}{ \thepage } }}
+
+

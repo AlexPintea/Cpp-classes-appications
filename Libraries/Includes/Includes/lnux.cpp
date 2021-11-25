@@ -99,7 +99,7 @@ void ls ()
 
 string path ()
 {
-	system( "echo $PWD >> \"$PWD/cpp-sh\"" );
+	system( "printf $PWD >> \"$PWD/cpp-sh\"" );
 
 	string filepath = get_file( "cpp-sh" );
 	remove_char_length( filepath );
@@ -110,7 +110,7 @@ string path ()
 
 string user ()
 {
-	system( "echo $USER >> \"$PWD/cpp-sh\"" );
+	system( "printf $USER >> \"$PWD/cpp-sh\"" );
 
 	string user = get_file( "cpp-sh" );
 	remove_char_length( user );
@@ -143,7 +143,7 @@ void get_filenames ( string folder, string strings[] )
 
 	int strings_iter = 0;
 
-	char command_linux[] = "IFS= read -r filepath < \"files-ls\"\ncd $filepath\nls_data=$( ls -m )\ncd ../\nrm -R files-ls\nfor value in $ls_data\ndo\n	echo $value >> files-ls\ndone";
+	char command_linux[] = "IFS= read -r filepath < \"files-ls\"\ncd $filepath\nls_data=$( ls -m )\ncd ../\nrm -R files-ls\nfor value in $ls_data\ndo\n	printf $value >> files-ls\ndone";
 	system ( command_linux );
 
 	ifstream fi;
@@ -199,7 +199,7 @@ bool is_file ( string filename )
 	if ( ext != "" )
 		filename = filename + '.' + ext;
 
-	string command_file = "\"\nthen\n	echo \"1\" >> \"$PWD/cpp-sh\"\nelse\n	echo \"0\" >> \"$PWD/cpp-sh\"\nfi";
+	string command_file = "\"\nthen\n	printf \"1\" >> \"$PWD/cpp-sh\"\nelse\n	printf \"0\" >> \"$PWD/cpp-sh\"\nfi";
 	if ( filepath == "" )
 	{
 		char command[1000] = "if test -f \"$PWD/";
@@ -242,7 +242,7 @@ bool is_folder ( string filename )
 	if ( ext != "" )
 		filename = filename + '.' + ext;
 
-	string command_file = "\"\nthen\n	echo \"1\" >> \"$PWD/cpp-sh\"\nelse\n	echo \"0\" >> \"$PWD/cpp-sh\"\nfi";
+	string command_file = "\"\nthen\n	printf \"1\" >> \"$PWD/cpp-sh\"\nelse\n	printf \"0\" >> \"$PWD/cpp-sh\"\nfi";
 	if ( filepath == "" )
 	{
 		char command[1000] = "if test -d \"$PWD/";
@@ -293,8 +293,8 @@ long size ( string filename )
 	string filepath;
 	string ext;
 
-	string command_size_file = "\nSIZE=$( stat -c%s \"$FILE\" )\necho $SIZE >> \"$PWD/cpp-sh\"";
-	string command_size_folder = "\nSIZE=$( du -s \"$FILE\" )\necho $SIZE >> \"$PWD/cpp-sh\"";
+	string command_size_file = "\nSIZE=$( stat -c%s \"$FILE\" )\nprintf $SIZE >> \"$PWD/cpp-sh\"";
+	string command_size_folder = "\nSIZE=$( du -s \"$FILE\" )\nprintf $SIZE >> \"$PWD/cpp-sh\"";
 
 	if ( is_file( filename ) )
 	{

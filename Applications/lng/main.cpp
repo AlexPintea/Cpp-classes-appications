@@ -456,7 +456,8 @@ int main ()
 	set_file( "a.cpp", convert( filename ) );
 	if( ! add_main( "a.cpp" ) ) return 0;
 
-	command( "g++ a.cpp && ./a.out && rm a.cpp" );
+//	command( "g++ a.cpp && ./a.out && rm a.cpp" );
+	command( "g++ a.cpp && ./a.out" );
 
 	return 0;
 }
