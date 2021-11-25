@@ -15,15 +15,22 @@ int length ( string a[] )
 	return i;
 }
 
-bool is_in_strings ( string strings[], string a )
+int is_in_strings ( string strings[], string a )
 {
 	int size = length( strings );
 
 	for ( int i=0; i<size; i=i+1 )
 		if ( strings[i] == a )
-			return true;
+			return i;
 
-	return false;
+	return -1;
+}
+
+void lower ( string &a )
+{
+	for ( int i = 0; i < a.length(); i = i + 1 )
+		if ( a[ i ] >= 'A' and a[ i ] <= 'Z' )
+			a[ i ] = a[ i ] + 32;
 }
 
 
@@ -46,7 +53,7 @@ void move_words ( string text, string words[] )
 			words[ words_iter ] = words[ words_iter ] + text[i];
 }
 
-void bag_of_words ( string data, string bag[] )
+void bag_of_words ( string data, string vocabulary[], int count[] )
 {
 	string words[ 1000 ];
 	move_words( data, words );
@@ -55,11 +62,25 @@ void bag_of_words ( string data, string bag[] )
 	int l = 0;
 
 	for ( int i = 0; i < size; i = i + 1 )
-		if ( ! is_in_strings( bag, words[ i ] ) )
+	{
+		lower( words[ i ] );
+		if ( is_in_strings( vocabulary, words[ i ] ) == -1 )
 		{
-			bag[ l ] = words[ i ];
+			vocabulary[ l ] = words[ i ];
 			l = l + 1;
 		}
+	}
+
+	for ( int i = 0; i < length( vocabulary ); i = i + 1 )
+		count[ i ] = 0;
+
+	int a = 0;
+	for ( int i = 0; i < size; i = i + 1 )
+	{
+		a = is_in_strings( vocabulary, words[ i ] );
+		if ( a != -1 )
+			count[ a ] = count[ a ] + 1;
+	}
 }
 
 int main ()
@@ -69,15 +90,25 @@ int main ()
 	getline( cin, data );
 	if ( data == "" )
 		getline( cin, data );
-	string bag[ 1000 ];
 
-	bag_of_words( data, bag );
+	string bag[ 1000 ];
+	int count[ 1000 ];
+
+	bag_of_words( data, bag, count );
 
 	int size = length( bag );
 	cout << "{ ";
 	for ( int i = 0; i < size; i = i + 1 )
 	{
 		cout << '"' << bag[ i ] << '"';
+		if ( i != size - 1 )
+			cout << ", ";
+	}
+	cout << " }, ";
+	cout << "{ ";
+	for ( int i = 0; i < size; i = i + 1 )
+	{
+		cout << '"' << count[ i ] << '"';
 		if ( i != size - 1 )
 			cout << ", ";
 	}
